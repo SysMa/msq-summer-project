@@ -1,0 +1,8 @@
+ftp://202.120.40.59
+name : user
+pawd : user
+
+mailto : sjtuse2011summerproject005@gmail.com
+
+openGL , DirectX
+

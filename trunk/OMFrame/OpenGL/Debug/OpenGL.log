@@ -1,0 +1,55 @@
+﻿Build started 2011/7/13 18:45:53.
+     1>Project "D:\Programming\msq-summer-project\OMFrame\OpenGL\OpenGL.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\OpenGL.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         Deleting file "Debug\OpenGL.pch".
+         D:\Software\VS2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\OpenGL.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         D:\Software\VS2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\OpenGL.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Camera.cpp MainFrm.cpp OpenGL.cpp OpenGLDoc.cpp OpenGLView.cpp
+         OpenGLView.cpp
+         OpenGLDoc.cpp
+         OpenGL.cpp
+         MainFrm.cpp
+         Camera.cpp
+     1>d:\programming\msq-summer-project\omframe\opengl\camera.cpp(53): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\programming\msq-summer-project\omframe\opengl\camera.cpp(54): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\programming\msq-summer-project\omframe\opengl\camera.cpp(58): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\programming\msq-summer-project\omframe\opengl\camera.cpp(59): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\programming\msq-summer-project\omframe\opengl\camera.cpp(70): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\programming\msq-summer-project\omframe\opengl\camera.cpp(74): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\OpenGL.res" OpenGL.rc 
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\OpenGL.exe.embed.manifest.res" Debug\OpenGL_manifest.rc 
+       Link:
+         D:\Software\VS2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.exe" /INCREMENTAL /NOLOGO opengl32.lib glu32.lib glaux.lib /MANIFEST /ManifestFile:"Debug\OpenGL.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.lib" /MACHINE:X86 Debug\OpenGL.res
+         Debug\OpenGL.exe.embed.manifest.res
+         Debug\Camera.obj
+         Debug\MainFrm.obj
+         Debug\OpenGL.obj
+         Debug\OpenGLDoc.obj
+         Debug\OpenGLView.obj
+         Debug\stdafx.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\OpenGL.exe.embed.manifest" /manifest Debug\OpenGL.exe.intermediate.manifest D:\Software\VS2010\VC\Include\Manifest\dpiaware.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\OpenGL.exe.embed.manifest.res" Debug\OpenGL_manifest.rc 
+       LinkEmbedManifest:
+         D:\Software\VS2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.exe" /INCREMENTAL /NOLOGO opengl32.lib glu32.lib glaux.lib /MANIFEST /ManifestFile:"Debug\OpenGL.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.lib" /MACHINE:X86 Debug\OpenGL.res
+         Debug\OpenGL.exe.embed.manifest.res
+         Debug\Camera.obj
+         Debug\MainFrm.obj
+         Debug\OpenGL.obj
+         Debug\OpenGLDoc.obj
+         Debug\OpenGLView.obj
+         Debug\stdafx.obj
+         OpenGL.vcxproj -> D:\Programming\msq-summer-project\OMFrame\Debug\OpenGL.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\OpenGL.unsuccessfulbuild".
+         Touching "Debug\OpenGL.lastbuildstate".
+     1>Done Building Project "D:\Programming\msq-summer-project\OMFrame\OpenGL\OpenGL.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.23

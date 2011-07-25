@@ -8,9 +8,17 @@
 #include <GL/glut.h>
 #include <QtOpenGL/QGLWidget>
 #include <QtOpenGL/qgl.h>
+
+/*********************************************
+ *
+ * need for the layout and the buttons
+
 #include <qlayout.h>
 #include <QPushButton>
 #include <qpushbutton.h>
+
+***********************************************/
+
 
 /**
  * this is the widget init
@@ -34,6 +42,9 @@ myWidget::myWidget(QWidget *parent, const char *name, bool fs) :
     {
         showFullScreen();
     }
+
+    //set time function
+    time_id = startTimer(10);
 
     /***********************************************************
      * these lines are test
@@ -63,6 +74,11 @@ myWidget::~myWidget()
     // now we can do nothing here
     // its existence is due to the pointer-things
     // don't forget to get the mem back, and it will be ok
+
+    if( time_id != 0)
+    {
+        killTimer(time_id);
+    }
 }
 
 
@@ -177,26 +193,35 @@ void myWidget::paintGL()
     //lines
     for(j = 0; j < 8; j++)
     {
+        double radius = r1[j];
+        const double PI = 3.141592653;
         glBegin(GL_LINE_LOOP);
-        for( i = 0; i < 360; i++)
-        {
-            glVertex3f(cos(i*3.14/180)*r1[j], 0 ,sin(i*3.14/180)*r1[j]);
+        for (int i = 0; i < 360; i++) {
+            glVertex3f(radius * cos(i * PI / 180), 0.0, radius * sin(i * PI / 180));
         }
         glEnd();
     }
     glEnable(GL_LIGHTING);
 
     glPushMatrix();
-    //gluSolidSphere(2.0,20,16);
+    glRotatef(1.0, 0, 1, 0);
+    //glBindTexture(GL_TEXTURE_2D, )
+    {
+        GLUquadricObj* p = gluNewQuadric();
+        gluQuadricTexture(p, GL_TRUE);
+        gluSphere(p, sun, 20, 16);
+        gluDeleteQuadric(p);
+    }
     glPopMatrix();
 
+    //draw eight planets
     glEnable(GL_TEXTURE_2D);
     for(i=0; i < 8; i++)
     {
         glPushMatrix();
         glRotatef(year[i], 0, 1, 0);
         glTranslatef(r1[i], 0, 0);
-        glRotatef(day[1], 1, 0, 0);
+        glRotatef(day[i], 0, 1, 0);
         glBindTexture(GL_TEXTURE_2D,texture_id[i]);
         {
             GLUquadricObj* p = gluNewQuadric();
@@ -264,4 +289,20 @@ void myWidget::keyPressEvent(QKeyEvent *e)
     default:
         break;
     }
+}
+
+/**
+ * the timer event to chang animation
+ */
+void myWidget::timerEvent(QTimerEvent *e)
+{
+    for(int i=0;i<8;i++)
+    {
+            year[i]=year[i]+(1 / year0[i]);
+            if( year[i]>360 ) year[i]=year[i] - 360;
+
+            day[i]=day[i] + ( 1 / day0[i] );
+            if( day[i] >360 ) day[i]= day[i] -360 ;
+    }
+    updateGL();
 }

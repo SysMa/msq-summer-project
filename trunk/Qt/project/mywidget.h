@@ -50,8 +50,14 @@ protected :
      */
     void keyPressEvent(QKeyEvent *e);
 
+    /**
+     * timer to define a animation
+     */
+    void timerEvent(QTimerEvent* e);
+
 protected :
     bool fullscreen;    //bool var to store if it is fullscreen.
+    int time_id;
 };
 
 #endif // MYWIDGET_H

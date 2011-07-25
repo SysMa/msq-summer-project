@@ -14,7 +14,7 @@
 //to do here
 
 //sun
-static GLfloat sun = 0.9;
+static GLfloat sun = 1;
 
 //year is the bgi circle
 static GLfloat year[8];

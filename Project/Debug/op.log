@@ -1,11 +1,11 @@
-﻿Build started 2011/7/21 10:18:23.
+﻿Build started 2011/7/25 13:48:16.
      1>Project "D:\Programming\msq-summer-project\Project\op.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\op.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          D:\Software\VS2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt project.cpp
          project.cpp
-     1>d:\programming\msq-summer-project\project\project.cpp(34): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\programming\msq-summer-project\project\project.cpp(46): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  d:\software\vs2010\vc\include\stdio.h(234) : see declaration of 'fopen'
        ManifestResourceCompile:
          All outputs are up-to-date.
@@ -25,4 +25,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.34
+Time Elapsed 00:00:04.91

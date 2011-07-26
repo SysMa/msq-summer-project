@@ -55,9 +55,20 @@ protected :
      */
     void timerEvent(QTimerEvent* e);
 
+    /**
+     * mouse press evenet
+     */
+    void mousePressEvent(QMouseEvent *e);
+
+    /**
+     * mouse move event
+     */
+    void mouseMoveEvent(QMouseEvent *e);
+
 protected :
     bool fullscreen;    //bool var to store if it is fullscreen.
-    int time_id;
+    int time_id;        //deal with the timer func, remember the time id
+    //GLUquadricObj* p;   //for the texture
 };
 
 #endif // MYWIDGET_H

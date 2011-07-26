@@ -170,6 +170,11 @@ void myWidget::initializeGL()
         day[i] = 0;
     }
 
+    //view port
+    view_x = r1[7];
+    view_y = 3;
+    view_z = r1[7];
+
 }
 
 /**
@@ -194,7 +199,6 @@ void myWidget::paintGL()
     for(j = 0; j < 8; j++)
     {
         double radius = r1[j];
-        const double PI = 3.141592653;
         glBegin(GL_LINE_LOOP);
         for (int i = 0; i < 360; i++) {
             glVertex3f(radius * cos(i * PI / 180), 0.0, radius * sin(i * PI / 180));
@@ -234,7 +238,6 @@ void myWidget::paintGL()
     glDisable(GL_TEXTURE_2D);
 
     glFlush();
-    //glutSwapBuffers();
 }
 
 
@@ -257,7 +260,7 @@ void myWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
-    gluLookAt(r1[7],3,r1[7],0,0,0,0,1,0);
+    gluLookAt(view_x,view_y,view_z,0,0,0,0,1,0);
 }
 
 /**
@@ -284,8 +287,45 @@ void myWidget::keyPressEvent(QKeyEvent *e)
         }
         updateGL();
         break;
+    case Qt::Key_Up:
+        // up
+        view_x -= view_x * cos(1 * PI / 180);
+        //view_y -=
+        view_z -= view_z * sin(1 * PI / 180);
+        glLoadIdentity();
+        gluLookAt(view_x,view_y,view_z,0,0,0,0,1,0);
+        updateGL();
+        break;
+    case Qt::Key_Down:
+        // down
+        view_x += view_x * cos(1 * PI / 180);
+        // view_y +=
+        view_z += view_z * sin(1 * PI / 180);
+        glLoadIdentity();
+        gluLookAt(view_x,view_y,view_z,0,0,0,0,1,0);
+        updateGL();
+        break;
+    case Qt::Key_F2:
+        // larger
+        for( int i=0; i < 8; i++)
+        {
+            r1[i] = 2 * r1[i];
+            r2[i] = 2 * r2[i];
+            //sun = 2 * sun;
+        }
+        updateGL();
+        break;
+    case Qt::Key_F3:
+        for(int i=0; i < 8; i++)
+        {
+            r1[i] = r1[i] / 2;
+            r2[i] = r2[i] / 2;
+        }
+        updateGL();
+        break;
     case Qt::Key_Escape:
         close();
+        break;
     default:
         break;
     }

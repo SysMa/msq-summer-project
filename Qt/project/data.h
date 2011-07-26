@@ -14,7 +14,7 @@
 //to do here
 
 //sun
-static GLfloat sun = 1;
+static GLfloat sun = 0.8;
 
 //year is the bgi circle
 static GLfloat year[8];
@@ -33,5 +33,13 @@ static GLfloat r2[8]={0.076,0.19,0.2,0.106,0.5,0.5,0.3,0.29};
 //planet are about the texture
 char *planetN[8]={"MERCURY.RAW","VENUS.RAW","EARTH.RAW","MARS.RAW","JUPITER.RAW","SATURN.RAW","URANUS.RAW","NEPTUNE.RAW"};
 GLuint texture_id[8];
+
+// view port
+GLfloat view_x;
+GLfloat view_y;
+GLfloat view_z;
+
+// pi
+const double PI = 3.141592653;
 
 #endif // DATA_H

@@ -5,9 +5,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include <QKeyEvent>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include <GL/glut.h>
+#include <GL/glaux.h>
 #include <QtOpenGL/QGLWidget>
 #include <QtOpenGL/qgl.h>
+#include <QDebug>
+#include <QImage>
 
 /*********************************************
  *
@@ -118,8 +123,57 @@ void LoadTex(GLuint* texture_id)
 
     for(i=0; i < 8; i ++)
     {
+        /**
+         * learn that from ma donhao
+         *
         glBindTexture(GL_TEXTURE_2D,texture_id[i]);
         Loads( planetN[i]);
+        */
+
+        /**
+         * learn from hello mao
+         *
+        FILE *bmp ;
+        bmp = fopen(planetN[i], "r");
+
+        //判断有无打开文件
+        if(bmp == 0){
+            printf("Fail to open the file");
+            return;
+        }
+
+        fclose(bmp);
+        AUX_RGBImageRec *TextureImage[1];
+        memset(TextureImage, 0, sizeof(void *)*1);
+
+        if(TextureImage[0]=auxDIBImageLoadA((LPCSTR)planetN[i])){
+            //glGenTextures(1, texture_id[i]);
+            //glBindTexture(GL_TEXTURE_2D, texture[i]); //记录纹理
+            glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX, TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); // 线形滤波
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR); // 线形滤波
+        }
+        */
+
+        /**
+         * learn that from qt and nehe
+         */
+        QImage tex, buf;
+        if ( !buf.load( /*image[i]*/ "test.jpg" ) )
+        {
+                qWarning( "Could not read image file, using single-color instead." );
+                QImage dummy( 128, 128, QImage::Format_ARGB32 );
+                dummy.fill( Qt::green );
+                buf = dummy;
+        }
+        tex = QGLWidget::convertToGLFormat( buf );
+        //glGenTextures( 1, &texture[0] );
+        glBindTexture( GL_TEXTURE_2D, texture_id[i] );
+        glTexImage2D( GL_TEXTURE_2D, 0, 3, tex.width(), tex.height(), 0,
+                GL_RGBA, GL_UNSIGNED_BYTE, tex.bits() );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
     }
 }
 
@@ -171,8 +225,8 @@ void myWidget::initializeGL()
     }
 
     //view port
-    view_x = r1[7];
-    view_y = 3;
+    view_x = 0;
+    view_y = 5;
     view_z = r1[7];
 
 }
@@ -208,12 +262,13 @@ void myWidget::paintGL()
     glEnable(GL_LIGHTING);
 
     glPushMatrix();
-    glRotatef(1.0, 0, 1, 0);
+    //glRotatef(1.0, 0, 1, 0);
     //glBindTexture(GL_TEXTURE_2D, )
     {
         GLUquadricObj* p = gluNewQuadric();
-        gluQuadricTexture(p, GL_TRUE);
         gluSphere(p, sun, 20, 16);
+        gluQuadricTexture(p, GL_TRUE);
+        gluQuadricDrawStyle(p,GLU_FILL);
         gluDeleteQuadric(p);
     }
     glPopMatrix();
@@ -222,13 +277,24 @@ void myWidget::paintGL()
     glEnable(GL_TEXTURE_2D);
     for(i=0; i < 8; i++)
     {
+        /*
+        if(i == 4)
+        {
+            qDebug()<<year[4]<<"   "<<day[4]<<endl;
+            qDebug()<<r1[i] * cos(year[i] * PI / 180)<<"   0.0   "<<r1[i] * sin (year[i] * PI / 180)<<endl;
+        }
+        */
+
         glPushMatrix();
-        glRotatef(year[i], 0, 1, 0);
-        glTranslatef(r1[i], 0, 0);
-        glRotatef(day[i], 0, 1, 0);
+        GLUquadricObj* p = gluNewQuadric();
+        //glRotatef(year[i], 0.0, 1.0, 0.0);
+        glTranslatef(r1[i] * cos(year[i] * PI / 180), 0.0, r1[i] * sin (year[i] * PI / 180));
+
+        //glTranslatef(r1[i], 0, 0);
+        glRotatef(day[i], 0.0, 1.0, 0.0);
+        //glRotatef(90,1,0,0);
         glBindTexture(GL_TEXTURE_2D,texture_id[i]);
         {
-            GLUquadricObj* p = gluNewQuadric();
             gluQuadricTexture(p,GL_TRUE);
             gluSphere(p, r2[i], 16, 16);
             gluDeleteQuadric(p);
@@ -316,10 +382,29 @@ void myWidget::keyPressEvent(QKeyEvent *e)
         updateGL();
         break;
     case Qt::Key_F3:
+        // smaller
         for(int i=0; i < 8; i++)
         {
             r1[i] = r1[i] / 2;
             r2[i] = r2[i] / 2;
+        }
+        updateGL();
+        break;
+    case Qt::Key_S:
+        // faster
+        for(int i=0; i < 8; i++)
+        {
+            year0[i] = year0[i] * 2;
+            day0[i] = day0[i] * 2;
+        }
+        updateGL();
+        break;
+    case Qt::Key_F:
+        // slow down
+        for(int i=0; i < 8; i++)
+        {
+            year0[i] = year0[i] / 2;
+            day0[i] = day0[i] / 2;
         }
         updateGL();
         break;
@@ -338,11 +423,60 @@ void myWidget::timerEvent(QTimerEvent *e)
 {
     for(int i=0;i<8;i++)
     {
-            year[i]=year[i]+(1 / year0[i]);
-            if( year[i]>360 ) year[i]=year[i] - 360;
+        year[i]=year[i]+(1 / year0[i]);
+        if( year[i] > 360 )
+        {
+            year[i]=year[i] - 360;
+        }
 
-            day[i]=day[i] + ( 1 / day0[i] );
-            if( day[i] >360 ) day[i]= day[i] -360 ;
+        day[i]=day[i] + ( 1 / day0[i] );
+        if( day[i] > 360 )
+        {
+            day[i]= day[i] - 360 ;
+        }
     }
+    //qDebug()<<year[4]<<"   "<<day[4]<<endl;
     updateGL();
 }
+
+/**
+ * mouse press event
+ */
+void myWidget::mousePressEvent(QMouseEvent *e)
+{
+    /* the following lines are just examples. */
+    /*
+    fullscreen = !fullscreen;
+    if(fullscreen)
+    {
+        showFullScreen();
+    }
+    else
+    {
+        showNormal();
+    }
+    */
+    // end of the example
+}
+
+/**
+ * mouse move event
+ */
+void myWidget::mouseMoveEvent(QMouseEvent *e)
+{
+    /* the following lines are just examples */
+    /*
+    if( e->buttons() && Qt::LeftButton )
+    {
+        view_x += view_x * cos(1 * PI / 180);
+        // view_y +=
+        view_z += view_z * sin(1 * PI / 180);
+        glLoadIdentity();
+        gluLookAt(view_x,view_y,view_z,0,0,0,0,1,0);
+        //updateGL();
+        //swapBuffers();
+    }
+    */
+    // end of the examples
+}
+

@@ -1,6 +1,7 @@
 #include "palnetwidget.h"
 #include "QWidget"
 #include "call.h"
+#include "arcball.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -21,6 +22,10 @@
  * name is the name of the window
  * fs is a var that determine if it is fullscreen
  */
+
+ArcBallT arcBall(1366,768);
+ArcBallT* ArcBall =&arcBall;
+
 palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     QGLWidget(parent)
 {
@@ -39,10 +44,10 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     }
 
     //set time function
-    time_id = startTimer(10);
+    time_id = startTimer(17);
 
     solar = new Palnet();
-    qDebug()<<solar->mars_data_y[500];
+    //qDebug()<<solar->mars_data_y[500];
 }
 
 /**
@@ -61,6 +66,9 @@ palnetWidget::~palnetWidget()
 }
 
 
+/**
+ *
+ */
 void palnetWidget::initializeGL()
 {
     GLfloat light_ambient[] = {0.3,0.5,0.3};
@@ -87,6 +95,9 @@ void palnetWidget::initializeGL()
     solar->loadTexture(solar->texture_id);
 }
 
+/**
+ *
+ */
 void palnetWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -94,30 +105,38 @@ void palnetWidget::paintGL()
     glDisable(GL_LIGHTING);
     glColor3f(1,1,1);
 
+    glPushMatrix();
+    glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. 缩放
+    glMultMatrixf(ArcBall->Transform.M);                                //3. 旋转
+
     //lines
     glEnable(GL_LIGHTING);
+    //qDebug()<<"begin to draw lines...";
     solar->drawLines();
 
-
-    glPushMatrix();
     //glBindTexture(GL_TEXTURE_2D, )
     {
         GLUquadricObj* p = gluNewQuadric();
-        gluSphere(p, 0.8, 20, 16);
+        gluSphere(p, 0.2, 20, 16);
         gluQuadricTexture(p, GL_TRUE);
         gluQuadricDrawStyle(p,GLU_FILL);
         gluDeleteQuadric(p);
     }
-    glPopMatrix();
+
 
     //draw eight planets
     glEnable(GL_TEXTURE_2D);
     solar->drawPalnets();
     glDisable(GL_TEXTURE_2D);
 
+    glPopMatrix();
+
     glFlush();
 }
 
+/**
+ *
+ */
 void palnetWidget::resizeGL(int width, int height)
 {
     glViewport(0, 0, (GLsizei)width, (GLsizei)height);
@@ -129,4 +148,69 @@ void palnetWidget::resizeGL(int width, int height)
 
     glLoadIdentity();
     gluLookAt(0.0,15.0,solar->neptune_data_z[0],0.0,0.0,0.0,0.0,1.0,0.0);
+}
+
+/**
+ * the timer event to chang animation
+ */
+void palnetWidget::timerEvent(QTimerEvent *e)
+{
+    solar->data_num++;
+    //qDebug()<<year[4]<<"   "<<day[4]<<endl;
+    updateGL();
+}
+
+/*********************************************************
+ * mouse event
+ * learn from dashen provided by ligong
+ *********************************************************/
+//鼠标移动事件
+
+void palnetWidget::mouseMoveEvent(QMouseEvent *e){
+    ArcBall->MousePt.s.X = e->x();
+    ArcBall->MousePt.s.Y = e->y();
+    ArcBall->upstate();
+    timerEvent(0);
+}
+
+//鼠标点击事件
+void palnetWidget::mousePressEvent(QMouseEvent *e){
+    if(e->button() == Qt::LeftButton){
+        ArcBall->isClicked = true;
+        move(e->x(),e->y());
+    }else{
+        if(e->button() == Qt::RightButton)
+        {
+           ArcBall->isRClicked = true;
+           move(e->x(),e->y());
+        }
+    }
+    ArcBall->upstate();
+    timerEvent(0);
+
+}
+
+
+//鼠标释放事件
+void palnetWidget::mouseReleaseEvent(QMouseEvent *e){
+    if(e->button() == Qt::LeftButton){
+        ArcBall->isClicked = false;
+    }
+    else{
+        if(e->button() == Qt::RightButton){
+           ArcBall->isRClicked = false;
+        }
+    }
+
+    ArcBall->upstate();
+    timerEvent(0);
+}
+
+//移动鼠标
+void palnetWidget::move(int x, int y)
+{
+    ArcBall->MousePt.s.X = x;
+    ArcBall->MousePt.s.Y = y;
+    ArcBall->upstate();
+    timerEvent(0);
 }

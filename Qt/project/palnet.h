@@ -52,7 +52,8 @@ public:
      * draw line
      */
     bool drawLine(double data_x[], double data_y[],
-                  double data_z[], double cycle);
+                  double data_z[], double cycle,
+                  double line_width);
 
     /**
      * draw planets and the moon
@@ -153,6 +154,19 @@ public:
     // used to texutre
     //
     char* image[8];
+
+    // line width
+    // used when to draw lines
+    //
+    double mercury_line_width;
+    double venus_line_width;
+    double earth_line_width;
+    double mars_line_width;
+    double jupiter_line_width;
+    double saturn_line_width;
+    double uranus_line_width;
+    double neptune_line_width;
+    double moon_line_width;
 
 public:
     // radius data eight planets without the moon and the sun

@@ -66,7 +66,24 @@ protected :
     /**
      * timer to define a animation
      */
-    //void timerEvent(QTimerEvent* e);
+    void timerEvent(QTimerEvent* e);
+
+    //鼠标移动事件
+
+    void mouseMoveEvent(QMouseEvent *e);
+
+    //鼠标点击事件
+
+    void mousePressEvent(QMouseEvent *e);
+
+
+    //鼠标释放事件
+
+    void mouseReleaseEvent(QMouseEvent *e);
+
+    //移动鼠标
+
+    void move(int x, int y);
 };
 
 #endif // PALNETWIDGET_H

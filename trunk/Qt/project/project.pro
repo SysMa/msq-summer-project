@@ -12,12 +12,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mywidget.cpp
+    mywidget.cpp \
+    palnet.cpp \
+    palnetwidget.cpp
 
 HEADERS  += mainwindow.h \
     call.h \
     mywidget.h \
-    data.h
+    data.h \
+    palnet.h \
+    palnetwidget.h
 
 FORMS    += mainwindow.ui
 

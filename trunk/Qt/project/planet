@@ -1,0 +1,18 @@
+/**************************************************
+ *
+ * this is a star.h to represent all stars
+ *
+ *************************************************/
+
+#ifndef STAR_H
+#define STAR_H
+
+#include "call.h"
+#include <math.h>
+
+class Planet
+{
+
+};
+
+#endif // STAR_H

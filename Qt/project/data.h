@@ -39,10 +39,6 @@ GLfloat view_x;
 GLfloat view_y;
 GLfloat view_z;
 
-// pi
-const double PI = 3.141592653;
-
-
 // images
 char* image[8]={"MERCURY.jpg","VENUS.jpg","EARTH.jpg","MARS.jpg","JUPITER.jpg","SATURN.jpg","URANUS.jpg","NEPTUNE.jpg"};
 #endif // DATA_H

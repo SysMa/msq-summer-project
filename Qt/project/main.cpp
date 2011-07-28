@@ -21,14 +21,19 @@
 
 #include "call.h"
 #include "mywidget.h"
+#include "palnetwidget.h"
 #include <GL/glut.h>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    myWidget solar(0,0,false);
-    a.setMainWidget(&solar);
-    solar.show();
+    //myWidget test(0,0,false);
+    //a.setMainWidget(&test);
+    //test.show();
+
+    palnetWidget solar_sys(0,0,false);
+    a.setMainWidget(&solar_sys);
+    solar_sys.showNormal();
 
     return a.exec();
 }

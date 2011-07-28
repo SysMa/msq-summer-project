@@ -89,6 +89,18 @@ Palnet::Palnet()
     image[6] = "uranus.jpg",
     image[7] = "neptune.jpg";
 
+    // line width
+    // default: 1
+    mercury_line_width  = 1;
+    venus_line_width    = 1;
+    earth_line_width    = 1;
+    mars_line_width     = 1;
+    jupiter_line_width  = 1;
+    saturn_line_width   = 1;
+    uranus_line_width   = 1;
+    neptune_line_width  = 1;
+    moon_line_width     = 1;
+
     // init data
     if(!readData())
     {
@@ -193,74 +205,131 @@ bool Palnet::drawLines()
     bool success = true;
     if(mercury_line)
     {
-        drawLine(mercury_data_x,
-                 mercury_data_y,
-                 mercury_data_z,
-                 mercury_cycle);
-        return (!success);
+        if(!drawLine(mercury_data_x,
+                     mercury_data_y,
+                     mercury_data_z,
+                     mercury_cycle,
+                     mercury_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" mercury line successful ...";
+        }
     }
 
     if(venus_line)
     {
-        drawLine(venus_data_x,
-                venus_data_y,
-                venus_data_z,
-                venus_cycle);
-        return (!success);
+        if(!drawLine(venus_data_x,
+                     venus_data_y,
+                     venus_data_z,
+                     venus_cycle,
+                     venus_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" venus line successful ...";
+        }
+
     }
 
     if(earth_line)
     {
-        drawLine(earth_data_x,
-                earth_data_y,
-                earth_data_z,
-                earth_cycle);
-        return (!success);
+        if(!drawLine(earth_data_x,
+                     earth_data_y,
+                     earth_data_z,
+                     earth_cycle,
+                     earth_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" earth line successful ...";
+        }
     }
 
     if(mars_line)
     {
-        drawLine(mars_data_x,
-                mars_data_y,
-                mars_data_z,
-                mars_cycle);
-        return (!success);
+        if(!drawLine(mars_data_x,
+                     mars_data_y,
+                     mars_data_z,
+                     mars_cycle,
+                     mars_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" mars line successful ...";
+        }
     }
 
     if(jupiter_line)
     {
-        drawLine(jupiter_data_x,
-                jupiter_data_y,
-                jupiter_data_z,
-                jupiter_cycle);
-        return (!success);
+        if(!drawLine(jupiter_data_x,
+                     jupiter_data_y,
+                     jupiter_data_z,
+                     jupiter_cycle,
+                     jupiter_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" jupiter line successful ...";
+        }
     }
 
     if(saturn_line)
     {
-        drawLine(saturn_data_x,
-                saturn_data_y,
-                saturn_data_z,
-                saturn_cycle);
-        return (!success);
+        if(!drawLine(saturn_data_x,
+                     saturn_data_y,
+                     saturn_data_z,
+                     saturn_cycle,
+                     saturn_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" saturn line successful ...";
+        }
     }
 
     if(uranus_line)
     {
-        drawLine(uranus_data_x,
-                uranus_data_y,
-                uranus_data_z,
-                uranus_cycle);
-        return (!success);
+        if(!drawLine(uranus_data_x,
+                     uranus_data_y,
+                     uranus_data_z,
+                     uranus_cycle,
+                     uranus_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" uranus line successful ...";
+        }
     }
 
     if(neptune_line)
     {
-        drawLine(neptune_data_x,
-                neptune_data_y,
-                neptune_data_z,
-                neptune_cycle);
-        return (!success);
+        if(!drawLine(neptune_data_x,
+                     neptune_data_y,
+                     neptune_data_z,
+                     neptune_cycle,
+                     neptune_line_width))
+        {
+            return (!success);
+        }
+        else
+        {
+            //qDebug()<<" neptune line successful ...";
+        }
     }
 
     /*
@@ -278,14 +347,20 @@ bool Palnet::drawLines()
 /**
  * draw a singal line
  */
-bool Palnet::drawLine(double data_x[], double data_y[], double data_z[], double cycle)
+bool Palnet::drawLine(double data_x[], double data_y[],
+                      double data_z[], double cycle,
+                      double line_width)
 {
     int i = 0;
+    glLineWidth(line_width);
     glBegin(GL_LINE_LOOP);
+
+    glColor3f(0.0, 1.0, 0.0);
     for (i = 0; i < cycle + 1; i++) {
         glVertex3f(data_x[i],data_y[i],data_z[i]);
     }
     glEnd();
+    return true;
 }
 
 
@@ -299,6 +374,7 @@ bool Palnet::drawPalnets()
     // mercury
     if(mercury)
     {
+        //qDebug()<<mercury_data_x[data_num];
         if(drawPalnet(mercury_data_x[data_num],
                       mercury_data_y[data_num],
                       mercury_data_z[data_num],

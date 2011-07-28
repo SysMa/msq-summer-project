@@ -14,14 +14,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mywidget.cpp \
     palnet.cpp \
-    palnetwidget.cpp
+    palnetwidget.cpp \
+    arcball.cpp
 
 HEADERS  += mainwindow.h \
     call.h \
     mywidget.h \
     data.h \
     palnet.h \
-    palnetwidget.h
+    palnetwidget.h \
+    arcball.h
 
 FORMS    += mainwindow.ui
 

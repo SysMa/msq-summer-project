@@ -35,4 +35,5 @@ FORMS    += mainwindow.ui
 
 QT += opengl
 
-LIBS += -glut32
+LIBS +=  -lglut32 -lglaux -lopengl32 -lglu32
+

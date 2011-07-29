@@ -54,7 +54,7 @@ myWidget::myWidget(QWidget *parent, const char *name, bool fs) :
 
     /***********************************************************
      * these lines are test
-     * they try to draw some planets, but unlucky
+     * they try to draw some buttons, but unlucky
      *
     QGridLayout* layout = new QGridLayout(this);
     QPushButton* pb1 = new QPushButton("Button 1", this);

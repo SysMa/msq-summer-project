@@ -8,6 +8,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glaux.h>
 
 /**
  *
@@ -66,13 +67,26 @@ public:
      */
     bool drawPalnet(double point_x, double point_y,
                     double point_z, double size,
-                    double angle, GLuint texture_id );
+                    double solar_angle,
+                    double axis_angle,
+                    GLuint texture_id );
 
 
     /**
      * load texture for palnets
      */
-    bool loadTexture(GLuint* texture_id);
+    bool loadTexture(GLuint *texture,char* path,int i);
+    bool loadTextures(GLuint *texture_id);
+
+    /**
+     * update the postion
+     */
+    void setNew();
+
+    /**
+     *
+     */
+    AUX_RGBImageRec* LoadBMP(char *Filename);
 
 public:
     // nine boolean vars to determine if the line is needed.
@@ -134,6 +148,53 @@ public:
     double uranus_angle;
     double neptune_angle;
     double moon_angle;
+
+    // solar angle
+    // used to ratate
+    double mercury_solar_angle;
+    double venus_solar_angle;
+    double earth_solar_angle;
+    double mars_solar_angle;
+    double jupiter_solar_angle;
+    double saturn_solar_angle;
+    double uranus_solar_angle;
+    double neptune_solar_angle;
+    double moon_solar_angle;
+
+    // axis angle
+    // used to ratate
+    double mercury_axis_angle;
+    double venus_axis_angle;
+    double earth_axis_angle;
+    double mars_axis_angle;
+    double jupiter_axis_angle;
+    double saturn_axis_angle;
+    double uranus_axis_angle;
+    double neptune_axis_angle;
+    double moon_axis_angle;
+
+    // speed of aixs angle
+    double mercury_axis_speed;
+    double venus_axis_speed;
+    double earth_axis_speed;
+    double mars_axis_speed;
+    double jupiter_axis_speed;
+    double saturn_axis_speed;
+    double uranus_axis_speed;
+    double neptune_axis_speed;
+    double moon_axis_speed;
+
+    // speed of the solar angle
+    double mercury_solar_speed;
+    double venus_solar_speed;
+    double earth_solar_speed;
+    double mars_solar_speed;
+    double jupiter_solar_speed;
+    double saturn_solar_speed;
+    double uranus_solar_speed;
+    double neptune_solar_speed;
+    double moon_solar_speed;
+
 
     // the data to be shown on the screen
     // used in the time-animation

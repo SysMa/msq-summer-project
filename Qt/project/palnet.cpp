@@ -1,6 +1,7 @@
 #include "palnet.h"
 #include <iostream>
 #include <fstream>
+#include <math.h>
 #include <QImage>
 #include <QGLWidget>
 
@@ -18,6 +19,13 @@ using namespace std;
  */
 Palnet::Palnet()
 {
+    // PI
+    pie = 3.1415926;
+
+    // distance form earth to moon
+    distance = earth_size * 1.25;
+
+
     // default: draw all the lines
     mercury_line = true;
     venus_line   = true;
@@ -51,6 +59,7 @@ Palnet::Palnet()
 
     // the size of palnets
     // used to draw
+    sun_size     = 0.20f;
     mercury_size = 0.08f;
     venus_size   = 0.18f;
     earth_size   = 0.18f;
@@ -88,6 +97,7 @@ Palnet::Palnet()
     image[5] = "saturn.bmp",
     image[6] = "uranus.bmp",
     image[7] = "neptune.bmp";
+    image[8] = "moon.bmp";
 
     // line width
     // default: 1
@@ -145,7 +155,7 @@ Palnet::Palnet()
     saturn_solar_speed  = 0.1f;
     uranus_solar_speed  = 0.06f;
     neptune_solar_speed = 0.03f;
-    moon_solar_speed    = 0.01f;
+    moon_solar_speed    = 2.01f;
 
 
     // init data
@@ -563,7 +573,7 @@ bool Palnet::drawPalnet(double point_x, double point_y,
                         double point_z, double size,
                         double solar_angle,
                         double axis_angle,
-                        GLuint texture_id)
+                        GLuint texture)
 {
         glEnable(GL_TEXTURE_2D);
         glPushMatrix();
@@ -605,7 +615,7 @@ bool Palnet::drawPalnet(double point_x, double point_y,
             gluDeleteQuadric(q);
 
             */
-            glBindTexture(GL_TEXTURE_2D, texture_id);//绑定纹理
+            glBindTexture(GL_TEXTURE_2D, texture);//绑定纹理
             //绘制二次曲面
             glBegin(GL_QUADS);
                     GLUquadric* quadricObj=gluNewQuadric();
@@ -613,6 +623,23 @@ bool Palnet::drawPalnet(double point_x, double point_y,
                     gluSphere(quadricObj,size,50,50);
                     gluDeleteQuadric(quadricObj);
             glEnd();
+
+            if(texture == texture_id[5]){
+                glDisable(GL_TEXTURE_2D);
+                glDisable(GL_LIGHTING);
+                glBegin(GL_TRIANGLE_STRIP);
+                    glColor3f(0.5,0.4,0.3);
+                    for(int i =0;i < 361;i++){
+                        glColor3f(1.0,1.0,1.0);
+                        glVertex3d((size * 1.5)*cos( i * pie/180),(size * 1.5)*sin(i * pie/180),0);
+                        glColor3f(205.0/255.0,149.0/255.0,12.0/255.0);
+                        glVertex3d(size * 1.25 * cos((i+1)* pie/180),size * 1.25 * sin((i+1) * pie/180),0);
+                    }
+                glEnd();
+                glEnable(GL_TEXTURE_2D);
+                glEnable(GL_LIGHTING);
+            }
+
             glLoadIdentity();
         glPopMatrix();
         glDisable(GL_TEXTURE_2D);
@@ -647,6 +674,25 @@ bool Palnet::loadTextures(GLuint *texture_id)
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
     }
+}
+
+bool Palnet::loadMoonTexture(GLuint moon_id, char* path)
+{
+    int Status = false;
+    AUX_RGBImageRec *TextureImage[1];
+    memset(TextureImage,0,sizeof(void *)*1);
+
+    if (TextureImage[0]=LoadBMP(path)){
+        qDebug()<<"Load image "<<path;
+        Status = true;
+        glGenTextures(1, &moon_id);
+        glBindTexture(GL_TEXTURE_2D, moon_id);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX, TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    }
+
+    return Status;
 }
 
 bool Palnet::loadTexture(GLuint *texture,char* path,int i)
@@ -717,6 +763,12 @@ void Palnet::setNew()
         earth_axis_angle -= 360;
     }
 
+    moon_axis_angle += moon_axis_speed;
+    if( moon_axis_angle > 360)
+    {
+        moon_axis_angle -= 360;
+    }
+
     mars_axis_angle += mars_axis_speed;
     if( mars_axis_angle > 360){
         mars_axis_angle -= 360;
@@ -760,6 +812,12 @@ void Palnet::setNew()
         earth_solar_angle -= 360;
     }
 
+    moon_solar_angle += moon_solar_speed;
+    if( moon_solar_angle > 360)
+    {
+        moon_solar_angle -= 360;
+    }
+
     mars_solar_angle += mars_solar_speed;
     if( mars_solar_angle > 360){
         mars_solar_angle -= 360;
@@ -784,4 +842,56 @@ void Palnet::setNew()
     if( neptune_solar_angle > 360){
         neptune_solar_angle -= 360;
     }
+}
+
+/**
+ * draw sun
+ */
+void Palnet::drawSun()
+{
+   glEnable(GL_TEXTURE_2D);
+   glPushMatrix();
+       //glBindTexture(GL_TEXTURE_2D, texture_id);
+       glBegin(GL_QUADS);
+               GLUquadric* quadricObj=gluNewQuadric();
+               gluQuadricTexture(quadricObj,GL_TRUE);
+               gluSphere(quadricObj,sun_size,50,50);
+               gluDeleteQuadric(quadricObj);
+       glEnd();
+   glPopMatrix();
+   glDisable(GL_TEXTURE_2D);
+}
+
+/**
+ * draw moon
+ */
+bool Palnet::drawMoon(double earth_x, double earth_y, double earth_z,
+                      double solar_angle, double axis_angle)
+{
+    //qDebug()<<"begin to draw the moon";
+    qDebug()<<earth_x<<" "<<earth_y<<" "<<earth_z<<" ";
+    glEnable(GL_TEXTURE_2D);
+    glPushMatrix();
+        // translate to the position
+        glTranslatef(earth_x + distance * cos(solar_angle * pie / 180),
+                     earth_y,
+                     earth_z + distance * sin(solar_angle * pie / 180));
+
+        qDebug()<<solar_angle;
+        qDebug()<<earth_x + earth_size * 1.5 * cos(solar_angle * pie / 180)<<" "<<earth_y<<" "<<earth_z + distance * sin(solar_angle * pie / 180)<<" ";
+        // rotate
+        glRotatef(axis_angle, 0, 0, 1);
+
+        // to deal with the texture
+        glRotatef(180.0, 1.0, 0.0, 0.0);
+
+        glBindTexture(GL_TEXTURE_2D, texture_id[8]);
+        glBegin(GL_QUADS);
+                GLUquadric* quadricObj=gluNewQuadric();
+                gluQuadricTexture(quadricObj,GL_TRUE);
+                gluSphere(quadricObj,moon_size,50,50);
+                gluDeleteQuadric(quadricObj);
+        glEnd();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 }

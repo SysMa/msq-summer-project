@@ -85,14 +85,18 @@ void palnetWidget::initializeGL()
     glClearColor(0,0,0,0);
     glShadeModel(GL_SMOOTH);
 
-    glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
-    glEnable(GL_CULL_FACE);
 
     // texture
-    solar->loadTexture(solar->texture_id);
+
+    for( int i = 0; i < 8 ; i++)
+    {
+        solar->loadTexture(solar->texture_id, solar->image[i], i);
+    }
+
+    //solar->loadTextures(solar->texture_id);
 }
 
 /**
@@ -106,30 +110,32 @@ void palnetWidget::paintGL()
     glColor3f(1,1,1);
 
     glPushMatrix();
-    glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. 缩放
-    glMultMatrixf(ArcBall->Transform.M);                                //3. 旋转
+        glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. 缩放
+        glMultMatrixf(ArcBall->Transform.M);                                //3. 旋转
 
-    //lines
-    glEnable(GL_LIGHTING);
-    //qDebug()<<"begin to draw lines...";
-    solar->drawLines();
+        //lines
+        glEnable(GL_LIGHTING);
+        //qDebug()<<"begin to draw lines...";
+        solar->drawLines();
 
-    //glBindTexture(GL_TEXTURE_2D, )
-    {
-        GLUquadricObj* p = gluNewQuadric();
-        gluSphere(p, 0.2, 20, 16);
-        gluQuadricTexture(p, GL_TRUE);
-        gluQuadricDrawStyle(p,GLU_FILL);
-        gluDeleteQuadric(p);
-    }
+        //glBindTexture(GL_TEXTURE_2D, )
+        {
+            GLUquadricObj* p = gluNewQuadric();
+            gluSphere(p, 0.2, 20, 16);
+            gluQuadricTexture(p, GL_TRUE);
+            gluQuadricDrawStyle(p,GLU_FILL);
+            gluDeleteQuadric(p);
+        }
 
 
-    //draw eight planets
-    glEnable(GL_TEXTURE_2D);
-    solar->drawPalnets();
-    glDisable(GL_TEXTURE_2D);
-
+        //draw eight planets
+        //qDebug()<<"... begin to draw planets! ...";
+        solar->drawPalnets();
     glPopMatrix();
+
+    glLoadIdentity();
+
+    gluLookAt(0.0,15.0,solar->neptune_data_z[0],0.0,0.0,0.0,0.0,1.0,0.0);
 
     glFlush();
 }
@@ -155,8 +161,9 @@ void palnetWidget::resizeGL(int width, int height)
  */
 void palnetWidget::timerEvent(QTimerEvent *e)
 {
-    solar->data_num++;
+    //solar->data_num++;
     //qDebug()<<year[4]<<"   "<<day[4]<<endl;
+    solar->setNew();
     updateGL();
 }
 

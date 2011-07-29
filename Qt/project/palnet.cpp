@@ -51,15 +51,15 @@ Palnet::Palnet()
 
     // the size of palnets
     // used to draw
-    mercury_size = 0.076;
-    venus_size   = 0.19;
-    earth_size   = 0.2;
-    mars_size    = 0.106;
-    jupiter_size = 0.5;
-    saturn_size  = 0.5;
-    uranus_size  = 0.3;
-    neptune_size = 0.29;
-    moon_size    = 0.090;
+    mercury_size = 0.08f;
+    venus_size   = 0.18f;
+    earth_size   = 0.18f;
+    mars_size    = 0.14f;
+    jupiter_size = 0.52f;
+    saturn_size  = 0.44f;
+    uranus_size  = 0.36f;
+    neptune_size = 0.40f;
+    moon_size    = 0.09f;
 
     // rotate angle
     // used to self rotate
@@ -80,14 +80,14 @@ Palnet::Palnet()
     speed = 1;
 
     // texture files
-    image[0] = "mercury.jpg";
-    image[1] = "venus.jpg",
-    image[2] = "earth.png",
-    image[3] = "mars.jpg",
-    image[4] = "jupiter.jpg",
-    image[5] = "saturn.jpg",
-    image[6] = "uranus.jpg",
-    image[7] = "neptune.jpg";
+    image[0] = "mercury.bmp";
+    image[1] = "venus.bmp",
+    image[2] = "earth.bmp",
+    image[3] = "mars.bmp",
+    image[4] = "jupiter.bmp",
+    image[5] = "saturn.bmp",
+    image[6] = "uranus.bmp",
+    image[7] = "neptune.bmp";
 
     // line width
     // default: 1
@@ -100,6 +100,53 @@ Palnet::Palnet()
     uranus_line_width   = 1;
     neptune_line_width  = 1;
     moon_line_width     = 1;
+
+    // solar angle
+    mercury_solar_angle = 0.0f;
+    venus_solar_angle   = 255.0f;
+    earth_solar_angle   = 45.0f;
+    mars_solar_angle    = 60.0f;
+    jupiter_solar_angle = 90.0f;
+    saturn_solar_angle  = 115.0f;
+    uranus_solar_angle  = 135.0f;
+    neptune_solar_angle = 0.0f;
+    moon_solar_angle    = 0.0f;
+
+
+    // axis angle
+    mercury_axis_angle  = 0.0f;
+    venus_axis_angle    = 0.0f;
+    earth_axis_angle    = 0.0f;
+    mars_axis_angle     = 0.0f;
+    jupiter_axis_angle  = 0.0f;
+    saturn_axis_angle   = 0.0f;
+    uranus_axis_angle   = 0.0f;
+    neptune_axis_angle  = 0.0f;
+    moon_axis_angle     = 0.0f;
+
+    // speed of angles
+    //
+    mercury_axis_speed  = 0.1f;
+    venus_axis_speed    = 0.2f;
+    earth_axis_speed    = 0.6f;
+    mars_axis_speed     = 0.5f;
+    jupiter_axis_speed  = 2.6f;
+    saturn_axis_speed   = 2.5f;
+    uranus_axis_speed   = 1.5f;
+    neptune_axis_speed  = 1.7f;
+    moon_axis_speed     = 3.0f;
+
+    // speed of the solar angles
+    mercury_solar_speed = 1.6f;
+    venus_solar_speed   = 1.2f;
+    earth_solar_speed   = 1.1f;
+    mars_solar_speed    = 1.0f;
+    jupiter_solar_speed = 0.2f;
+    saturn_solar_speed  = 0.1f;
+    uranus_solar_speed  = 0.06f;
+    neptune_solar_speed = 0.03f;
+    moon_solar_speed    = 0.01f;
+
 
     // init data
     if(!readData())
@@ -375,11 +422,13 @@ bool Palnet::drawPalnets()
     if(mercury)
     {
         //qDebug()<<mercury_data_x[data_num];
-        if(drawPalnet(mercury_data_x[data_num],
+        //qDebug()<<" ...Draw mercury ...";
+        if(!drawPalnet(mercury_data_x[data_num],
                       mercury_data_y[data_num],
                       mercury_data_z[data_num],
                       mercury_size,
-                      mercury_angle,
+                      mercury_solar_angle,
+                      mercury_axis_angle,
                       texture_id[0]))
         {
             return (!success);
@@ -389,11 +438,13 @@ bool Palnet::drawPalnets()
     // venus
     if(venus)
     {
-        if(drawPalnet(	venus_data_x[data_num],
+        //qDebug()<<" ... Draw venus ...";
+        if(!drawPalnet(	venus_data_x[data_num],
                         venus_data_y[data_num],
                         venus_data_z[data_num],
                         venus_size,
-                        venus_angle,
+                        venus_solar_angle,
+                        venus_axis_angle,
                         texture_id[1]))
         {
             return (!success);
@@ -403,11 +454,12 @@ bool Palnet::drawPalnets()
     // earth
     if(earth)
     {
-        if(drawPalnet(	earth_data_x[data_num],
+        if(!drawPalnet(	earth_data_x[data_num],
                         earth_data_y[data_num],
                         earth_data_z[data_num],
                         earth_size,
-                        earth_angle,
+                        earth_solar_angle,
+                        earth_axis_angle,
                         texture_id[2]))
         {
             return (!success);
@@ -417,11 +469,12 @@ bool Palnet::drawPalnets()
     // mars
     if(mars)
     {
-        if(drawPalnet(	mars_data_x[data_num],
+        if(!drawPalnet(	mars_data_x[data_num],
                         mars_data_y[data_num],
                         mars_data_z[data_num],
                         mars_size,
-                        mars_angle,
+                        mars_solar_angle,
+                        mars_axis_angle,
                         texture_id[3]))
         {
             return (!success);
@@ -431,11 +484,12 @@ bool Palnet::drawPalnets()
     // jupiter
     if(jupiter)
     {
-        if(drawPalnet(	jupiter_data_x[data_num],
+        if(!drawPalnet(	jupiter_data_x[data_num],
                         jupiter_data_y[data_num],
                         jupiter_data_z[data_num],
                         jupiter_size,
-                        jupiter_angle,
+                        jupiter_solar_angle,
+                        jupiter_axis_angle,
                         texture_id[4]))
         {
             return (!success);
@@ -445,11 +499,12 @@ bool Palnet::drawPalnets()
     // saturn
     if(saturn)
     {
-        if(drawPalnet(	saturn_data_x[data_num],
+        if(!drawPalnet(	saturn_data_x[data_num],
                         saturn_data_y[data_num],
                         saturn_data_z[data_num],
                         saturn_size,
-                        saturn_angle,
+                        saturn_solar_angle,
+                        saturn_axis_angle,
                         texture_id[5]))
         {
             return (!success);
@@ -459,11 +514,12 @@ bool Palnet::drawPalnets()
     // uranus
     if(uranus)
     {
-        if(drawPalnet(	uranus_data_x[data_num],
+        if(!drawPalnet(	uranus_data_x[data_num],
                         uranus_data_y[data_num],
                         uranus_data_z[data_num],
                         uranus_size,
-                        uranus_angle,
+                        uranus_solar_angle,
+                        uranus_axis_angle,
                         texture_id[6]))
         {
             return (!success);
@@ -473,11 +529,12 @@ bool Palnet::drawPalnets()
     // neptune
     if(neptune)
     {
-        if(drawPalnet(	neptune_data_x[data_num],
+        if(!drawPalnet(	neptune_data_x[data_num],
                         neptune_data_y[data_num],
                         neptune_data_z[data_num],
                         neptune_size,
-                        neptune_angle,
+                        neptune_solar_angle,
+                        neptune_axis_angle,
                         texture_id[7]))
         {
             return (!success);
@@ -504,10 +561,14 @@ bool Palnet::drawPalnets()
  */
 bool Palnet::drawPalnet(double point_x, double point_y,
                         double point_z, double size,
-                        double angle,GLuint texture_id)
+                        double solar_angle,
+                        double axis_angle,
+                        GLuint texture_id)
 {
-    glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_2D);
         glPushMatrix();
+
+        /*
             GLUquadricObj* p = gluNewQuadric();
             glTranslatef(point_x, point_y, point_z);
             glRotatef(angle, 0.0, 1.0, 0.0);
@@ -517,14 +578,51 @@ bool Palnet::drawPalnet(double point_x, double point_y,
                 gluSphere(p, size, 320, 160);
                 gluDeleteQuadric(p);
             }
+         */
+
+            // rotate
+            //glRotatef(solar_angle, 0, -1, 0);
+
+            // translate to the position
+            glTranslatef(point_x, point_y, point_z);
+
+            // rotate
+            glRotatef(axis_angle, 0, 0, 1);
+
+            // to deal with the texture
+            glRotatef(180.0, 1.0, 0.0, 0.0);
+
+            /*
+            // bind to the texture
+            glBindTexture(GL_TEXTURE_2D, texture_id);
+
+            // texutre and draw
+            GLUquadricObj*  q = gluNewQuadric();
+            //gluQuadricDrawStyle(q, GLU_FILL);
+            //gluQuadricNormals (q, GLU_SMOOTH);
+            gluQuadricTexture (q, GL_TRUE);
+            gluSphere(q, size, 16, 16);
+            gluDeleteQuadric(q);
+
+            */
+            glBindTexture(GL_TEXTURE_2D, texture_id);//绑定纹理
+            //绘制二次曲面
+            glBegin(GL_QUADS);
+                    GLUquadric* quadricObj=gluNewQuadric();
+                    gluQuadricTexture(quadricObj,GL_TRUE);
+                    gluSphere(quadricObj,size,50,50);
+                    gluDeleteQuadric(quadricObj);
+            glEnd();
+            glLoadIdentity();
         glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
+        glDisable(GL_TEXTURE_2D);
+    return true;
 }
 
 /**
  * load textures just for eight palnets
  */
-bool Palnet::loadTexture(GLuint *texture_id)
+bool Palnet::loadTextures(GLuint *texture_id)
 {
     int i;
 
@@ -548,5 +646,142 @@ bool Palnet::loadTexture(GLuint *texture_id)
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
+    }
+}
+
+bool Palnet::loadTexture(GLuint *texture,char* path,int i)
+{
+    int Status = false;
+    AUX_RGBImageRec *TextureImage[1];
+    memset(TextureImage,0,sizeof(void *)*1);
+
+    if (TextureImage[0]=LoadBMP(path)){
+        qDebug()<<"Load image "<<path;
+        Status = true;
+        glGenTextures(1, &texture[i]);
+        glBindTexture(GL_TEXTURE_2D, texture[i]);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX, TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    }
+
+    return Status;
+}
+
+AUX_RGBImageRec* Palnet::LoadBMP(char *Filename){
+    FILE *File = 0;
+    if (!Filename){
+        return 0;
+    }
+
+    File = fopen(Filename, "r");
+
+    if (File){
+        fclose(File);
+        return auxDIBImageLoadA((LPCSTR)Filename);
+    }
+
+    return 0;
+}
+
+/**
+ * update
+ */
+void Palnet::setNew()
+{
+    if(data_num < 109574)
+    {
+        data_num += speed;
+    }
+    else
+    {
+        //speed = 1;
+        data_num = 0;
+    }
+
+
+    mercury_axis_angle += mercury_axis_speed;
+    if( mercury_axis_angle > 360)
+    {
+        mercury_axis_angle -= 360;
+    }
+
+    venus_axis_angle += venus_axis_speed;
+    if( venus_axis_angle > 360){
+        venus_axis_angle -= 360;
+    }
+
+    earth_axis_angle += earth_axis_speed;
+    if( earth_axis_angle > 360)
+    {
+        earth_axis_angle -= 360;
+    }
+
+    mars_axis_angle += mars_axis_speed;
+    if( mars_axis_angle > 360){
+        mars_axis_angle -= 360;
+    }
+
+    jupiter_axis_angle += jupiter_axis_speed;
+    if( jupiter_axis_angle > 360){
+        jupiter_axis_angle -= 360;
+    }
+
+    uranus_axis_angle += uranus_axis_speed;
+    if( uranus_axis_angle > 360){
+        uranus_axis_angle -= 360;
+    }
+
+    saturn_axis_angle += saturn_axis_speed;
+    if( saturn_axis_angle > 360){
+        saturn_axis_angle -= 360;
+    }
+
+    neptune_axis_angle += neptune_axis_speed;
+    if( neptune_axis_angle > 360){
+        neptune_axis_angle -= 360;
+    }
+
+    // soalr speed
+    mercury_solar_angle += mercury_solar_speed;
+    if( mercury_solar_angle > 360)
+    {
+        mercury_solar_angle -= 360;
+    }
+
+    venus_solar_angle += venus_solar_speed;
+    if( venus_solar_angle > 360){
+        venus_solar_angle -= 360;
+    }
+
+    earth_solar_angle += earth_solar_speed;
+    if( earth_solar_angle > 360)
+    {
+        earth_solar_angle -= 360;
+    }
+
+    mars_solar_angle += mars_solar_speed;
+    if( mars_solar_angle > 360){
+        mars_solar_angle -= 360;
+    }
+
+    jupiter_solar_angle += jupiter_solar_speed;
+    if( jupiter_solar_angle > 360){
+        jupiter_solar_angle -= 360;
+    }
+
+    uranus_solar_angle += uranus_solar_speed;
+    if( uranus_solar_angle > 360){
+        uranus_solar_angle -= 360;
+    }
+
+    saturn_solar_angle += saturn_solar_speed;
+    if( saturn_solar_angle > 360){
+        saturn_solar_angle -= 360;
+    }
+
+    neptune_solar_angle += neptune_solar_speed;
+    if( neptune_solar_angle > 360){
+        neptune_solar_angle -= 360;
     }
 }

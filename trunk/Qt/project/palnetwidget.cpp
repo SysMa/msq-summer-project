@@ -95,6 +95,7 @@ void palnetWidget::initializeGL()
     {
         solar->loadTexture(solar->texture_id, solar->image[i], i);
     }
+    solar->loadMoonTexture(solar->texture_id[8], solar->image[8]);
 
     //solar->loadTextures(solar->texture_id);
 }
@@ -118,6 +119,7 @@ void palnetWidget::paintGL()
         //qDebug()<<"begin to draw lines...";
         solar->drawLines();
 
+        /*
         //glBindTexture(GL_TEXTURE_2D, )
         {
             GLUquadricObj* p = gluNewQuadric();
@@ -126,11 +128,17 @@ void palnetWidget::paintGL()
             gluQuadricDrawStyle(p,GLU_FILL);
             gluDeleteQuadric(p);
         }
-
+        */
+        solar->drawSun();
 
         //draw eight planets
         //qDebug()<<"... begin to draw planets! ...";
         solar->drawPalnets();
+
+        solar->drawMoon(solar->earth_data_x[solar->data_num],solar->earth_data_y[solar->data_num],
+                        solar->earth_data_z[solar->data_num],solar->moon_solar_angle,
+                        solar->moon_axis_angle);
+
     glPopMatrix();
 
     glLoadIdentity();
@@ -221,3 +229,5 @@ void palnetWidget::move(int x, int y)
     ArcBall->upstate();
     timerEvent(0);
 }
+
+

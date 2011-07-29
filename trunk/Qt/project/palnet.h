@@ -69,14 +69,25 @@ public:
                     double point_z, double size,
                     double solar_angle,
                     double axis_angle,
-                    GLuint texture_id );
+                    GLuint texture);
 
 
+    /**
+     * draw our sun
+     */
+    void drawSun();
+
+    /**
+     * draw our moon
+     */
+    bool drawMoon( double earth_x, double earth_y, double earth_z,
+                   double solar_angle, double axis_angle);
     /**
      * load texture for palnets
      */
     bool loadTexture(GLuint *texture,char* path,int i);
     bool loadTextures(GLuint *texture_id);
+    bool loadMoonTexture(GLuint moon_id, char* path);
 
     /**
      * update the postion
@@ -84,11 +95,14 @@ public:
     void setNew();
 
     /**
-     *
+     * use aux to load the bit map file
      */
     AUX_RGBImageRec* LoadBMP(char *Filename);
 
 public:
+    // PI
+    double pie;
+
     // nine boolean vars to determine if the line is needed.
     // used as public to be modified easily
     bool mercury_line;
@@ -127,6 +141,7 @@ public:
 
     // the size of palnets
     // used to draw
+    double sun_size;
     double mercury_size;
     double venus_size;
     double earth_size;
@@ -209,12 +224,16 @@ public:
     // texture id
     // used to texture
     //
-    GLuint texture_id[8];
+    GLuint texture_id[9];
 
     // texture image
     // used to texutre
     //
-    char* image[8];
+    char* image[9];
+
+    // the distance from moon to earth
+    //
+    double distance;
 
     // line width
     // used when to draw lines
@@ -229,7 +248,6 @@ public:
     double neptune_line_width;
     double moon_line_width;
 
-public:
     // radius data eight planets without the moon and the sun
     double mercury_data_x[109574];
     double mercury_data_y[109574];

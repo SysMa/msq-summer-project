@@ -94,6 +94,7 @@ Palnet::Palnet()
     image[6] = "uranus.bmp",
     image[7] = "neptune.bmp";
     image[8] = "moon.bmp";
+    image[9] = "sun.bmp";
 
     // line width
     // default: 1
@@ -176,6 +177,10 @@ Palnet::Palnet()
 
     glRotatef((float)globalPosition.iDegreesX, 0.0, 1.0, 0.0);
     glRotatef((float)globalPosition.iDegreesY, 1.0, 0.0, 0.0);
+
+    center_x = 0.0;
+    center_y = 0.0;
+    center_z = 0.0;
 
     // init data
     if(!readData())
@@ -435,7 +440,7 @@ bool Palnet::drawLine(double data_x[], double data_y[],
 
     glColor3f(0.0, 1.0, 0.0);
     for (i = 0; i < cycle + 1; i++) {
-        glVertex3f(data_x[i],data_y[i],data_z[i]);
+        glVertex3f(data_x[i] - center_x, data_y[i] - center_y, data_z[i] - center_z);
     }
     glEnd();
     glEnable(GL_LIGHTING);
@@ -617,7 +622,7 @@ bool Palnet::drawPalnet(double point_x, double point_y,
             //glRotatef(solar_angle, 0, -1, 0);
 
             // translate to the position
-            glTranslatef(point_x, point_y, point_z);
+            glTranslatef(point_x - center_x, point_y - center_y, point_z - center_z);
 
             // rotate
             glRotatef(axis_angle, 0, 0, 1);
@@ -642,10 +647,12 @@ bool Palnet::drawPalnet(double point_x, double point_y,
 
             // new light
             // glEnable(GL_LIGHTING);
+            /*
             GLfloat planet_ambient[] = { 0.01 , 0.01 , 0.01 , 1.0 };
             GLfloat planet_diffuse[] = { 0.7 , 0.7 , 0.7 , 1.0 };
             glMaterialfv(GL_FRONT , GL_AMBIENT ,planet_ambient);
             glMaterialfv(GL_FRONT , GL_DIFFUSE ,planet_diffuse);
+            */
 
             //绘制二次曲面
             glBegin(GL_QUADS);
@@ -895,10 +902,11 @@ void Palnet::setNew()
  */
 void Palnet::drawSun()
 {
-   //glEnable(GL_TEXTURE_2D);
+   glEnable(GL_TEXTURE_2D);
    glPushMatrix();
-        //glBindTexture(GL_TEXTURE_2D, texture_id);
+        glBindTexture(GL_TEXTURE_2D, texture_id[9]);
         // added new to make the sun-s
+        /*
         glEnable(GL_BLEND);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_LIGHTING);
@@ -909,7 +917,13 @@ void Palnet::drawSun()
 
         glEnable(GL_LIGHTING);
         // end of the new lines
+*/
+/*
+        GLfloat m_materialEmi[4]={0.4f,0.4f,0.4f,1.0f};
+        glMaterialfv(GL_FRONT,GL_EMISSION,m_materialEmi);
+*/
 
+        glTranslatef(center_x, center_y, center_z);
         glBegin(GL_QUADS);
             GLUquadric* quadricObj=gluNewQuadric();
             gluQuadricTexture(quadricObj,GL_TRUE);
@@ -917,7 +931,7 @@ void Palnet::drawSun()
             gluDeleteQuadric(quadricObj);
        glEnd();
    glPopMatrix();
-   //glDisable(GL_TEXTURE_2D);
+   glDisable(GL_TEXTURE_2D);
 }
 
 /**
@@ -991,4 +1005,19 @@ bool Palnet::renderscreen()
     globalPosition.fPosX	= 0;
     globalPosition.fPosY	= 0;
     return TRUE;
+}
+
+/**
+ * draw stars
+ */
+bool Palnet::drawStars()
+{
+    // how many stars
+    glDisable(GL_POINTS);
+    glBegin(GL_LINE_LOOP);
+        for(int i = 0 ; i < 1000; i++){
+
+        }
+    glEnd();
+    glEnable(GL_LIGHTING);
 }

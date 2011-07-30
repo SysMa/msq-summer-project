@@ -120,6 +120,12 @@ public:
      */
     bool renderscreen();
 
+    /**
+     * draw stars
+     */
+    bool drawStars();
+
+
 public:
     // PI
     double pie;
@@ -245,12 +251,12 @@ public:
     // texture id
     // used to texture
     //
-    GLuint texture_id[9];
+    GLuint texture_id[10];
 
     // texture image
     // used to texutre
     //
-    char* image[9];
+    char* image[10];
 
     // the distance from moon to earth
     //
@@ -314,6 +320,11 @@ public:
     GLfloat LightAmbient2[4];
     GLfloat LightDiffuse2[4];
     GLfloat LightPosition2[4];
+
+    // center
+    double center_x;
+    double center_y;
+    double center_z;
 
 };
 

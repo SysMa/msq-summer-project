@@ -22,10 +22,6 @@ Palnet::Palnet()
     // PI
     pie = 3.1415926;
 
-    // distance form earth to moon
-    distance = earth_size * 1.25;
-
-
     // default: draw all the lines
     mercury_line = true;
     venus_line   = true;
@@ -68,7 +64,7 @@ Palnet::Palnet()
     saturn_size  = 0.44f;
     uranus_size  = 0.36f;
     neptune_size = 0.40f;
-    moon_size    = 0.09f;
+    moon_size    = 0.03f;
 
     // rotate angle
     // used to self rotate
@@ -101,15 +97,15 @@ Palnet::Palnet()
 
     // line width
     // default: 1
-    mercury_line_width  = 1;
-    venus_line_width    = 1;
-    earth_line_width    = 1;
-    mars_line_width     = 1;
-    jupiter_line_width  = 1;
-    saturn_line_width   = 1;
-    uranus_line_width   = 1;
-    neptune_line_width  = 1;
-    moon_line_width     = 1;
+    mercury_line_width  = 0.5;
+    venus_line_width    = 0.5;
+    earth_line_width    = 0.5;
+    mars_line_width     = 0.5;
+    jupiter_line_width  = 0.5;
+    saturn_line_width   = 0.5;
+    uranus_line_width   = 0.5;
+    neptune_line_width  = 0.5;
+    moon_line_width     = 0.5;
 
     // solar angle
     mercury_solar_angle = 0.0f;
@@ -155,8 +151,31 @@ Palnet::Palnet()
     saturn_solar_speed  = 0.1f;
     uranus_solar_speed  = 0.06f;
     neptune_solar_speed = 0.03f;
-    moon_solar_speed    = 2.01f;
+    moon_solar_speed    = 0.8f;
 
+    // distance form earth to moon
+    distance = earth_size * 1.25;
+
+    // init light
+    LightAmbient[0] = LightAmbient[1] = LightAmbient[2] = 0.5f;
+    LightAmbient[3] = LightDiffuse[0] = LightDiffuse[1] = LightDiffuse[2] = LightDiffuse[3] = LightPosition[3] = 1.0f;
+    LightPosition[0]= LightPosition[1]= LightPosition[2]= 0.0f;
+
+    LightAmbient2[0]= LightAmbient2[1]= LightAmbient2[2]= 0.2f;
+    LightAmbient2[3]= LightDiffuse2[3]= LightDiffuse2[3]= 1.0f;
+    LightDiffuse2[0]= LightDiffuse2[1]= LightDiffuse2[2]= 0.5f;
+    LightPosition2[0]=LightPosition2[1]=0.0f;
+    LightPosition2[2]=2.0f;
+
+    // init global position
+    globalPosition.fPosX = 0;
+    globalPosition.fPosY = 0;
+    globalPosition.iDegreesX = 20;
+    globalPosition.iDegreesY = 25;
+    globalPosition.bRotationOn = true;
+
+    glRotatef((float)globalPosition.iDegreesX, 0.0, 1.0, 0.0);
+    glRotatef((float)globalPosition.iDegreesY, 1.0, 0.0, 0.0);
 
     // init data
     if(!readData())
@@ -398,6 +417,7 @@ bool Palnet::drawLines()
         return (!success);
     }
     */
+    return true;
 }
 
 
@@ -409,6 +429,7 @@ bool Palnet::drawLine(double data_x[], double data_y[],
                       double line_width)
 {
     int i = 0;
+    glDisable(GL_LIGHTING);
     glLineWidth(line_width);
     glBegin(GL_LINE_LOOP);
 
@@ -417,6 +438,7 @@ bool Palnet::drawLine(double data_x[], double data_y[],
         glVertex3f(data_x[i],data_y[i],data_z[i]);
     }
     glEnd();
+    glEnable(GL_LIGHTING);
     return true;
 }
 
@@ -565,6 +587,7 @@ bool Palnet::drawPalnets()
         }
     }
     */
+    return true;
 }
 /**
  * draw planet
@@ -616,6 +639,14 @@ bool Palnet::drawPalnet(double point_x, double point_y,
 
             */
             glBindTexture(GL_TEXTURE_2D, texture);//绑定纹理
+
+            // new light
+            // glEnable(GL_LIGHTING);
+            GLfloat planet_ambient[] = { 0.01 , 0.01 , 0.01 , 1.0 };
+            GLfloat planet_diffuse[] = { 0.7 , 0.7 , 0.7 , 1.0 };
+            glMaterialfv(GL_FRONT , GL_AMBIENT ,planet_ambient);
+            glMaterialfv(GL_FRONT , GL_DIFFUSE ,planet_diffuse);
+
             //绘制二次曲面
             glBegin(GL_QUADS);
                     GLUquadric* quadricObj=gluNewQuadric();
@@ -649,6 +680,7 @@ bool Palnet::drawPalnet(double point_x, double point_y,
 /**
  * load textures just for eight palnets
  */
+/*
 bool Palnet::loadTextures(GLuint *texture_id)
 {
     int i;
@@ -675,7 +707,12 @@ bool Palnet::loadTextures(GLuint *texture_id)
 
     }
 }
+*/
 
+/**
+ * load the moon texture
+ */
+/*
 bool Palnet::loadMoonTexture(GLuint moon_id, char* path)
 {
     int Status = false;
@@ -683,18 +720,23 @@ bool Palnet::loadMoonTexture(GLuint moon_id, char* path)
     memset(TextureImage,0,sizeof(void *)*1);
 
     if (TextureImage[0]=LoadBMP(path)){
-        qDebug()<<"Load image "<<path;
+        //qDebug()<<"Load image "<<path;
         Status = true;
         glGenTextures(1, &moon_id);
         glBindTexture(GL_TEXTURE_2D, moon_id);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX, TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX,
+                     TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     }
 
     return Status;
 }
+*/
 
+/**
+ * load one texture
+ */
 bool Palnet::loadTexture(GLuint *texture,char* path,int i)
 {
     int Status = false;
@@ -702,11 +744,12 @@ bool Palnet::loadTexture(GLuint *texture,char* path,int i)
     memset(TextureImage,0,sizeof(void *)*1);
 
     if (TextureImage[0]=LoadBMP(path)){
-        qDebug()<<"Load image "<<path;
+        //qDebug()<<"Load image "<<path;
         Status = true;
         glGenTextures(1, &texture[i]);
         glBindTexture(GL_TEXTURE_2D, texture[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX, TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, TextureImage[0]->sizeX,
+                     TextureImage[0]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage[0]->data);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     }
@@ -714,6 +757,9 @@ bool Palnet::loadTexture(GLuint *texture,char* path,int i)
     return Status;
 }
 
+/**
+ * help load texture
+ */
 AUX_RGBImageRec* Palnet::LoadBMP(char *Filename){
     FILE *File = 0;
     if (!Filename){
@@ -849,17 +895,29 @@ void Palnet::setNew()
  */
 void Palnet::drawSun()
 {
-   glEnable(GL_TEXTURE_2D);
+   //glEnable(GL_TEXTURE_2D);
    glPushMatrix();
-       //glBindTexture(GL_TEXTURE_2D, texture_id);
-       glBegin(GL_QUADS);
-               GLUquadric* quadricObj=gluNewQuadric();
-               gluQuadricTexture(quadricObj,GL_TRUE);
-               gluSphere(quadricObj,sun_size,50,50);
-               gluDeleteQuadric(quadricObj);
+        //glBindTexture(GL_TEXTURE_2D, texture_id);
+        // added new to make the sun-s
+        glEnable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_LIGHTING);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+        glColor4f(1.0f,1.0f,1.0f,0.4);
+        glDisable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+
+        glEnable(GL_LIGHTING);
+        // end of the new lines
+
+        glBegin(GL_QUADS);
+            GLUquadric* quadricObj=gluNewQuadric();
+            gluQuadricTexture(quadricObj,GL_TRUE);
+            gluSphere(quadricObj,sun_size,50,50);
+            gluDeleteQuadric(quadricObj);
        glEnd();
    glPopMatrix();
-   glDisable(GL_TEXTURE_2D);
+   //glDisable(GL_TEXTURE_2D);
 }
 
 /**
@@ -869,19 +927,17 @@ bool Palnet::drawMoon(double earth_x, double earth_y, double earth_z,
                       double solar_angle, double axis_angle)
 {
     //qDebug()<<"begin to draw the moon";
-    qDebug()<<earth_x<<" "<<earth_y<<" "<<earth_z<<" ";
+    //qDebug()<<earth_x<<" "<<earth_y<<" "<<earth_z<<" ";
     glEnable(GL_TEXTURE_2D);
     glPushMatrix();
         // translate to the position
         glTranslatef(earth_x + distance * cos(solar_angle * pie / 180),
-                     earth_y,
-                     earth_z + distance * sin(solar_angle * pie / 180));
+                     earth_y + distance * sin(solar_angle * pie / 180),
+                     earth_z );
+        //qDebug()<<distance<<"  "<<solar_angle;
 
-        qDebug()<<solar_angle;
-        qDebug()<<earth_x + earth_size * 1.5 * cos(solar_angle * pie / 180)<<" "<<earth_y<<" "<<earth_z + distance * sin(solar_angle * pie / 180)<<" ";
         // rotate
         glRotatef(axis_angle, 0, 0, 1);
-
         // to deal with the texture
         glRotatef(180.0, 1.0, 0.0, 0.0);
 
@@ -894,4 +950,45 @@ bool Palnet::drawMoon(double earth_x, double earth_y, double earth_z,
         glEnd();
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
+
+    return true;
+}
+
+/**
+ * draw the moonline
+ */
+bool Palnet::drawMoonLine()
+{
+    int i = 0;
+    glLineWidth(moon_line_width);
+    glBegin(GL_LINE_LOOP);
+
+    glColor3f(0.0, 1.0, 0.0);
+    for (i = 0; i < 360 + 1; i++) {
+        glVertex3f(earth_data_x[data_num] + distance * cos(i * pie / 180),
+                   earth_data_y[data_num] + distance * sin(i * pie / 180),
+                   earth_data_z[data_num] );
+    }
+    glEnd();
+    return true;
+}
+
+/**
+ * render screen
+ */
+bool Palnet::renderscreen()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glTranslatef(globalPosition.fPosX, 0.0, 0.0);
+    glTranslatef(0.0, globalPosition.fPosY, 0.0);
+    LightPosition[0]		= LightPosition[0]  + globalPosition.fPosX;
+    LightPosition[1]		= LightPosition[1]  + globalPosition.fPosX;
+    LightPosition2[0]		= LightPosition2[0] + globalPosition.fPosX;
+    LightPosition2[1]		= LightPosition2[1] + globalPosition.fPosX;
+    glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);
+    //glLightfv(GL_LIGHT2, GL_POSITION,LightPosition2);
+    globalPosition.fPosX	= 0;
+    globalPosition.fPosY	= 0;
+    return TRUE;
 }

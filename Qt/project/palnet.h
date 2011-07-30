@@ -12,6 +12,17 @@
 
 /**
  *
+ */
+struct GlobalPosition
+{
+        float fPosX,fPosY;
+        int iDegreesX,iDegreesY;
+        bool bRotationOn;
+};
+
+
+/**
+ *
  * this is a time-line solar system model
  *
  **/
@@ -86,7 +97,7 @@ public:
      * load texture for palnets
      */
     bool loadTexture(GLuint *texture,char* path,int i);
-    bool loadTextures(GLuint *texture_id);
+    //bool loadTextures(GLuint *texture_id);
     bool loadMoonTexture(GLuint moon_id, char* path);
 
     /**
@@ -95,9 +106,19 @@ public:
     void setNew();
 
     /**
+     * draw moon line
+     */
+    bool drawMoonLine();
+
+    /**
      * use aux to load the bit map file
      */
     AUX_RGBImageRec* LoadBMP(char *Filename);
+
+    /**
+     * rendre screen
+     */
+    bool renderscreen();
 
 public:
     // PI
@@ -235,6 +256,10 @@ public:
     //
     double distance;
 
+    // global positon
+    //
+    GlobalPosition globalPosition;
+
     // line width
     // used when to draw lines
     //
@@ -280,6 +305,16 @@ public:
     double neptune_data_x[109574];
     double neptune_data_y[109574];
     double neptune_data_z[109574];
+
+    // light
+    GLfloat LightAmbient[4];
+    GLfloat LightDiffuse[4];
+    GLfloat LightPosition[4];
+
+    GLfloat LightAmbient2[4];
+    GLfloat LightDiffuse2[4];
+    GLfloat LightPosition2[4];
+
 };
 
 #endif // PALNET_H

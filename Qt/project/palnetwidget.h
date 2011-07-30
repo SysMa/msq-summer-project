@@ -29,10 +29,11 @@ public slots:
   *
   **************************************************************************/
 protected :
-    bool fullscreen;    //bool var to store if it is fullscreen.
-    int time_id;        //deal with the timer func, remember the time id
+    bool fullscreen;    // bool var to store if it is fullscreen.
+    int time_id;        // deal with the timer func, remember the time id
 
-    class Palnet* solar;
+    class Palnet* solar;// solar system
+
 /*********************************************************
  *
  * Here are my code.

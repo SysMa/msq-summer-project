@@ -126,6 +126,11 @@ public:
     bool drawStars();
 
 
+    /**
+     * set speed
+     */
+    bool setSpeed(int desire_speed);
+
 public:
     // PI
     double pie;
@@ -325,7 +330,6 @@ public:
     double center_x;
     double center_y;
     double center_z;
-
 };
 
 #endif // PALNET_H

@@ -22,6 +22,9 @@ Palnet::Palnet()
     // PI
     pie = 3.1415926;
 
+    // set speed;
+    setSpeed(1);
+
     // default: draw all the lines
     mercury_line = true;
     venus_line   = true;
@@ -81,8 +84,6 @@ Palnet::Palnet()
     // default: begin from 0
     data_num = 0;
 
-    // default: speed from 1
-    speed = 1;
 
     // texture files
     image[0] = "mercury.bmp";
@@ -131,28 +132,6 @@ Palnet::Palnet()
     neptune_axis_angle  = 0.0f;
     moon_axis_angle     = 0.0f;
 
-    // speed of angles
-    //
-    mercury_axis_speed  = 0.1f;
-    venus_axis_speed    = 0.2f;
-    earth_axis_speed    = 0.6f;
-    mars_axis_speed     = 0.5f;
-    jupiter_axis_speed  = 2.6f;
-    saturn_axis_speed   = 2.5f;
-    uranus_axis_speed   = 1.5f;
-    neptune_axis_speed  = 1.7f;
-    moon_axis_speed     = 3.0f;
-
-    // speed of the solar angles
-    mercury_solar_speed = 1.6f;
-    venus_solar_speed   = 1.2f;
-    earth_solar_speed   = 1.1f;
-    mars_solar_speed    = 1.0f;
-    jupiter_solar_speed = 0.2f;
-    saturn_solar_speed  = 0.1f;
-    uranus_solar_speed  = 0.06f;
-    neptune_solar_speed = 0.03f;
-    moon_solar_speed    = 0.8f;
 
     // distance form earth to moon
     distance = earth_size * 1.25;
@@ -259,7 +238,7 @@ bool Palnet::getData(char *filename,double data_x[],
     ifstream read;
     read.open(filename,ios::in);
     if(read.is_open()){
-        qDebug()<<" open successful ";
+        //qDebug()<<" open successful ";
         while(!read.eof())
         {
             read>>data_x[i];
@@ -267,11 +246,11 @@ bool Palnet::getData(char *filename,double data_x[],
             read>>data_z[i];
             i++;
         }
-        qDebug()<<" read successful: "<<i;
+        //qDebug()<<" read successful: "<<i;
     }
     else
     {
-        qDebug()<<"Soory, open file failed.";
+        //qDebug()<<"Soory, open file failed.";
         return false;
     }
     read.close();
@@ -788,14 +767,33 @@ AUX_RGBImageRec* Palnet::LoadBMP(char *Filename){
  */
 void Palnet::setNew()
 {
-    if(data_num < 109574)
+    /*
+    if(data_num < 109574 && data_num >= 0 && speed )
     {
         data_num += speed;
+        //qDebug()<<speed;
+    }
+    else if(data_num == 0 && speed < 0)
+    {
+
     }
     else
     {
         //speed = 1;
         data_num = 0;
+        return ;
+    }*/
+    if( data_num + speed >= 10957 && speed > 0)
+    {
+        data_num = 0;
+    }
+    else if( data_num + speed <= 0 && speed < 0)
+    {
+        data_num = 10957;
+    }
+    else
+    {
+        data_num += speed;
     }
 
 
@@ -973,18 +971,25 @@ bool Palnet::drawMoon(double earth_x, double earth_y, double earth_z,
  */
 bool Palnet::drawMoonLine()
 {
-    int i = 0;
-    glLineWidth(moon_line_width);
-    glBegin(GL_LINE_LOOP);
+    if(moon_line)
+    {
+        int i = 0;
+        glLineWidth(moon_line_width);
+        glBegin(GL_LINE_LOOP);
 
-    glColor3f(0.0, 1.0, 0.0);
-    for (i = 0; i < 360 + 1; i++) {
-        glVertex3f(earth_data_x[data_num] + distance * cos(i * pie / 180),
-                   earth_data_y[data_num] + distance * sin(i * pie / 180),
-                   earth_data_z[data_num] );
+        glColor3f(0.0, 1.0, 0.0);
+        for (i = 0; i < 360 + 1; i++) {
+            glVertex3f(earth_data_x[data_num] + distance * cos(i * pie / 180),
+                       earth_data_y[data_num] + distance * sin(i * pie / 180),
+                       earth_data_z[data_num] );
+        }
+        glEnd();
+        return true;
     }
-    glEnd();
-    return true;
+    else
+    {
+        return false;
+    }
 }
 
 /**
@@ -1020,4 +1025,38 @@ bool Palnet::drawStars()
         }
     glEnd();
     glEnable(GL_LIGHTING);
+}
+
+
+/**
+ * set all the speed
+ */
+bool Palnet::setSpeed(int desire_speed)
+{
+    // speed of the day
+    speed = 0 + desire_speed;
+
+
+    // speed of angles
+    //
+    mercury_axis_speed  = 0.1f * desire_speed;
+    venus_axis_speed    = 0.2f * desire_speed;
+    earth_axis_speed    = 0.6f * desire_speed;
+    mars_axis_speed     = 0.5f * desire_speed;
+    jupiter_axis_speed  = 2.6f * desire_speed;
+    saturn_axis_speed   = 2.5f * desire_speed;
+    uranus_axis_speed   = 1.5f * desire_speed;
+    neptune_axis_speed  = 1.7f * desire_speed;
+    moon_axis_speed     = 3.0f * desire_speed;
+
+    // speed of the solar angles
+    mercury_solar_speed = 1.6f * desire_speed;
+    venus_solar_speed   = 1.2f * desire_speed;
+    earth_solar_speed   = 1.1f * desire_speed;
+    mars_solar_speed    = 1.0f * desire_speed;
+    jupiter_solar_speed = 0.2f * desire_speed;
+    saturn_solar_speed  = 0.1f * desire_speed;
+    uranus_solar_speed  = 0.06f * desire_speed;
+    neptune_solar_speed = 0.03f * desire_speed;
+    moon_solar_speed    = 0.8f * desire_speed;
 }

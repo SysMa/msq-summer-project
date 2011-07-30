@@ -9,6 +9,8 @@
  *
  *************************************************************/
 #include <QtOpenGL/qgl.h>
+#include <QLabel>
+#include <qlabel.h>
 #include "palnet.h"
 
 class palnetWidget : public QGLWidget
@@ -33,6 +35,17 @@ protected :
     int time_id;        // deal with the timer func, remember the time id
 
     class Palnet* solar;// solar system
+
+    // view port
+    double from_x;
+    double from_y;
+    double from_z;
+    double to_x;
+    double to_y;
+    double to_z;
+    double up_x;
+    double up_y;
+    double up_z;
 
 /*********************************************************
  *

@@ -48,6 +48,11 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     solar = new Palnet();
     //qDebug()<<solar->mars_data_y[500];
+
+    // new light
+    glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);						// 设置环境光
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);						// 设置漫反射光
+    // new light
 }
 
 /**
@@ -67,10 +72,14 @@ palnetWidget::~palnetWidget()
 
 
 /**
- *
+ * init things here
  */
 void palnetWidget::initializeGL()
 {
+    /********************************************************
+      * old light
+      */
+/*
     GLfloat light_ambient[] = {0.3,0.5,0.3};
     GLfloat light_diffuse[] = {1.0,1.0,1.0};
     GLfloat light_specular[]= {0.8,0.8,0.0};
@@ -81,43 +90,103 @@ void palnetWidget::initializeGL()
     glLightfv(GL_LIGHT0,GL_POSITION,light_position);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+*/
 
-    glClearColor(0,0,0,0);
-    glShadeModel(GL_SMOOTH);
+    // new light
 
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_DEPTH_TEST);
+
     glEnable(GL_LIGHTING);
 
+    glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);
+    glLightfv(GL_LIGHT1, GL_POSITION,solar->LightPosition);
+    glEnable(GL_LIGHT1);
+
+    glLightfv(GL_LIGHT2, GL_AMBIENT, solar->LightAmbient2);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, solar->LightDiffuse2);
+    glLightfv(GL_LIGHT2, GL_POSITION,solar->LightPosition2);
+    glEnable(GL_LIGHT2);
+
+    // end of new light
+    glClearColor(0,0,0,0);
+    glClearDepth(1.0f);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_DEPTH_TEST);
+    glShadeModel(GL_SMOOTH);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_NORMALIZE);
     // texture
 
-    for( int i = 0; i < 8 ; i++)
+    for( int i = 0; i < 9 ; i++)
     {
         solar->loadTexture(solar->texture_id, solar->image[i], i);
     }
-    solar->loadMoonTexture(solar->texture_id[8], solar->image[8]);
+
+    //solar->loadMoonTexture(solar->texture_id[8], solar->image[8]);
 
     //solar->loadTextures(solar->texture_id);
+
+
+    glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);						// 设置环境光
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);						// 设置漫反射光
+    glEnable(GL_LIGHTING);												// 打开光照
+    glEnable(GL_LIGHT1);
+
 }
 
 /**
- *
+ * paint things
  */
 void palnetWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glDisable(GL_LIGHTING);
+    //solar->renderscreen();
+    //glEnable(GL_LIGHT0);
+    //glDisable(GL_LIGHTING);
     glColor3f(1,1,1);
+
+
+    /*
+    GLfloat light_ambient[] = {0.3,0.5,0.3};
+    GLfloat light_diffuse[] = {1.0,1.0,1.0};
+    GLfloat light_specular[]= {0.8,0.8,0.0};
+    GLfloat light_position[]= {0.0,0.0,0.0,1.0};
+    glLightfv(GL_LIGHT0,GL_AMBIENT,light_ambient);
+    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_diffuse);
+    glLightfv(GL_LIGHT0,GL_SPECULAR,light_specular);
+    glLightfv(GL_LIGHT0,GL_POSITION,light_position);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    */
+
+    glEnable(GL_LIGHTING);
+
+    glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);
+    glLightfv(GL_LIGHT1, GL_POSITION,solar->LightPosition);
+    glEnable(GL_LIGHT1);
+
+    /*
+    glLightfv(GL_LIGHT2, GL_AMBIENT, solar->LightAmbient2);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, solar->LightDiffuse2);
+    glLightfv(GL_LIGHT2, GL_POSITION,solar->LightPosition2);
+    glEnable(GL_LIGHT2);
+    */
 
     glPushMatrix();
         glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. 缩放
         glMultMatrixf(ArcBall->Transform.M);                                //3. 旋转
 
+
         //lines
         glEnable(GL_LIGHTING);
         //qDebug()<<"begin to draw lines...";
         solar->drawLines();
+        solar->drawMoonLine();
 
         /*
         //glBindTexture(GL_TEXTURE_2D, )
@@ -130,6 +199,7 @@ void palnetWidget::paintGL()
         }
         */
         solar->drawSun();
+        //glLightfv(GL_LIGHT1, GL_POSITION, solar->LightPosition);
 
         //draw eight planets
         //qDebug()<<"... begin to draw planets! ...";
@@ -149,7 +219,7 @@ void palnetWidget::paintGL()
 }
 
 /**
- *
+ * resize gl
  */
 void palnetWidget::resizeGL(int width, int height)
 {
@@ -157,7 +227,7 @@ void palnetWidget::resizeGL(int width, int height)
     glMatrixMode(GL_PROJECTION);
 
     glLoadIdentity();
-    gluPerspective(60,(GLfloat)width/(GLfloat)height, 1.0, 20);
+    gluPerspective(60,(GLfloat)width/(GLfloat)height, 1.0, 20000);
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();

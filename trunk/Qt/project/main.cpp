@@ -18,6 +18,7 @@
 #define QT3_SUPPORT
 #include <qapplication.h>
 #include <qmessagebox.h>
+#include"mainwindow.h"
 
 #include "call.h"
 #include "mywidget.h"
@@ -27,6 +28,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    //mainwindow aa;
     //myWidget test(0,0,false);
     //a.setMainWidget(&test);
     //test.show();

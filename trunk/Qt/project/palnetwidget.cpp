@@ -15,6 +15,7 @@
 #include <QImage>
 #include <qdebug.h>
 #include <QDebug>
+#include <QDate>
 
 /**
  * this is the widget init
@@ -32,7 +33,7 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     fullscreen = fs;
 
     // set the window position, from 100,100 to 800,600
-    this->setGeometry(100,100,800,600);
+    this->setGeometry(0,0,800,600);
 
     // set the name of the title
     //this->setCaption("Solar System");
@@ -53,6 +54,17 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);						// 设置环境光
     glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);						// 设置漫反射光
     // new light
+
+    // view port
+    from_x  = 0;
+    from_y  = 15;
+    from_z  = solar->neptune_data_z[0];
+    to_x    = solar->center_x;
+    to_y    = solar->center_y;
+    to_z    = solar->center_z;
+    up_x    = 0;
+    up_y    = 1;
+    up_z    = 0;
 }
 
 /**
@@ -102,10 +114,12 @@ void palnetWidget::initializeGL()
     glLightfv(GL_LIGHT1, GL_POSITION,solar->LightPosition);
     glEnable(GL_LIGHT1);
 
+/*
     glLightfv(GL_LIGHT2, GL_AMBIENT, solar->LightAmbient2);
     glLightfv(GL_LIGHT2, GL_DIFFUSE, solar->LightDiffuse2);
     glLightfv(GL_LIGHT2, GL_POSITION,solar->LightPosition2);
     glEnable(GL_LIGHT2);
+*/
 
     // end of new light
     glClearColor(0,0,0,0);
@@ -214,9 +228,10 @@ void palnetWidget::paintGL()
 
     glLoadIdentity();
 
-    gluLookAt(0.0,15.0,solar->neptune_data_z[0],0.0,0.0,0.0,0.0,1.0,0.0);
+    gluLookAt(from_x,from_y,from_z,to_x,to_y,to_z,up_x,up_y,up_z);
 
     glFlush();
+
 }
 
 /**
@@ -232,7 +247,7 @@ void palnetWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
-    gluLookAt(0.0,15.0,solar->neptune_data_z[0],0.0,0.0,0.0,0.0,1.0,0.0);
+    gluLookAt(from_x,from_y,from_z,to_x,to_y,to_z,up_x,up_y,up_z);
 }
 
 /**
@@ -242,8 +257,12 @@ void palnetWidget::timerEvent(QTimerEvent *e)
 {
     //solar->data_num++;
     //qDebug()<<year[4]<<"   "<<day[4]<<endl;
+
     solar->setNew();
+    //qDebug()<<solar->data_num;
     updateGL();
+
+
 }
 
 /*********************************************************
@@ -327,15 +346,114 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
         updateGL();
         break;
         /*
-    case Qt::Key_E:
+    case
         solar->center_x = solar->earth_data_x[solar->data_num];
         solar->center_y = solar->earth_data_y[solar->data_num];
         solar->center_z = solar->earth_data_z[solar->data_num];
         updateGL();
         break;
         */
+    case Qt::Key_Up:
+        from_y += 1;
+        to_y   += 1;
+        updateGL();
+        break;
+    case Qt::Key_Down:
+        from_y -= 1;
+        to_y   -= 1;
+        updateGL();
+        break;
+    case Qt::Key_Left:
+        from_x -= 1;
+        to_x   -= 1;
+        updateGL();
+        break;
+    case Qt::Key_Right:
+        from_x += 1;
+        to_x   += 1;
+        updateGL();
+        break;
+    case Qt::Key_W:
+        from_z += 1;
+        updateGL();
+        break;
+    case Qt::Key_S:
+        from_z -= 1;
+        updateGL();
+        break;
+    case Qt::Key_A:
+        from_x -= 1;
+        updateGL();
+        break;
+    case Qt::Key_D:
+        from_x += 1;
+        updateGL();
+        break;
+    case Qt::Key_Q:
+        from_y -= 1;
+        updateGL();
+        break;
+    case Qt::Key_E:
+        from_y += 1;
+        updateGL();
+        break;
+    case Qt::Key_Enter:
+        if(solar->speed == 0)
+        {
+            solar->setSpeed(1);
+        }
+        else
+        {
+            solar->setSpeed(0);
+        }
+        updateGL();
+        break;
+    case Qt::Key_F2:
+        solar->setSpeed(solar->speed + 1);
+        updateGL();
+        break;
+    case Qt::Key_F3:
+        solar->setSpeed(solar->speed - 1);
+        updateGL();
+        break;
     case Qt::Key_Escape:
         close();
+        break;
+    case Qt::Key_0:
+        solar->moon_line = !(solar->moon_line);
+        updateGL();
+        break;
+    case Qt::Key_1:
+        solar->mercury_line = !(solar->mercury_line);
+        updateGL();
+        break;
+    case Qt::Key_2:
+        solar->venus_line = !(solar->venus_line);
+        updateGL();
+        break;
+    case Qt::Key_3:
+        solar->earth_line = !(solar->earth_line);
+        updateGL();
+        break;
+    case Qt::Key_4:
+        solar->mars_line = !(solar->mars_line);
+        updateGL();
+        break;
+    case Qt::Key_5:
+        solar->jupiter_line = !(solar->jupiter_line);
+        updateGL();
+        break;
+    case Qt::Key_6:
+        solar->saturn_line = !(solar->saturn_line);
+        updateGL();
+        break;
+    case Qt::Key_7:
+        solar->uranus_line = !(solar->uranus_line);
+        updateGL();
+        break;
+    case Qt::Key_8:
+        solar->neptune_line = !(solar->neptune_line);
+        updateGL();
         break;
     default:
         break;

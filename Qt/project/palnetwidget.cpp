@@ -119,7 +119,7 @@ void palnetWidget::initializeGL()
     glEnable(GL_NORMALIZE);
     // texture
 
-    for( int i = 0; i < 9 ; i++)
+    for( int i = 0; i < 10 ; i++)
     {
         solar->loadTexture(solar->texture_id, solar->image[i], i);
     }
@@ -209,6 +209,7 @@ void palnetWidget::paintGL()
                         solar->earth_data_z[solar->data_num],solar->moon_solar_angle,
                         solar->moon_axis_angle);
 
+        solar->drawStars();
     glPopMatrix();
 
     glLoadIdentity();
@@ -301,3 +302,42 @@ void palnetWidget::move(int x, int y)
 }
 
 
+/**
+ * this is key prewwed func which deal with the event of key pressing
+ * we need a framework and some deaing function
+ */
+void palnetWidget::keyPressEvent(QKeyEvent *e)
+{
+    // here is the framework and it need to be filled
+    switch ( e->key() )
+    {
+    // this is a model with the full screen exchange
+    // an example
+    case Qt::Key_F11:
+        fullscreen = !fullscreen;
+        if( fullscreen)
+        {
+            showFullScreen();
+        }
+        else
+        {
+            showNormal();
+            setGeometry(0,0,800,600);
+        }
+        updateGL();
+        break;
+        /*
+    case Qt::Key_E:
+        solar->center_x = solar->earth_data_x[solar->data_num];
+        solar->center_y = solar->earth_data_y[solar->data_num];
+        solar->center_z = solar->earth_data_z[solar->data_num];
+        updateGL();
+        break;
+        */
+    case Qt::Key_Escape:
+        close();
+        break;
+    default:
+        break;
+    }
+}

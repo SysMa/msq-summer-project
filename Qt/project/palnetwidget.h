@@ -62,7 +62,7 @@ protected :
     /**
      * deal with the key pressing func
      */
-    //void keyPressEvent(QKeyEvent *e);
+    void keyPressEvent(QKeyEvent *e);
 
     /**
      * timer to define a animation

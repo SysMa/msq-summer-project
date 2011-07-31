@@ -131,6 +131,16 @@ public:
      */
     bool setSpeed(int desire_speed);
 
+    /**
+     * eclipse
+     */
+    bool isEclipse();
+
+    /**
+     * planets in line
+     */
+    bool isInline();
+
 public:
     // PI
     double pie;
@@ -330,6 +340,12 @@ public:
     double center_x;
     double center_y;
     double center_z;
+
+    // required angle
+    // the angle required to jduge the stars in line
+    //
+    double required_angle;
+
 };
 
 #endif // PALNET_H

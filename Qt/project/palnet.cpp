@@ -20,7 +20,10 @@ using namespace std;
 Palnet::Palnet()
 {
     // PI
-    pie = 3.1415926;
+    pie = 3.14159265357;
+
+    // stars in line jduge angle
+    required_angle = pie / 9;
 
     // set speed;
     setSpeed(1);
@@ -1059,4 +1062,64 @@ bool Palnet::setSpeed(int desire_speed)
     uranus_solar_speed  = 0.06f * desire_speed;
     neptune_solar_speed = 0.03f * desire_speed;
     moon_solar_speed    = 0.8f * desire_speed;
+}
+
+/**
+ * judge the eclipse
+ */
+bool Palnet::isEclipse()
+{
+    double moon_data_x = earth_x + distance * cos(moon_solar_angle * pie / 180);
+    double moon_data_y = earth_y + distance * sin(moon_solar_angle * pie / 180);
+
+    double sun_data_x = 0 - center_x;
+    double sun_data_y = 0 - center_y;
+
+    if((moon_data_x - sun_data_x == earth_data_x[data_num] - moon_data_x)
+            && moon_data_y - sun_data_y == earth_data_y[data_num] - moon_data_y)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+double findRange(double nums[], int count)
+{
+    double max;
+    max = nums[0];
+    min = nums[0];
+    for(int i = 0; i < count; i++)
+    {
+        max = max >= nums[i] ? max : nums[i];
+        min = min <= nums[i] ? min : nums[i];
+    }
+    return (max - min);
+}
+
+/**
+ * stars in line
+ */
+bool Palnet::isInline()
+{
+    double ranges[8];
+    double ranges[0] = atan(mercury_data_y[data_num]/mercury_data_x[data_num]);
+    double ranges[1] = atan(venus_data_y[data_num]/venus_data_x[data_num]);
+    double ranges[2] = atan(earth_data_y[data_num]/earth_data_x[data_num]);
+    double ranges[3] = atan(mars_data_y[data_num]/mars_data_x[data_num]);
+    double ranges[4] = atan(jupiter_data_y[data_num]/jupiter_data_x[data_num]);
+    double ranges[5] = atan(saturn_data_y[data_num]/saturn_data_x[data_num]);
+    double ranges[6] = atan(uranus_data_y[data_num]/uranus_data_x[data_num]);
+    double ranges[7] = atan(neptune_data_y[data_num]/neptune_data_x[data_num]);
+
+    if(findRange(ranges,8) <= required_angle)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

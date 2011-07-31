@@ -5,8 +5,8 @@
  * Date    : 2011 summer
  *
  *************************************************************/
-//#include <QtGui/QApplication>
-//#include "mainwindow.h"
+#include <QtGui/QApplication>
+#include "mainwindow.h"
 
 
 /*************************************************************
@@ -18,7 +18,6 @@
 #define QT3_SUPPORT
 #include <qapplication.h>
 #include <qmessagebox.h>
-#include"mainwindow.h"
 
 #include "call.h"
 #include "mywidget.h"

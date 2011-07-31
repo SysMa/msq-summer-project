@@ -99,6 +99,7 @@ Palnet::Palnet()
     image[7] = "neptune.bmp";
     image[8] = "moon.bmp";
     image[9] = "sun.bmp";
+    image[10]= "back.bmp";
 
     // line width
     // default: 1
@@ -924,10 +925,10 @@ void Palnet::drawSun()
         glEnable(GL_LIGHTING);
         // end of the new lines
 */
-/*
-        GLfloat m_materialEmi[4]={0.4f,0.4f,0.4f,1.0f};
+
+        GLfloat m_materialEmi[4]={0.2f,0.2f,0.2f,0.8f};
         glMaterialfv(GL_FRONT,GL_EMISSION,m_materialEmi);
-*/
+
 
         glTranslatef(center_x, center_y, center_z);
         glBegin(GL_QUADS);
@@ -1025,12 +1026,23 @@ bool Palnet::renderscreen()
  */
 bool Palnet::drawStars()
 {
-    // how many stars
-    glDisable(GL_POINTS);
-    glBegin(GL_LINE_LOOP);
-        for(int i = 0 ; i < 1000; i++){
-
-        }
+    glDisable(GL_LIGHTING);
+    glColor3f(0,1.0,0);
+    glBegin(GL_POINTS);
+       for(int i = 0;i < 5;i++){
+           double z = i*0.01;
+           for(int j =0;j < 120;j++){
+               double dis = sqrt(mars_data_x[0] * mars_data_x[0]
+                                 + mars_data_y[0] * mars_data_y[0]
+                                 + mars_data_z[0] * mars_data_z[0]);
+               double r = dis * 1.2 + 0.75*qrand()/9999;
+               double temp = (rand()+0.0)/9999*360;
+               //qDebug()<<temp<<endl;
+               double x = r*sin(temp);
+               double y = r*cos(temp);
+               glVertex3d(x,y,z);
+           }
+       }
     glEnd();
     glEnable(GL_LIGHTING);
 }
@@ -1091,6 +1103,10 @@ bool Palnet::isEclipse()
     }
 }
 
+
+/**
+ * find the rang between nums
+ */
 double findRange(double nums[], int count)
 {
     double max,min;
@@ -1127,4 +1143,30 @@ bool Palnet::isInline()
     {
         return false;
     }
+}
+
+/**
+ *
+ */
+bool Palnet::drawBackground()
+{
+    glDisable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glPushMatrix();
+        double r = sqrt(neptune_data_x[data_num] * neptune_data_x[data_num]
+                        + neptune_data_y[data_num] * neptune_data_y[data_num]
+                        + neptune_data_z[data_num] * neptune_data_z[data_num]);
+
+        glBindTexture(GL_TEXTURE_2D, texture_id[10]);
+        glBegin(GL_QUADS);
+                GLUquadric* quadricObj=gluNewQuadric();
+                gluQuadricTexture(quadricObj,GL_TRUE);
+                gluSphere(quadricObj,r  * 1.05 ,50,50);
+                gluDeleteQuadric(quadricObj);
+        glEnd();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+
+    return true;
 }

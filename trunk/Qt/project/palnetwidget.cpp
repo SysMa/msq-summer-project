@@ -33,7 +33,7 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     fullscreen = fs;
 
     // set the window position, from 100,100 to 800,600
-    this->setGeometry(0,0,800,600);
+    this->setGeometry(0,0,1366,600);
 
     // set the name of the title
     //this->setCaption("Solar System");
@@ -65,6 +65,10 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     up_x    = 0;
     up_y    = 1;
     up_z    = 0;
+
+    // focus
+    // setFocusPolicy(Qt::StrongFocus);
+
 }
 
 /**
@@ -133,7 +137,7 @@ void palnetWidget::initializeGL()
     glEnable(GL_NORMALIZE);
     // texture
 
-    for( int i = 0; i < 10 ; i++)
+    for( int i = 0; i < 11 ; i++)
     {
         solar->loadTexture(solar->texture_id, solar->image[i], i);
     }
@@ -195,6 +199,7 @@ void palnetWidget::paintGL()
         glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. Ëõ·Å
         glMultMatrixf(ArcBall->Transform.M);                                //3. Ðý×ª
 
+        solar->drawBackground();
 
         //lines
         glEnable(GL_LIGHTING);
@@ -416,6 +421,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Escape:
         close();
+        this->parentWidget()->close();
         break;
     case Qt::Key_0:
         solar->moon_line = !(solar->moon_line);
@@ -456,4 +462,12 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
     default:
         break;
     }
+}
+
+/**
+ * get focus
+ */
+void palnetWidget::enterEvent(QEvent *e)
+{
+   this->setFocus();
 }

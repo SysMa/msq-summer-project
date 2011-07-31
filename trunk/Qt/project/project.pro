@@ -15,7 +15,8 @@ SOURCES += main.cpp\
     mywidget.cpp \
     palnet.cpp \
     palnetwidget.cpp \
-    arcball.cpp
+    arcball.cpp \
+    eclipse.cpp
 
 HEADERS  += mainwindow.h \
     call.h \
@@ -23,7 +24,8 @@ HEADERS  += mainwindow.h \
     data.h \
     palnet.h \
     palnetwidget.h \
-    arcball.h
+    arcball.h \
+    eclipse.h
 
 FORMS    += mainwindow.ui
 
@@ -36,4 +38,3 @@ FORMS    += mainwindow.ui
 QT += opengl
 
 LIBS +=  -lglut32 -lglaux -lopengl32 -lglu32
-

@@ -171,7 +171,7 @@ Palnet::Palnet()
     line_color_alpha = 0;
 
     // init data
-    if(!readData())
+    //if(!readData())
     {
         //qDebug()<<"Load data failed!";
     }

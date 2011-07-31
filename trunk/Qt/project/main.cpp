@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     //a.setMainWidget(&test);
     //test.show();
 
-    palnetWidget solar_sys(&aa,0,false);
+    //palnetWidget solar_sys(&aa,0,false);
     //a.setMainWidget(&solar_sys);
     //solar_sys.showNormal();
 

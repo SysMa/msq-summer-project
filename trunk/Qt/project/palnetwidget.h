@@ -34,7 +34,9 @@ protected :
     bool fullscreen;    // bool var to store if it is fullscreen.
     int time_id;        // deal with the timer func, remember the time id
 
+    QLabel* label;
     class Palnet* solar;// solar system
+
 
     // view port
     double from_x;

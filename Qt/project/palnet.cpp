@@ -164,6 +164,11 @@ Palnet::Palnet()
     center_y = 0.0;
     center_z = 0.0;
 
+    line_color_red   = 0;
+    line_color_green = 1;
+    line_color_blue  = 0;
+    line_color_alpha = 0;
+
     // init data
     if(!readData())
     {
@@ -420,7 +425,7 @@ bool Palnet::drawLine(double data_x[], double data_y[],
     glLineWidth(line_width);
     glBegin(GL_LINE_LOOP);
 
-    glColor3f(0.0, 1.0, 0.0);
+    glColor3f(line_color_red, line_color_green, line_color_blue);
     for (i = 0; i < cycle + 1; i++) {
         glVertex3f(data_x[i] - center_x, data_y[i] - center_y, data_z[i] - center_z);
     }
@@ -980,7 +985,7 @@ bool Palnet::drawMoonLine()
         glLineWidth(moon_line_width);
         glBegin(GL_LINE_LOOP);
 
-        glColor3f(0.0, 1.0, 0.0);
+        glColor3f(line_color_red, line_color_green, line_color_blue);
         for (i = 0; i < 360 + 1; i++) {
             glVertex3f(earth_data_x[data_num] + distance * cos(i * pie / 180),
                        earth_data_y[data_num] + distance * sin(i * pie / 180),
@@ -1069,8 +1074,8 @@ bool Palnet::setSpeed(int desire_speed)
  */
 bool Palnet::isEclipse()
 {
-    double moon_data_x = earth_x + distance * cos(moon_solar_angle * pie / 180);
-    double moon_data_y = earth_y + distance * sin(moon_solar_angle * pie / 180);
+    double moon_data_x = earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180);
+    double moon_data_y = earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180);
 
     double sun_data_x = 0 - center_x;
     double sun_data_y = 0 - center_y;
@@ -1088,7 +1093,7 @@ bool Palnet::isEclipse()
 
 double findRange(double nums[], int count)
 {
-    double max;
+    double max,min;
     max = nums[0];
     min = nums[0];
     for(int i = 0; i < count; i++)
@@ -1105,14 +1110,14 @@ double findRange(double nums[], int count)
 bool Palnet::isInline()
 {
     double ranges[8];
-    double ranges[0] = atan(mercury_data_y[data_num]/mercury_data_x[data_num]);
-    double ranges[1] = atan(venus_data_y[data_num]/venus_data_x[data_num]);
-    double ranges[2] = atan(earth_data_y[data_num]/earth_data_x[data_num]);
-    double ranges[3] = atan(mars_data_y[data_num]/mars_data_x[data_num]);
-    double ranges[4] = atan(jupiter_data_y[data_num]/jupiter_data_x[data_num]);
-    double ranges[5] = atan(saturn_data_y[data_num]/saturn_data_x[data_num]);
-    double ranges[6] = atan(uranus_data_y[data_num]/uranus_data_x[data_num]);
-    double ranges[7] = atan(neptune_data_y[data_num]/neptune_data_x[data_num]);
+    ranges[0] = atan(mercury_data_y[data_num]/mercury_data_x[data_num]);
+    ranges[1] = atan(venus_data_y[data_num]/venus_data_x[data_num]);
+    ranges[2] = atan(earth_data_y[data_num]/earth_data_x[data_num]);
+    ranges[3] = atan(mars_data_y[data_num]/mars_data_x[data_num]);
+    ranges[4] = atan(jupiter_data_y[data_num]/jupiter_data_x[data_num]);
+    ranges[5] = atan(saturn_data_y[data_num]/saturn_data_x[data_num]);
+    ranges[6] = atan(uranus_data_y[data_num]/uranus_data_x[data_num]);
+    ranges[7] = atan(neptune_data_y[data_num]/neptune_data_x[data_num]);
 
     if(findRange(ranges,8) <= required_angle)
     {

@@ -345,14 +345,12 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
         }
         updateGL();
         break;
-        /*
-    case
+    case Qt::Key_Backspace:
         solar->center_x = solar->earth_data_x[solar->data_num];
         solar->center_y = solar->earth_data_y[solar->data_num];
         solar->center_z = solar->earth_data_z[solar->data_num];
         updateGL();
         break;
-        */
     case Qt::Key_Up:
         from_y += 1;
         to_y   += 1;

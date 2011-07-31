@@ -346,6 +346,12 @@ public:
     //
     double required_angle;
 
+    // line color
+    //
+    double line_color_red;
+    double line_color_green;
+    double line_color_blue;
+    double line_color_alpha;
 };
 
 #endif // PALNET_H

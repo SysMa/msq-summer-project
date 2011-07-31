@@ -5,8 +5,8 @@
  * Date    : 2011 summer
  *
  *************************************************************/
-#include <QtGui/QApplication>
-#include "mainwindow.h"
+//#include <QtGui/QApplication>
+//#include "mainwindow.h"
 
 
 /*************************************************************

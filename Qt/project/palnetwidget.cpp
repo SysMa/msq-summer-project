@@ -48,6 +48,10 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     time_id = startTimer(17);
 
     solar = new Palnet();
+    if(!solar->readData())
+    {
+        qDebug()<<" Sorry! the data is out of use.";
+    }
     //qDebug()<<solar->mars_data_y[500];
 
     // new light
@@ -68,6 +72,13 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     // focus
     // setFocusPolicy(Qt::StrongFocus);
+
+    label = new QLabel(this);
+    label->setGeometry(0,0,200,50);
+    //label->setEnabled(true);
+    label->setMargin(10);
+    label->setAttribute(Qt::WA_TranslucentBackground,true);
+    label->show();
 
 }
 
@@ -194,6 +205,9 @@ void palnetWidget::paintGL()
     glLightfv(GL_LIGHT2, GL_POSITION,solar->LightPosition2);
     glEnable(GL_LIGHT2);
     */
+
+    QDate begin(2000,1,1);
+    label->setText(begin.addDays(solar->data_num).toString());
 
     glPushMatrix();
         glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. Ëõ·Å
@@ -337,6 +351,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
     {
     // this is a model with the full screen exchange
     // an example
+    /*
     case Qt::Key_F11:
         fullscreen = !fullscreen;
         if( fullscreen)
@@ -350,6 +365,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
         }
         updateGL();
         break;
+        */
     case Qt::Key_Backspace:
         solar->center_x = solar->earth_data_x[solar->data_num];
         solar->center_y = solar->earth_data_y[solar->data_num];
@@ -459,6 +475,20 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
         solar->neptune_line = !(solar->neptune_line);
         updateGL();
         break;
+    case Qt::Key_F5:
+        solar->setSpeed(1);
+        solar->center_x = 0;
+        solar->center_y = 0;
+        solar->center_z = 0;
+        from_x  = 0;
+        from_y  = 15;
+        from_z  = solar->neptune_data_z[0];
+        to_x    = solar->center_x;
+        to_y    = solar->center_y;
+        to_z    = solar->center_z;
+        up_x    = 0;
+        up_y    = 1;
+        up_z    = 0;
     default:
         break;
     }

@@ -96,7 +96,7 @@ protected :
     void mouseReleaseEvent(QMouseEvent *e);
 
     //“∆∂Ø Û±Í
-
+    void enterEvent(QEvent *);
     void move(int x, int y);
 };
 

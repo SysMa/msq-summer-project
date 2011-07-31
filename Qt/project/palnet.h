@@ -141,6 +141,11 @@ public:
      */
     bool isInline();
 
+    /**
+     * draw background
+     */
+    bool drawBackground();
+
 public:
     // PI
     double pie;
@@ -271,7 +276,7 @@ public:
     // texture image
     // used to texutre
     //
-    char* image[10];
+    char* image[11];
 
     // the distance from moon to earth
     //

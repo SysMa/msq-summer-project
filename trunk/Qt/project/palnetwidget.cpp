@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <QKeyEvent>
+#include <QDate>
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -13,9 +14,15 @@
 #include <QtOpenGL/QGLWidget>
 #include <QtOpenGL/qgl.h>
 #include <QImage>
+
+/**
+  * for debug and reuse
+  *
 #include <qdebug.h>
 #include <QDebug>
-#include <QDate>
+#include <QApplication>
+  *
+  */
 
 /**
  * this is the widget init
@@ -49,18 +56,18 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
     }
 
     //set time function
-    time_id = startTimer(17);
+    time_id = startTimer(40);
 
     solar = new Palnet();
     if(!solar->readData())
     {
-        qDebug()<<" Sorry! the data is out of use.";
+        //qDebug()<<" Sorry! the data is out of use.";
     }
     //qDebug()<<solar->mars_data_y[500];
 
     // new light
-    glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);						// 设置环境光
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);						// 设置漫反射光
+    glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);	// 设置环境光
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);	// 设置漫反射光
     // new light
 
     // view port
@@ -624,16 +631,26 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 fullscreen = !fullscreen;
                 if( fullscreen)
                 {
-                    showFullScreen();
+                    //qDebug()<<" debug model...";
+                    QWidget* temp = (QWidget*)this->parent();
+                    temp->hide();
+                    this->setParent(0,Qt::Window);
+                    //showFullScreen();
+                    //main_window->setGeometry( 0, 0, QApplication::desktop()->width(), QApplication::desktop()->height() );
+                    //this->setGeometry();
+                    //this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+                    //this->setWindowFlags(Qt::Dialog);
+                    this->showFullScreen();
                 }
                 else
                 {
-                    showNormal();
-                    setGeometry(0,0,800,600);
+                    //this->setParent();
+                    this->setWindowFlags(Qt::SubWindow);
+                    this->resize(800,600);
                 }
                 updateGL();
                 break;
-                */
+            */
             case Qt::Key_Backspace:
                 solar->center_x = solar->earth_data_x[solar->data_num];
                 solar->center_y = solar->earth_data_y[solar->data_num];
@@ -833,6 +850,76 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             else
             {
                 eclipse_model->speed = 0;
+            }
+            updateGL();
+            break;
+        case Qt::Key_F5:
+            eclipse_model->sun_dis += 1;
+            updateGL();
+            break;
+        case Qt::Key_F6:
+            if( eclipse_model->sun_dis - eclipse_model->sun_r > 3)
+            {
+                eclipse_model->sun_dis -= 1;
+            }
+            else
+            {
+                // do nothing and return
+            }
+            updateGL();
+            break;
+        case Qt::Key_F7:
+            if( eclipse_model->sun_dis - eclipse_model->sun_r > 2)
+            {
+                eclipse_model->sun_r += 0.5;
+            }
+            else
+            {
+                // do nothing and return
+            }
+            updateGL();
+            break;
+        case Qt::Key_F8:
+            if( eclipse_model->sun_r > 1.5)
+            {
+                eclipse_model->sun_r -= 0.5;
+            }
+            updateGL();
+            break;
+        case Qt::Key_F9:
+            if((eclipse_model->sun_dis - eclipse_model->moon_dis) >
+                    (eclipse_model->sun_r + eclipse_model->moon_r + 2))
+            {
+                eclipse_model->moon_dis += 1;
+            }
+            updateGL();
+            break;
+        case Qt::Key_F10:
+            if( eclipse_model->moon_dis - eclipse_model->moon_r > 2)
+            {
+                eclipse_model->moon_dis -= 1;
+            }
+            else
+            {
+                // do nothing and return
+            }
+            updateGL();
+            break;
+        case Qt::Key_F11:
+            if( eclipse_model->moon_dis - eclipse_model->moon_r > 2)
+            {
+                eclipse_model->moon_r += 0.5;
+            }
+            else
+            {
+                // do nothing and return
+            }
+            updateGL();
+            break;
+        case Qt::Key_F12:
+            if( eclipse_model->moon_r > 1.5)
+            {
+                eclipse_model->moon_r -= 0.5;
             }
             updateGL();
             break;

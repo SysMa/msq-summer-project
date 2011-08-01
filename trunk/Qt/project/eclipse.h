@@ -58,7 +58,6 @@ public:
      * update the model
      */
     void step();
-
 };
 
 #endif // ECLIPSE_H

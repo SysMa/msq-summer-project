@@ -65,7 +65,7 @@ public:
      */
     bool drawLine(double data_x[], double data_y[],
                   double data_z[], double cycle,
-                  double line_width);
+                  double line_width, double line_color[]);
 
     /**
      * draw planets and the moon
@@ -146,6 +146,12 @@ public:
      */
     bool drawBackground();
 
+    /**
+     * pause
+     */
+    bool pause();
+
+
 public:
     // PI
     double pie;
@@ -173,6 +179,7 @@ public:
     bool uranus;
     bool neptune;
     bool moon;
+    bool stars;
 
     // palnets cycles
     // used as public to be modified easily
@@ -353,10 +360,15 @@ public:
 
     // line color
     //
-    double line_color_red;
-    double line_color_green;
-    double line_color_blue;
-    double line_color_alpha;
+    double mercury_line_color[4];
+    double venus_line_color[4];
+    double earth_line_color[4];
+    double mars_line_color[4];
+    double jupiter_line_color[4];
+    double saturn_line_color[4];
+    double uranus_line_color[4];
+    double neptune_line_color[4];
+    double moon_line_color[4];
 };
 
 #endif // PALNET_H

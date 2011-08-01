@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>803</width>
-    <height>367</height>
+    <height>476</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,6 @@
         <height>16777215</height>
        </size>
       </property>
-      <zorder>widget</zorder>
      </widget>
     </item>
     <item>
@@ -31,22 +30,9 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>120</height>
+        <height>80</height>
        </size>
       </property>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>50</x>
-         <y>20</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
      </widget>
     </item>
    </layout>

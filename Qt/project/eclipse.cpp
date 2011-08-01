@@ -81,7 +81,7 @@ void Eclipse::drawMoon()
         glBegin(GL_QUADS);
                 GLUquadric* quadricObj=gluNewQuadric();
                 gluQuadricTexture(quadricObj,GL_TRUE);
-                gluSphere(quadricObj,moon_r,50,50);
+                gluSphere(quadricObj,moon_r,320,320);
                 gluDeleteQuadric(quadricObj);
         glEnd();
     glPopMatrix();

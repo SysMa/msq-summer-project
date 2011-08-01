@@ -32,6 +32,10 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 {
     fullscreen = fs;
 
+    // don't watch some phenomenets.
+    watchEclipse = false;
+    watchStars   = false;
+
     // set the window position, from 100,100 to 800,600
     this->setGeometry(0,0,1366,600);
 
@@ -274,11 +278,24 @@ void palnetWidget::resizeGL(int width, int height)
  */
 void palnetWidget::timerEvent(QTimerEvent *e)
 {
-    //solar->data_num++;
-    //qDebug()<<year[4]<<"   "<<day[4]<<endl;
+    // normal update
+    if(!watchEclipse && !watchStars)
+    {
+        solar->setNew();
+    }
+    else
+    {
+        if(solar->isEclipse())
+        {
+            solar->setSpeed(0);
+        }
 
-    solar->setNew();
-    //qDebug()<<solar->data_num;
+        if(solar->isInline())
+        {
+            solar->setSpeed(0);
+        }
+    }
+
     updateGL();
 
 
@@ -346,152 +363,397 @@ void palnetWidget::move(int x, int y)
  */
 void palnetWidget::keyPressEvent(QKeyEvent *e)
 {
-    // here is the framework and it need to be filled
-    switch ( e->key() )
+    // here first do somethig with two-or-more buttons
+    if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_0)
     {
-    // this is a model with the full screen exchange
-    // an example
-    /*
-    case Qt::Key_F11:
-        fullscreen = !fullscreen;
-        if( fullscreen)
+        if( solar->moon_line_width < 5)
         {
-            showFullScreen();
+            solar->moon_line_width += 0.1;
         }
         else
         {
-            showNormal();
-            setGeometry(0,0,800,600);
+            solar->moon_line_width = 1;
         }
         updateGL();
-        break;
-        */
-    case Qt::Key_Backspace:
-        solar->center_x = solar->earth_data_x[solar->data_num];
-        solar->center_y = solar->earth_data_y[solar->data_num];
-        solar->center_z = solar->earth_data_z[solar->data_num];
-        updateGL();
-        break;
-    case Qt::Key_Up:
-        from_y += 1;
-        to_y   += 1;
-        updateGL();
-        break;
-    case Qt::Key_Down:
-        from_y -= 1;
-        to_y   -= 1;
-        updateGL();
-        break;
-    case Qt::Key_Left:
-        from_x -= 1;
-        to_x   -= 1;
-        updateGL();
-        break;
-    case Qt::Key_Right:
-        from_x += 1;
-        to_x   += 1;
-        updateGL();
-        break;
-    case Qt::Key_W:
-        from_z += 1;
-        updateGL();
-        break;
-    case Qt::Key_S:
-        from_z -= 1;
-        updateGL();
-        break;
-    case Qt::Key_A:
-        from_x -= 1;
-        updateGL();
-        break;
-    case Qt::Key_D:
-        from_x += 1;
-        updateGL();
-        break;
-    case Qt::Key_Q:
-        from_y -= 1;
-        updateGL();
-        break;
-    case Qt::Key_E:
-        from_y += 1;
-        updateGL();
-        break;
-    case Qt::Key_Enter:
-        if(solar->speed == 0)
-        {
-            solar->setSpeed(1);
-        }
-        else
-        {
-            solar->setSpeed(0);
-        }
-        updateGL();
-        break;
-    case Qt::Key_F2:
-        solar->setSpeed(solar->speed + 1);
-        updateGL();
-        break;
-    case Qt::Key_F3:
-        solar->setSpeed(solar->speed - 1);
-        updateGL();
-        break;
-    case Qt::Key_Escape:
-        close();
-        this->parentWidget()->close();
-        break;
-    case Qt::Key_0:
-        solar->moon_line = !(solar->moon_line);
-        updateGL();
-        break;
-    case Qt::Key_1:
-        solar->mercury_line = !(solar->mercury_line);
-        updateGL();
-        break;
-    case Qt::Key_2:
-        solar->venus_line = !(solar->venus_line);
-        updateGL();
-        break;
-    case Qt::Key_3:
-        solar->earth_line = !(solar->earth_line);
-        updateGL();
-        break;
-    case Qt::Key_4:
-        solar->mars_line = !(solar->mars_line);
-        updateGL();
-        break;
-    case Qt::Key_5:
-        solar->jupiter_line = !(solar->jupiter_line);
-        updateGL();
-        break;
-    case Qt::Key_6:
-        solar->saturn_line = !(solar->saturn_line);
-        updateGL();
-        break;
-    case Qt::Key_7:
-        solar->uranus_line = !(solar->uranus_line);
-        updateGL();
-        break;
-    case Qt::Key_8:
-        solar->neptune_line = !(solar->neptune_line);
-        updateGL();
-        break;
-    case Qt::Key_F5:
-        solar->setSpeed(1);
-        solar->center_x = 0;
-        solar->center_y = 0;
-        solar->center_z = 0;
-        from_x  = 0;
-        from_y  = 15;
-        from_z  = solar->neptune_data_z[0];
-        to_x    = solar->center_x;
-        to_y    = solar->center_y;
-        to_z    = solar->center_z;
-        up_x    = 0;
-        up_y    = 1;
-        up_z    = 0;
-    default:
-        break;
     }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_1)
+    {
+        if( solar->mercury_line_width < 5)
+        {
+            solar->mercury_line_width += 0.1;
+        }
+        else
+        {
+            solar->mercury_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_2)
+    {
+        if( solar->venus_line_width < 5)
+        {
+            solar->venus_line_width += 0.1;
+        }
+        else
+        {
+            solar->venus_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_3)
+    {
+        if( solar->earth_line_width < 5)
+        {
+            solar->earth_line_width += 0.1;
+        }
+        else
+        {
+            solar->earth_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_4)
+    {
+        if( solar->mars_line_width < 5)
+        {
+            solar->mars_line_width += 0.1;
+        }
+        else
+        {
+            solar->mars_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_5)
+    {
+        if( solar->jupiter_line_width < 5)
+        {
+            solar->jupiter_line_width += 0.1;
+        }
+        else
+        {
+            solar->jupiter_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_6)
+    {
+        if( solar->saturn_line_width < 5)
+        {
+            solar->saturn_line_width += 0.1;
+        }
+        else
+        {
+            solar->saturn_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_7)
+    {
+        if( solar->uranus_line_width < 5)
+        {
+            solar->uranus_line_width += 0.1;
+        }
+        else
+        {
+            solar->uranus_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_8)
+    {
+        if( solar->neptune_line_width < 5)
+        {
+            solar->neptune_line_width += 0.1;
+        }
+        else
+        {
+            solar->neptune_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_9)
+    {
+        if( solar->neptune_line_width < 5)
+        {
+            solar->mercury_line_width += 0.1;
+            solar->venus_line_width += 0.1;
+            solar->earth_line_width += 0.1;
+            solar->mars_line_width += 0.1;
+            solar->jupiter_line_width += 0.1;
+            solar->saturn_line_width += 0.1;
+            solar->uranus_line_width += 0.1;
+            solar->neptune_line_width += 0.1;
+            solar->moon_line_width += 0.1;
+        }
+        else
+        {
+            solar->mercury_line_width = 1;
+            solar->venus_line_width = 1;
+            solar->earth_line_width = 1;
+            solar->mars_line_width = 1;
+            solar->jupiter_line_width = 1;
+            solar->saturn_line_width = 1;
+            solar->uranus_line_width = 1;
+            solar->neptune_line_width = 1;
+            solar->moon_line_width = 1;
+        }
+        updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_0)
+    {
+                solar->moon = !(solar->moon);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_1)
+    {
+        qDebug()<<" shift and 1 entered.";
+                solar->mercury = !(solar->mercury);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_2)
+    {
+                solar->venus = !(solar->venus);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_3)
+    {
+                solar->earth = !(solar->earth);
+                solar->moon  = !(solar->moon);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_4)
+    {
+                solar->mars = !(solar->mars);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_5)
+    {
+                solar->jupiter = !(solar->jupiter);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_6)
+    {
+                solar->saturn= !(solar->saturn);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_7)
+    {
+                solar->uranus = !(solar->uranus);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_8)
+    {
+                solar->neptune = !(solar->neptune);
+                updateGL();
+    }
+    else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_9)
+    {
+                /*
+                solar->mercury = !(solar->mercury);
+                solar->venus = !(solar->venus);
+                solar->earth = !(solar->earth);
+                solar->mars = !(solar->mars);
+                solar->jupiter = !(solar->jupiter);
+                solar->saturn= !(solar->saturn);
+                solar->uranus = !(solar->uranus);
+                solar->neptune = !(solar->neptune);
+                solar->moon = !(solar->moon);
+                */
+                solar->stars = !(solar->stars);
+                updateGL();
+    }
+    else
+    {
+        switch ( e->key() )
+        {
+        // this is a model with the full screen exchange
+        // an example
+        /*
+        case Qt::Key_F11:
+            fullscreen = !fullscreen;
+            if( fullscreen)
+            {
+                showFullScreen();
+            }
+            else
+            {
+                showNormal();
+                setGeometry(0,0,800,600);
+            }
+            updateGL();
+            break;
+            */
+        case Qt::Key_Backspace:
+            solar->center_x = solar->earth_data_x[solar->data_num];
+            solar->center_y = solar->earth_data_y[solar->data_num];
+            solar->center_z = solar->earth_data_z[solar->data_num];
+            updateGL();
+            break;
+        case Qt::Key_Up:
+            from_y += 1;
+            to_y   += 1;
+            updateGL();
+            break;
+        case Qt::Key_Down:
+            from_y -= 1;
+            to_y   -= 1;
+            updateGL();
+            break;
+        case Qt::Key_Left:
+            from_x -= 1;
+            to_x   -= 1;
+            updateGL();
+            break;
+        case Qt::Key_Right:
+            from_x += 1;
+            to_x   += 1;
+            updateGL();
+            break;
+        case Qt::Key_W:
+            from_z += 1;
+            updateGL();
+            break;
+        case Qt::Key_S:
+            from_z -= 1;
+            updateGL();
+            break;
+        case Qt::Key_A:
+            from_x -= 1;
+            updateGL();
+            break;
+        case Qt::Key_D:
+            from_x += 1;
+            updateGL();
+            break;
+        case Qt::Key_Q:
+            from_y -= 1;
+            updateGL();
+            break;
+        case Qt::Key_E:
+            from_y += 1;
+            updateGL();
+            break;
+        case Qt::Key_Enter:
+            if(solar->speed == 0)
+            {
+                solar->setSpeed(1);
+            }
+            else
+            {
+                solar->setSpeed(0);
+            }
+            updateGL();
+            break;
+        case Qt::Key_F2:
+            solar->setSpeed(solar->speed + 1);
+            updateGL();
+            break;
+        case Qt::Key_F3:
+            solar->setSpeed(solar->speed - 1);
+            updateGL();
+            break;
+        case Qt::Key_Escape:
+            close();
+            this->parentWidget()->close();
+            break;
+        case Qt::Key_0:
+            solar->moon_line = !(solar->moon_line);
+            updateGL();
+            break;
+        case Qt::Key_1:
+            solar->mercury_line = !(solar->mercury_line);
+            updateGL();
+            break;
+        case Qt::Key_2:
+            solar->venus_line = !(solar->venus_line);
+            updateGL();
+            break;
+        case Qt::Key_3:
+            solar->earth_line = !(solar->earth_line);
+            updateGL();
+            break;
+        case Qt::Key_4:
+            solar->mars_line = !(solar->mars_line);
+            updateGL();
+            break;
+        case Qt::Key_5:
+            solar->jupiter_line = !(solar->jupiter_line);
+            updateGL();
+            break;
+        case Qt::Key_6:
+            solar->saturn_line = !(solar->saturn_line);
+            updateGL();
+            break;
+        case Qt::Key_7:
+            solar->uranus_line = !(solar->uranus_line);
+            updateGL();
+            break;
+        case Qt::Key_8:
+            solar->neptune_line = !(solar->neptune_line);
+            updateGL();
+            break;
+        case Qt::Key_9:
+            solar->moon = !(solar->moon);
+            solar->mercury = !(solar->mercury);
+            solar->venus = !(solar->venus);
+            solar->earth = !(solar->earth);
+            solar->mars = !(solar->mars);
+            solar->jupiter = !(solar->jupiter);
+            solar->saturn= !(solar->saturn);
+            solar->uranus = !(solar->uranus);
+            solar->neptune = !(solar->neptune);
+            solar->stars = !(solar->stars);
+
+            solar->moon_line = !(solar->moon_line);
+            solar->mercury_line = !(solar->mercury_line);
+            solar->venus_line = !(solar->venus_line);
+            solar->earth_line = !(solar->earth_line);
+            solar->mars_line = !(solar->mars_line);
+            solar->jupiter_line = !(solar->jupiter_line);
+            solar->saturn_line = !(solar->saturn_line);
+            solar->uranus_line = !(solar->uranus_line);
+            solar->neptune_line = !(solar->neptune_line);
+            updateGL();
+            break;
+        case Qt::Key_F5:
+            solar->setSpeed(1);
+            solar->center_x = 0;
+            solar->center_y = 0;
+            solar->center_z = 0;
+            from_x  = 0;
+            from_y  = 15;
+            from_z  = solar->neptune_data_z[0];
+            to_x    = solar->center_x;
+            to_y    = solar->center_y;
+            to_z    = solar->center_z;
+            up_x    = 0;
+            up_y    = 1;
+            up_z    = 0;
+            updateGL();
+            break;
+        case Qt::Key_F6:
+            watchEclipse = !watchEclipse;
+            //qDebug()<<" watch Eclipse "<< watchEclipse;
+            updateGL();
+            break;
+        case Qt::Key_F7:
+            watchStars = !watchStars;
+            updateGL();
+            break;
+        case Qt::Key_Space:
+            solar->pause();
+            updateGL();
+            break;
+        case Qt::Key_F8:
+            solar->setSpeed(1);
+            updateGL();
+            break;
+        default:
+            break;
+        }
+    }
+
 }
 
 /**

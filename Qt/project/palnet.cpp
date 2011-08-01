@@ -47,6 +47,7 @@ Palnet::Palnet()
     saturn  = true;
     uranus  = true;
     neptune = true;
+    stars   = true;
 
     // default: copy
     mercury_cycle = 87.662;
@@ -165,10 +166,49 @@ Palnet::Palnet()
     center_y = 0.0;
     center_z = 0.0;
 
-    line_color_red   = 0;
-    line_color_green = 1;
-    line_color_blue  = 0;
-    line_color_alpha = 0;
+    mercury_line_color[0]
+  = venus_line_color[0]
+  = earth_line_color[0]
+  = mars_line_color[0]
+  = jupiter_line_color[0]
+  = saturn_line_color[0]
+  = uranus_line_color[0]
+  = neptune_line_color[0]
+  = moon_line_color[0]
+  = 0;
+
+    mercury_line_color[1]
+  = venus_line_color[1]
+  = earth_line_color[1]
+  = mars_line_color[1]
+  = jupiter_line_color[1]
+  = saturn_line_color[1]
+  = uranus_line_color[1]
+  = neptune_line_color[1]
+  = moon_line_color[1]
+  = 1;
+
+    mercury_line_color[2]
+  = venus_line_color[2]
+  = earth_line_color[2]
+  = mars_line_color[2]
+  = jupiter_line_color[2]
+  = saturn_line_color[2]
+  = uranus_line_color[2]
+  = neptune_line_color[2]
+  = moon_line_color[2]
+  = 0;
+
+    mercury_line_color[3]
+  = venus_line_color[3]
+  = earth_line_color[3]
+  = mars_line_color[3]
+  = jupiter_line_color[3]
+  = saturn_line_color[3]
+  = uranus_line_color[3]
+  = neptune_line_color[3]
+  = moon_line_color[3]
+  = 0;
 
     // init data
     //if(!readData())
@@ -278,7 +318,8 @@ bool Palnet::drawLines()
                      mercury_data_y,
                      mercury_data_z,
                      mercury_cycle,
-                     mercury_line_width))
+                     mercury_line_width,
+                     mercury_line_color))
         {
             return (!success);
         }
@@ -294,7 +335,8 @@ bool Palnet::drawLines()
                      venus_data_y,
                      venus_data_z,
                      venus_cycle,
-                     venus_line_width))
+                     venus_line_width,
+                     venus_line_color))
         {
             return (!success);
         }
@@ -311,7 +353,8 @@ bool Palnet::drawLines()
                      earth_data_y,
                      earth_data_z,
                      earth_cycle,
-                     earth_line_width))
+                     earth_line_width,
+                     earth_line_color))
         {
             return (!success);
         }
@@ -327,7 +370,8 @@ bool Palnet::drawLines()
                      mars_data_y,
                      mars_data_z,
                      mars_cycle,
-                     mars_line_width))
+                     mars_line_width,
+                     mars_line_color))
         {
             return (!success);
         }
@@ -343,7 +387,8 @@ bool Palnet::drawLines()
                      jupiter_data_y,
                      jupiter_data_z,
                      jupiter_cycle,
-                     jupiter_line_width))
+                     jupiter_line_width,
+                     jupiter_line_color))
         {
             return (!success);
         }
@@ -359,7 +404,8 @@ bool Palnet::drawLines()
                      saturn_data_y,
                      saturn_data_z,
                      saturn_cycle,
-                     saturn_line_width))
+                     saturn_line_width,
+                     saturn_line_color))
         {
             return (!success);
         }
@@ -375,7 +421,8 @@ bool Palnet::drawLines()
                      uranus_data_y,
                      uranus_data_z,
                      uranus_cycle,
-                     uranus_line_width))
+                     uranus_line_width,
+                     uranus_line_color))
         {
             return (!success);
         }
@@ -391,7 +438,8 @@ bool Palnet::drawLines()
                      neptune_data_y,
                      neptune_data_z,
                      neptune_cycle,
-                     neptune_line_width))
+                     neptune_line_width,
+                     neptune_line_color))
         {
             return (!success);
         }
@@ -419,14 +467,14 @@ bool Palnet::drawLines()
  */
 bool Palnet::drawLine(double data_x[], double data_y[],
                       double data_z[], double cycle,
-                      double line_width)
+                      double line_width, double line_color[])
 {
     int i = 0;
     glDisable(GL_LIGHTING);
     glLineWidth(line_width);
     glBegin(GL_LINE_LOOP);
 
-    glColor3f(line_color_red, line_color_green, line_color_blue);
+    glColor3f(line_color[0], line_color[1], line_color[2]);
     for (i = 0; i < cycle + 1; i++) {
         glVertex3f(data_x[i] - center_x, data_y[i] - center_y, data_z[i] - center_z);
     }
@@ -444,6 +492,7 @@ bool Palnet::drawPalnets()
     bool success = true;
 
     // mercury
+    //qDebug()<<" mercury : "<<mercury;
     if(mercury)
     {
         //qDebug()<<mercury_data_x[data_num];
@@ -947,32 +996,39 @@ void Palnet::drawSun()
 bool Palnet::drawMoon(double earth_x, double earth_y, double earth_z,
                       double solar_angle, double axis_angle)
 {
-    //qDebug()<<"begin to draw the moon";
-    //qDebug()<<earth_x<<" "<<earth_y<<" "<<earth_z<<" ";
-    glEnable(GL_TEXTURE_2D);
-    glPushMatrix();
-        // translate to the position
-        glTranslatef(earth_x + distance * cos(solar_angle * pie / 180),
-                     earth_y + distance * sin(solar_angle * pie / 180),
-                     earth_z );
-        //qDebug()<<distance<<"  "<<solar_angle;
+    if(moon)
+    {
+        //qDebug()<<"begin to draw the moon";
+        //qDebug()<<earth_x<<" "<<earth_y<<" "<<earth_z<<" ";
+        glEnable(GL_TEXTURE_2D);
+        glPushMatrix();
+            // translate to the position
+            glTranslatef(earth_x + distance * cos(solar_angle * pie / 180),
+                         earth_y + distance * sin(solar_angle * pie / 180),
+                         earth_z );
+            //qDebug()<<distance<<"  "<<solar_angle;
 
-        // rotate
-        glRotatef(axis_angle, 0, 0, 1);
-        // to deal with the texture
-        glRotatef(180.0, 1.0, 0.0, 0.0);
+            // rotate
+            glRotatef(axis_angle, 0, 0, 1);
+            // to deal with the texture
+            glRotatef(180.0, 1.0, 0.0, 0.0);
 
-        glBindTexture(GL_TEXTURE_2D, texture_id[8]);
-        glBegin(GL_QUADS);
-                GLUquadric* quadricObj=gluNewQuadric();
-                gluQuadricTexture(quadricObj,GL_TRUE);
-                gluSphere(quadricObj,moon_size,50,50);
-                gluDeleteQuadric(quadricObj);
-        glEnd();
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, texture_id[8]);
+            glBegin(GL_QUADS);
+                    GLUquadric* quadricObj=gluNewQuadric();
+                    gluQuadricTexture(quadricObj,GL_TRUE);
+                    gluSphere(quadricObj,moon_size,50,50);
+                    gluDeleteQuadric(quadricObj);
+            glEnd();
+        glPopMatrix();
+        glDisable(GL_TEXTURE_2D);
 
-    return true;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 /**
@@ -986,7 +1042,7 @@ bool Palnet::drawMoonLine()
         glLineWidth(moon_line_width);
         glBegin(GL_LINE_LOOP);
 
-        glColor3f(line_color_red, line_color_green, line_color_blue);
+        glColor3f(moon_line_color[0], moon_line_color[1], moon_line_color[2]);
         for (i = 0; i < 360 + 1; i++) {
             glVertex3f(earth_data_x[data_num] + distance * cos(i * pie / 180),
                        earth_data_y[data_num] + distance * sin(i * pie / 180),
@@ -1026,25 +1082,34 @@ bool Palnet::renderscreen()
  */
 bool Palnet::drawStars()
 {
-    glDisable(GL_LIGHTING);
-    glColor3f(0,1.0,0);
-    glBegin(GL_POINTS);
-       for(int i = 0;i < 5;i++){
-           double z = i*0.01;
-           for(int j =0;j < 120;j++){
-               double dis = sqrt(mars_data_x[0] * mars_data_x[0]
-                                 + mars_data_y[0] * mars_data_y[0]
-                                 + mars_data_z[0] * mars_data_z[0]);
-               double r = dis * 1.2 + 0.75*qrand()/9999;
-               double temp = (rand()+0.0)/9999*360;
-               //qDebug()<<temp<<endl;
-               double x = r*sin(temp);
-               double y = r*cos(temp);
-               glVertex3d(x,y,z);
+    if(stars)
+    {
+        glDisable(GL_LIGHTING);
+        glColor3f(0,1.0,0);
+        glBegin(GL_POINTS);
+           for(int i = 0;i < 5;i++){
+               double z = i*0.01;
+               for(int j =0;j < 120;j++){
+                   double dis = sqrt(mars_data_x[0] * mars_data_x[0]
+                                     + mars_data_y[0] * mars_data_y[0]
+                                     + mars_data_z[0] * mars_data_z[0]);
+                   double r = dis * 1.2 + 0.75*qrand()/9999;
+                   double temp = (rand()+0.0)/9999*360;
+                   //qDebug()<<temp<<endl;
+                   double x = r*sin(temp);
+                   double y = r*cos(temp);
+                   glVertex3d(x,y,z);
+               }
            }
-       }
-    glEnd();
-    glEnable(GL_LIGHTING);
+        glEnd();
+        glEnable(GL_LIGHTING);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
 }
 
 
@@ -1082,7 +1147,26 @@ bool Palnet::setSpeed(int desire_speed)
 }
 
 /**
- * judge the eclipse
+ * pause
+ */
+bool Palnet::pause()
+{
+    // speed of the day
+    speed = 0;
+    // speed of the solar angles
+    mercury_solar_speed = 0;
+    venus_solar_speed   = 0;
+    earth_solar_speed   = 0;
+    mars_solar_speed    = 0;
+    jupiter_solar_speed = 0;
+    saturn_solar_speed  = 0;
+    uranus_solar_speed  = 0;
+    neptune_solar_speed = 0;
+    moon_solar_speed    = 0;
+}
+
+/**
+ * judge the eclipset
  */
 bool Palnet::isEclipse()
 {
@@ -1092,9 +1176,10 @@ bool Palnet::isEclipse()
     double sun_data_x = 0 - center_x;
     double sun_data_y = 0 - center_y;
 
-    if((moon_data_x - sun_data_x == earth_data_x[data_num] - moon_data_x)
-            && moon_data_y - sun_data_y == earth_data_y[data_num] - moon_data_y)
+    if(true)
     {
+        //qDebug()<<"moon :"<<moon_data_x<<" "<<moon_data_y;
+        //qDebug()<<"earth:"<<earth_data_x[data_num]<<" "<<earth_data_y[data_num];
         return true;
     }
     else

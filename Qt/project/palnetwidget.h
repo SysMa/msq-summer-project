@@ -33,10 +33,11 @@ public slots:
 protected :
     bool fullscreen;    // bool var to store if it is fullscreen.
     int time_id;        // deal with the timer func, remember the time id
-
-    QLabel* label;
+    QLabel* label;      // label to show the date time
     class Palnet* solar;// solar system
 
+    bool watchEclipse;  // determine pause if the eclipse happen
+    bool watchStars;    // determine pause if the watchStars happen
 
     // view port
     double from_x;

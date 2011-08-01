@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <qlabel.h>
 #include "palnet.h"
+#include "eclipse.h"
 
 class palnetWidget : public QGLWidget
 {
@@ -35,9 +36,12 @@ protected :
     int time_id;        // deal with the timer func, remember the time id
     QLabel* label;      // label to show the date time
     class Palnet* solar;// solar system
+    class Eclipse* eclipse_model;// the model of the eclipse
 
     bool watchEclipse;  // determine pause if the eclipse happen
     bool watchStars;    // determine pause if the watchStars happen
+
+    bool changeModel;
 
     // view port
     double from_x;

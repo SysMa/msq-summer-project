@@ -87,6 +87,8 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     changeModel = true;
 
+    // draw son or not
+    sun = true;
     /*
     label = new QLabel(this);
     label->setGeometry(0,0,200,50);
@@ -104,6 +106,32 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     // jduge if the message has shown
     flag = false;
+
+    camera_from_default = true;
+    camera_from_sun     = false;
+    camera_from_moon    = false;
+    camera_from_mercury  = false;
+    camera_from_venus   = false;
+    camera_from_earth   = false;
+    camera_from_mars    = false;
+    camera_from_jupiter = false;
+    camera_from_saturn  = false;
+    camera_from_uranus  = false;
+    camera_from_neptune = false;
+
+    view_to_default     = true;
+    view_to_moon        = false;
+    view_to_mercury      = false;
+    view_to_venus       = false;
+    view_to_earth       = false;
+    view_to_mars        = false;
+    view_to_jupiter     = false;
+    view_to_saturn      = false;
+    view_to_uranus      = false;
+    view_to_neptune     = false;
+
+    camera_changed      = false;
+    view_changed        = false;
 }
 
 /**
@@ -264,7 +292,11 @@ void palnetWidget::paintGL()
                 gluDeleteQuadric(p);
             }
             */
-            solar->drawSun();
+            if(sun)
+            {
+                solar->drawSun();
+            }
+
             //glLightfv(GL_LIGHT1, GL_POSITION, solar->LightPosition);
 
             //draw eight planets
@@ -338,6 +370,148 @@ void palnetWidget::timerEvent(QTimerEvent *e)
 {
     if(changeModel)
     {
+        // change the view port
+        if(camera_changed)
+        {
+            if(camera_from_sun)
+            {
+                this->sun = false;
+                from_x  = 0;
+                from_y  = 0;
+                from_z  = 0;
+            }
+            else if(camera_from_moon)
+            {
+                solar->moon = false;
+                from_x = solar->earth_data_x[solar->data_num] + solar->distance * cos(solar->moon_solar_angle * solar->pie / 180);
+                from_y = solar->earth_data_y[solar->data_num] + solar->distance * sin(solar->moon_solar_angle * solar->pie / 180);
+                from_z = solar->earth_data_z[solar->data_num];
+            }
+            else if(camera_from_mercury)
+            {
+                solar->mercury = false;
+                from_x = solar->mercury_data_x[solar->data_num];
+                from_y = solar->mercury_data_y[solar->data_num];
+                from_z = solar->mercury_data_z[solar->data_num];
+            }
+            else if(camera_from_venus)
+            {
+                solar->venus = false;
+                from_x = solar->venus_data_x[solar->data_num];
+                from_y = solar->venus_data_y[solar->data_num];
+                from_z = solar->venus_data_z[solar->data_num];
+            }
+            else if(camera_from_earth)
+            {
+                solar->venus = false;
+                from_x = solar->venus_data_x[solar->data_num];
+                from_y = solar->venus_data_y[solar->data_num];
+                from_z = solar->venus_data_z[solar->data_num];
+            }
+            else if(camera_from_mars)
+            {
+                solar->mars = false;
+                from_x = solar->mars_data_x[solar->data_num];
+                from_y = solar->mars_data_y[solar->data_num];
+                from_z = solar->mars_data_z[solar->data_num];
+            }
+            else if(camera_from_jupiter)
+            {
+                solar->jupiter = false;
+                from_x = solar->jupiter_data_x[solar->data_num];
+                from_y = solar->jupiter_data_y[solar->data_num];
+                from_z = solar->jupiter_data_z[solar->data_num];
+            }
+            else if(camera_from_saturn)
+            {
+                solar->saturn = false;
+                from_x = solar->saturn_data_x[solar->data_num];
+                from_y = solar->saturn_data_y[solar->data_num];
+                from_z = solar->saturn_data_z[solar->data_num];
+            }
+            else if(camera_from_uranus)
+            {
+                solar->uranus = false;
+                from_x = solar->uranus_data_x[solar->data_num];
+                from_y = solar->uranus_data_y[solar->data_num];
+                from_z = solar->uranus_data_z[solar->data_num];
+            }
+            else if(camera_from_neptune)
+            {
+                solar->neptune = false;
+                from_x = solar->neptune_data_x[solar->data_num];
+                from_y = solar->neptune_data_y[solar->data_num];
+                from_z = solar->neptune_data_z[solar->data_num];
+            }
+        }
+
+        if(view_changed)
+        {
+            if(view_to_moon)
+            {
+                solar->moon = true;
+                to_x = solar->earth_data_x[solar->data_num] + solar->distance * cos(solar->moon_solar_angle * solar->pie / 180);
+                to_y = solar->earth_data_y[solar->data_num] + solar->distance * sin(solar->moon_solar_angle * solar->pie / 180);
+                to_z = solar->earth_data_z[solar->data_num];
+            }
+            else if(view_to_mercury)
+            {
+                solar->mercury = true;
+                to_x = solar->mercury_data_x[solar->data_num];
+                to_y = solar->mercury_data_y[solar->data_num];
+                to_z = solar->mercury_data_z[solar->data_num];
+            }
+            else if(view_to_venus)
+            {
+                solar->venus = true;
+                to_x = solar->venus_data_x[solar->data_num];
+                to_y = solar->venus_data_y[solar->data_num];
+                to_z = solar->venus_data_z[solar->data_num];
+            }
+            else if(view_to_earth)
+            {
+                solar->venus = true;
+                to_x = solar->venus_data_x[solar->data_num];
+                to_y = solar->venus_data_y[solar->data_num];
+                to_z = solar->venus_data_z[solar->data_num];
+            }
+            else if(view_to_mars)
+            {
+                solar->mars = true;
+                to_x = solar->mars_data_x[solar->data_num];
+                to_y = solar->mars_data_y[solar->data_num];
+                to_z = solar->mars_data_z[solar->data_num];
+            }
+            else if(view_to_jupiter)
+            {
+                solar->jupiter = true;
+                to_x = solar->jupiter_data_x[solar->data_num];
+                to_y = solar->jupiter_data_y[solar->data_num];
+                to_z = solar->jupiter_data_z[solar->data_num];
+            }
+            else if(view_to_saturn)
+            {
+                solar->saturn = true;
+                to_x = solar->saturn_data_x[solar->data_num];
+                to_y = solar->saturn_data_y[solar->data_num];
+                to_z = solar->saturn_data_z[solar->data_num];
+            }
+            else if(view_to_uranus)
+            {
+                solar->uranus = true;
+                to_x = solar->uranus_data_x[solar->data_num];
+                to_y = solar->uranus_data_y[solar->data_num];
+                to_z = solar->uranus_data_z[solar->data_num];
+            }
+            else if(view_to_neptune)
+            {
+                solar->neptune = true;
+                to_x = solar->neptune_data_x[solar->data_num];
+                to_y = solar->neptune_data_y[solar->data_num];
+                to_z = solar->neptune_data_z[solar->data_num];
+            }
+        }
+
         // normal update
         if(!watchEclipse && !watchStars)
         {

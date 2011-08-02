@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(showPlanet(int)));
     connect(ui->widget_2,SIGNAL(date_updated(int)),this,SLOT(refreshTime(int)));
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
+    connect(ui->comboBox_2,SIGNAL(currentIndexChanged(int)),this,SLOT(cameraPosition(int)));
+    connect(ui->comboBox_3,SIGNAL(currentIndexChanged(int)),this,SLOT(viewPositon(int)));
 }
 
 MainWindow::~MainWindow()
@@ -420,5 +422,402 @@ void MainWindow::keepTime()
             ui->widget_2->solar->data_num = add;
             ui->widget_2->solar->setSpeed(1);
         }
+    }
+}
+
+/**
+ * determine the camera postion
+ */
+void MainWindow::cameraPosition(int index)
+{
+    switch(index)
+    {
+    case 0:
+        ui->widget_2->camera_changed = false;
+        ui->widget_2->camera_from_default = true;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        // reset
+        ui->widget_2->from_x  = 0;
+        ui->widget_2->from_y  = 15;
+        ui->widget_2->from_z  = ui->widget_2->solar->neptune_data_z[0];
+
+        ui->widget_2->updateGL();
+        break;
+    case 1:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = true;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 2:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = true;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 3:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = true;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 4:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = true;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 5:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = true;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 6:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = true;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 7:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = true;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 8:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = true;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 9:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = true;
+        ui->widget_2->camera_from_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 10:
+        ui->widget_2->camera_changed = true;
+        ui->widget_2->camera_from_default = false;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = true;
+
+        ui->widget_2->updateGL();
+        break;
+    default:
+        ui->widget_2->camera_changed = false;
+        ui->widget_2->camera_from_default = true;
+        ui->widget_2->camera_from_sun     = false;
+        ui->widget_2->camera_from_moon    = false;
+        ui->widget_2->camera_from_mercury = false;
+        ui->widget_2->camera_from_venus   = false;
+        ui->widget_2->camera_from_earth   = false;
+        ui->widget_2->camera_from_mars    = false;
+        ui->widget_2->camera_from_jupiter = false;
+        ui->widget_2->camera_from_saturn  = false;
+        ui->widget_2->camera_from_uranus  = false;
+        ui->widget_2->camera_from_neptune = false;
+
+        // reset
+        ui->widget_2->from_x  = 0;
+        ui->widget_2->from_y  = 15;
+        ui->widget_2->from_z  = ui->widget_2->solar->neptune_data_z[0];
+
+        ui->widget_2->updateGL();
+        break;
+    }
+}
+
+/**
+ * determine the view position
+ */
+void MainWindow::viewPositon(int index)
+{
+    switch(index)
+    {
+    case 0:
+        ui->widget_2->view_changed = false;
+        ui->widget_2->view_to_default = true;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        // reset
+        ui->widget_2->to_x  = 0;
+        ui->widget_2->to_y  = 0;
+        ui->widget_2->to_z  = 0;
+
+        ui->widget_2->updateGL();
+        break;
+    case 1:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = true;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 2:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = true;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 3:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = true;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 4:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = true;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 5:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = true;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 6:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = true;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 7:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = true;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 8:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = true;
+        ui->widget_2->view_to_neptune = false;
+
+        ui->widget_2->updateGL();
+        break;
+    case 9:
+        ui->widget_2->view_changed = true;
+        ui->widget_2->view_to_default = false;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = true;
+
+        ui->widget_2->updateGL();
+        break;
+    default:
+        ui->widget_2->view_changed = false;
+        ui->widget_2->view_to_default = true;
+        ui->widget_2->view_to_moon    = false;
+        ui->widget_2->view_to_mercury = false;
+        ui->widget_2->view_to_venus   = false;
+        ui->widget_2->view_to_earth   = false;
+        ui->widget_2->view_to_mars    = false;
+        ui->widget_2->view_to_jupiter = false;
+        ui->widget_2->view_to_saturn  = false;
+        ui->widget_2->view_to_uranus  = false;
+        ui->widget_2->view_to_neptune = false;
+
+        // reset
+        ui->widget_2->to_x  = 0;
+        ui->widget_2->to_y  = 0;
+        ui->widget_2->to_z  = 0;
+
+        ui->widget_2->updateGL();
+        break;
     }
 }

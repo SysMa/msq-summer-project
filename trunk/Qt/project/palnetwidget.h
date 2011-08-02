@@ -13,6 +13,7 @@
 #include <qlabel.h>
 #include "palnet.h"
 #include "eclipse.h"
+#include <QMessageBox>
 
 class palnetWidget : public QGLWidget
 {
@@ -53,6 +54,12 @@ protected :
     double up_x;
     double up_y;
     double up_z;
+
+    // to show messages
+    QMessageBox* showMessage;
+
+    // jduge if the message has shown or not
+    bool flag;
 
 /*********************************************************
  *

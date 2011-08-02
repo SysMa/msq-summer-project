@@ -1170,13 +1170,11 @@ bool Palnet::pause()
  */
 bool Palnet::isEclipse()
 {
-    double moon_data_x = earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180);
-    double moon_data_y = earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180);
-
-    double sun_data_x = 0 - center_x;
-    double sun_data_y = 0 - center_y;
-
-    if(true)
+    double earth_k = earth_data_y[data_num]/earth_data_x[data_num];
+    double moon_k  = (earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180))/(earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180));
+    double e_m_angle   = earth_k >= moon_k ? (earth_k - moon_k):(moon_k - earth_k);
+    //qDebug()<<earth_k<<" "<<moon_k<<" "<<e_m_angle;
+    if(e_m_angle < 0.01)
     {
         //qDebug()<<"moon :"<<moon_data_x<<" "<<moon_data_y;
         //qDebug()<<"earth:"<<earth_data_x[data_num]<<" "<<earth_data_y[data_num];

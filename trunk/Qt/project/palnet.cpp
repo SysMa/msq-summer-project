@@ -23,7 +23,13 @@ Palnet::Palnet()
     pie = 3.14159265357;
 
     // stars in line jduge angle
-    required_angle = pie / 9;
+    required_angle = pie / 2;
+
+    // first eslipse
+    first_eclipse = true;
+
+    // first stars in line
+    first_line = true;
 
     // set speed;
     setSpeed(1);
@@ -1174,14 +1180,16 @@ bool Palnet::isEclipse()
     double moon_k  = (earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180))/(earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180));
     double e_m_angle   = earth_k >= moon_k ? (earth_k - moon_k):(moon_k - earth_k);
     //qDebug()<<earth_k<<" "<<moon_k<<" "<<e_m_angle;
-    if(e_m_angle < 0.01)
+    if(e_m_angle < 0.01 && first_eclipse)
     {
+        first_eclipse = false;
         //qDebug()<<"moon :"<<moon_data_x<<" "<<moon_data_y;
         //qDebug()<<"earth:"<<earth_data_x[data_num]<<" "<<earth_data_y[data_num];
         return true;
     }
     else
     {
+        first_eclipse = true;
         return false;
     }
 }
@@ -1209,21 +1217,23 @@ double findRange(double nums[], int count)
 bool Palnet::isInline()
 {
     double ranges[8];
-    ranges[0] = atan(mercury_data_y[data_num]/mercury_data_x[data_num]);
-    ranges[1] = atan(venus_data_y[data_num]/venus_data_x[data_num]);
-    ranges[2] = atan(earth_data_y[data_num]/earth_data_x[data_num]);
-    ranges[3] = atan(mars_data_y[data_num]/mars_data_x[data_num]);
-    ranges[4] = atan(jupiter_data_y[data_num]/jupiter_data_x[data_num]);
-    ranges[5] = atan(saturn_data_y[data_num]/saturn_data_x[data_num]);
-    ranges[6] = atan(uranus_data_y[data_num]/uranus_data_x[data_num]);
-    ranges[7] = atan(neptune_data_y[data_num]/neptune_data_x[data_num]);
+    ranges[0] = atan(mercury_data_y[data_num]   / mercury_data_x[data_num]);
+    ranges[1] = atan(venus_data_y[data_num]     / venus_data_x[data_num]);
+    ranges[2] = atan(earth_data_y[data_num]     / earth_data_x[data_num]);
+    ranges[3] = atan(mars_data_y[data_num]      / mars_data_x[data_num]);
+    ranges[4] = atan(jupiter_data_y[data_num]   / jupiter_data_x[data_num]);
+    ranges[5] = atan(saturn_data_y[data_num]    / saturn_data_x[data_num]);
+    ranges[6] = atan(uranus_data_y[data_num]    / uranus_data_x[data_num]);
+    ranges[7] = atan(neptune_data_y[data_num]   / neptune_data_x[data_num]);
 
-    if(findRange(ranges,8) <= required_angle)
+    if(findRange(ranges,8) <= required_angle && first_line)
     {
+        first_line = !first_line;
         return true;
     }
     else
     {
+        first_line = true;
         return false;
     }
 }
@@ -1244,7 +1254,7 @@ bool Palnet::drawBackground()
         glBegin(GL_QUADS);
                 GLUquadric* quadricObj=gluNewQuadric();
                 gluQuadricTexture(quadricObj,GL_TRUE);
-                gluSphere(quadricObj,r  * 1.05 ,50,50);
+                gluSphere(quadricObj,r  * 15 ,500,500);
                 gluDeleteQuadric(quadricObj);
         glEnd();
     glPopMatrix();

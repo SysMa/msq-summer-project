@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+public slots:
+    void showPlanet(int i);
 };
 
 #endif // MAINWINDOW_H

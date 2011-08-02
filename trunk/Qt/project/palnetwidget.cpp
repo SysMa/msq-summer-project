@@ -344,28 +344,31 @@ void palnetWidget::timerEvent(QTimerEvent *e)
 
             solar->setNew();
         }
-        else
+        else if( watchEclipse)
         {
             solar->setNew();
             //qDebug()<<" still here...";
             if(solar->isEclipse() && !flag)
             {
-                qDebug()<<"god, eclipse happen...";
+                //qDebug()<<"god, eclipse happen...";
                 showMessage->setText("Watch Eclipse: slow down and be careful.");
                 showMessage->show();
                 solar->setSpeed(0);
                 flag = !flag;
             }
+        }
+        else
+        {
+            solar->setNew();
 
-
-            /*
-            if(solar->isInline())
+            if(solar->isInline() && !flag)
             {
                 showMessage->setText("Watch the Stars: slow down and be careful.");
                 showMessage->show();
                 solar->setSpeed(0);
+                flag = !flag;
             }
-            */
+
         }
     }
     else
@@ -834,17 +837,17 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 break;
             case Qt::Key_F6:
                 watchEclipse = !watchEclipse;
-                //solar->setSpeed(0);
+                solar->setSpeed(0);
                 //qDebug()<<" watch Eclipse "<< watchEclipse;
                 if(watchEclipse)
                 {
-                    //showMessage->setText("We will stop when eclipse happen.");
-                    //showMessage->show();
+                    showMessage->setText("We will stop when eclipse happen.");
+                    showMessage->show();
                 }
                 else
                 {
-                    //showMessage->setText("We will not stop when eclipse happen.");
-                    //showMessage->show();
+                    showMessage->setText("We will not stop when eclipse happen.");
+                    showMessage->show();
                 }
                 updateGL();
                 break;
@@ -858,7 +861,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 }
                 else
                 {
-                    showMessage->setText("We will stop when stars happen to appear in a line.");
+                    showMessage->setText("We will not stop when stars happen to appear in a line.");
                     showMessage->show();
                 }
                 updateGL();

@@ -32,7 +32,7 @@ public slots:
   * added by MSQ
   *
   **************************************************************************/
-protected :
+public :
     bool fullscreen;    // bool var to store if it is fullscreen.
     int time_id;        // deal with the timer func, remember the time id
     QLabel* label;      // label to show the date time

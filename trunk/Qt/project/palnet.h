@@ -293,6 +293,13 @@ public:
     //
     GlobalPosition globalPosition;
 
+    // the first tme to watch eclipse
+    //
+    bool first_eclipse;
+
+    // the first time to see stars in line
+    bool first_line;
+
     // line width
     // used when to draw lines
     //

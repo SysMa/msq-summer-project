@@ -341,13 +341,20 @@ void palnetWidget::timerEvent(QTimerEvent *e)
         // normal update
         if(!watchEclipse && !watchStars)
         {
-
             solar->setNew();
+            if(solar->speed != 0)
+            {
+                emit date_updated(solar->data_num);
+            }
         }
-        else if( watchEclipse)
+        if( watchEclipse)
         {
             solar->setNew();
             //qDebug()<<" still here...";
+            if(solar->speed != 0)
+            {
+                emit date_updated(solar->data_num);
+            }
             if(solar->isEclipse() && !flag)
             {
                 //qDebug()<<"god, eclipse happen...";
@@ -357,9 +364,13 @@ void palnetWidget::timerEvent(QTimerEvent *e)
                 flag = !flag;
             }
         }
-        else
+        if( watchStars)
         {
             solar->setNew();
+            if(solar->speed != 0)
+            {
+                emit date_updated(solar->data_num);
+            }
 
             if(solar->isInline() && !flag)
             {
@@ -368,7 +379,6 @@ void palnetWidget::timerEvent(QTimerEvent *e)
                 solar->setSpeed(0);
                 flag = !flag;
             }
-
         }
     }
     else

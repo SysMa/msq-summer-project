@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDate>
 
 namespace Ui {
     class MainWindow;
@@ -20,6 +21,8 @@ private:
 
 public slots:
     void showPlanet(int i);
+    void refreshTime(int);
+    void keepTime();
 };
 
 #endif // MAINWINDOW_H

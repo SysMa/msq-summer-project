@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Aug 2 16:42:43 2011
+** Created: Tue Aug 2 21:32:36 2011
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -108,7 +108,7 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "\346\227\245\346\234\237\357\274\232", 0, QApplication::UnicodeUTF8));
-        pushButton_3->setText(QApplication::translate("MainWindow", "Ok", 0, QApplication::UnicodeUTF8));
+        pushButton_3->setText(QApplication::translate("MainWindow", "Set", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "\350\241\214\346\230\237\357\274\232", 0, QApplication::UnicodeUTF8));
         comboBox->clear();
         comboBox->insertItems(0, QStringList()

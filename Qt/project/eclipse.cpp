@@ -7,6 +7,7 @@
 
 #include "eclipse.h"
 #include "math.h"
+#include <QDebug>
 
 Eclipse::Eclipse()
 {
@@ -70,6 +71,8 @@ void Eclipse::drawMoon()
         glTranslatef(moon_dis * cos(angle)
                      ,0
                      ,moon_dis * sin(angle));
+        //qDebug()<<"sun :"<<sun_dis<<" 0 0";
+        //qDebug()<<"moon:"<<moon_dis * cos(angle)<<" 0 "<<moon_dis * sin(angle);
         //qDebug()<<distance<<"  "<<solar_angle;
 
         // rotate

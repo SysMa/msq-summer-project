@@ -14,14 +14,15 @@
 #include <QtOpenGL/QGLWidget>
 #include <QtOpenGL/qgl.h>
 #include <QImage>
+#include <QMessageBox>
 
 /**
   * for debug and reuse
-  *
+  */
 #include <qdebug.h>
 #include <QDebug>
 #include <QApplication>
-  *
+  /*
   */
 
 /**
@@ -86,16 +87,23 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     changeModel = true;
 
+    /*
     label = new QLabel(this);
     label->setGeometry(0,0,200,50);
     //label->setEnabled(true);
     label->setMargin(10);
     label->setAttribute(Qt::WA_TranslucentBackground,true);
     label->show();
-
+    */
 
     // the model of eclipse
     eclipse_model = new Eclipse();
+
+    // to show messages here
+    showMessage = new QMessageBox();
+
+    // jduge if the message has shown
+    flag = false;
 }
 
 /**
@@ -230,9 +238,10 @@ void palnetWidget::paintGL()
         glEnable(GL_LIGHT2);
         */
 
+        /*
         QDate begin(2000,1,1);
         label->setText(begin.addDays(solar->data_num).toString());
-
+        */
         glPushMatrix();
             glScalef(ArcBall->zoomRate, ArcBall->zoomRate, ArcBall->zoomRate);  //2. 缩放
             glMultMatrixf(ArcBall->Transform.M);                                //3. 旋转
@@ -302,7 +311,7 @@ void palnetWidget::resizeGL(int width, int height)
         glMatrixMode(GL_PROJECTION);
 
         glLoadIdentity();
-        gluPerspective(60,(GLfloat)width/(GLfloat)height, 1.0, 20000);
+        gluPerspective(45,(GLfloat)width/(GLfloat)height, 1.0, 20000);
         glMatrixMode(GL_MODELVIEW);
 
         glLoadIdentity();
@@ -314,7 +323,7 @@ void palnetWidget::resizeGL(int width, int height)
         glMatrixMode(GL_PROJECTION);
 
         glLoadIdentity();
-        gluPerspective(60,(GLfloat)width/(GLfloat)height, 1.0, 20000);
+        gluPerspective(45,(GLfloat)width/(GLfloat)height, 1.0, 20000);
         glMatrixMode(GL_MODELVIEW);
 
         glLoadIdentity();
@@ -330,22 +339,34 @@ void palnetWidget::timerEvent(QTimerEvent *e)
     if(changeModel)
     {
         // normal update
-        //if(!watchEclipse && !watchStars)
-        //{
-            solar->setNew();
-        //}
-        //else
-        //{
-        //    if(solar->isEclipse())
-        //    {
-        //        solar->setSpeed(0);
-        //    }
+        if(!watchEclipse && !watchStars)
+        {
 
-        //    if(solar->isInline())
-        //    {
-        //        solar->setSpeed(0);
-        //    }
-        //}
+            solar->setNew();
+        }
+        else
+        {
+            solar->setNew();
+            //qDebug()<<" still here...";
+            if(solar->isEclipse() && !flag)
+            {
+                qDebug()<<"god, eclipse happen...";
+                showMessage->setText("Watch Eclipse: slow down and be careful.");
+                showMessage->show();
+                solar->setSpeed(0);
+                flag = !flag;
+            }
+
+
+            /*
+            if(solar->isInline())
+            {
+                showMessage->setText("Watch the Stars: slow down and be careful.");
+                showMessage->show();
+                solar->setSpeed(0);
+            }
+            */
+        }
     }
     else
     {
@@ -360,8 +381,10 @@ void palnetWidget::timerEvent(QTimerEvent *e)
  * mouse event
  * learn from dashen provided by ligong
  *********************************************************/
-//鼠标移动事件
 
+/**
+ * move the mouse
+ */
 void palnetWidget::mouseMoveEvent(QMouseEvent *e){
     ArcBall->MousePt.s.X = e->x();
     ArcBall->MousePt.s.Y = e->y();
@@ -369,7 +392,9 @@ void palnetWidget::mouseMoveEvent(QMouseEvent *e){
     timerEvent(0);
 }
 
-//鼠标点击事件
+/**
+ * click button of the mouse
+ */
 void palnetWidget::mousePressEvent(QMouseEvent *e){
     if(e->button() == Qt::LeftButton){
         ArcBall->isClicked = true;
@@ -387,7 +412,9 @@ void palnetWidget::mousePressEvent(QMouseEvent *e){
 }
 
 
-//鼠标释放事件
+/**
+ * reenable the button
+ */
 void palnetWidget::mouseReleaseEvent(QMouseEvent *e){
     if(e->button() == Qt::LeftButton){
         ArcBall->isClicked = false;
@@ -402,7 +429,9 @@ void palnetWidget::mouseReleaseEvent(QMouseEvent *e){
     timerEvent(0);
 }
 
-//移动鼠标
+/**
+ * move the mouse
+ */
 void palnetWidget::move(int x, int y)
 {
     ArcBall->MousePt.s.X = x;
@@ -805,11 +834,33 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 break;
             case Qt::Key_F6:
                 watchEclipse = !watchEclipse;
+                //solar->setSpeed(0);
                 //qDebug()<<" watch Eclipse "<< watchEclipse;
+                if(watchEclipse)
+                {
+                    //showMessage->setText("We will stop when eclipse happen.");
+                    //showMessage->show();
+                }
+                else
+                {
+                    //showMessage->setText("We will not stop when eclipse happen.");
+                    //showMessage->show();
+                }
                 updateGL();
                 break;
             case Qt::Key_F7:
                 watchStars = !watchStars;
+                solar->setSpeed(0);
+                if(watchStars)
+                {
+                    showMessage->setText("We will stop when stars happen to appear in a line.");
+                    showMessage->show();
+                }
+                else
+                {
+                    showMessage->setText("We will stop when stars happen to appear in a line.");
+                    showMessage->show();
+                }
                 updateGL();
                 break;
             case Qt::Key_Space:
@@ -817,6 +868,12 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 updateGL();
                 break;
             case Qt::Key_F8:
+                solar->setSpeed(1);
+                updateGL();
+                break;
+            // be careful about the eclipse restore.
+            case Qt::Key_F9:
+                flag = false;
                 solar->setSpeed(1);
                 updateGL();
                 break;

@@ -22,6 +22,7 @@ public:
     //explicit palnetWidget(QObject *parent = 0);
 
 signals:
+    void date_updated(int);
 
 public slots:
 

@@ -19,6 +19,7 @@ using namespace std;
  */
 Palnet::Palnet()
 {
+    //connect(this,SIGNAL(widgetRedrawed(int)),this->parent(),this->parent()->)
     // PI
     pie = 3.14159265357;
 
@@ -957,6 +958,7 @@ void Palnet::setNew()
     if( neptune_solar_angle > 360){
         neptune_solar_angle -= 360;
     }
+    //emit widgetRedrawed(data_num);
 }
 
 /**

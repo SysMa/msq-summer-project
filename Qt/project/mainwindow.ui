@@ -33,32 +33,6 @@
         <height>80</height>
        </size>
       </property>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>600</x>
-         <y>10</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>上一次连珠</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="geometry">
-        <rect>
-         <x>600</x>
-         <y>50</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>下一次连珠</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="label">
        <property name="geometry">
         <rect>
@@ -120,11 +94,6 @@
        <item>
         <property name="text">
          <string>None</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Moon</string>
         </property>
        </item>
        <item>

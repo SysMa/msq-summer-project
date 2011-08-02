@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Aug 2 10:28:04 2011
+** Created: Tue Aug 2 16:42:43 2011
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -36,8 +36,6 @@ public:
     QVBoxLayout *verticalLayout;
     palnetWidget *widget_2;
     QWidget *widget;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
     QLabel *label;
     QDateEdit *dateEdit;
     QPushButton *pushButton_3;
@@ -68,12 +66,6 @@ public:
         widget = new QWidget(centralWidget);
         widget->setObjectName(QString::fromUtf8("widget"));
         widget->setMaximumSize(QSize(16777215, 80));
-        pushButton = new QPushButton(widget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(600, 10, 75, 23));
-        pushButton_2 = new QPushButton(widget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(600, 50, 75, 23));
         label = new QLabel(widget);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(10, 10, 31, 16));
@@ -115,15 +107,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("MainWindow", "\344\270\212\344\270\200\346\254\241\350\277\236\347\217\240", 0, QApplication::UnicodeUTF8));
-        pushButton_2->setText(QApplication::translate("MainWindow", "\344\270\213\344\270\200\346\254\241\350\277\236\347\217\240", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "\346\227\245\346\234\237\357\274\232", 0, QApplication::UnicodeUTF8));
         pushButton_3->setText(QApplication::translate("MainWindow", "Ok", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "\350\241\214\346\230\237\357\274\232", 0, QApplication::UnicodeUTF8));
         comboBox->clear();
         comboBox->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "None", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Moon", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Mercury", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Venus", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Earth", 0, QApplication::UnicodeUTF8)

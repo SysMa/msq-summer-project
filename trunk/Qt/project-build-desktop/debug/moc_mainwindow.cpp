@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Tue Aug 2 21:39:42 2011
+** Created: Wed Aug 3 00:11:18 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,6 +34,8 @@ static const uint qt_meta_data_MainWindow[] = {
       14,   12,   11,   11, 0x0a,
       30,   11,   11,   11, 0x0a,
       47,   11,   11,   11, 0x0a,
+      58,   11,   11,   11, 0x0a,
+      78,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -41,6 +43,7 @@ static const uint qt_meta_data_MainWindow[] = {
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0i\0showPlanet(int)\0"
     "refreshTime(int)\0keepTime()\0"
+    "cameraPosition(int)\0viewPositon(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -75,9 +78,11 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 0: showPlanet((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: refreshTime((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 2: keepTime(); break;
+        case 3: cameraPosition((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: viewPositon((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 5;
     }
     return _id;
 }

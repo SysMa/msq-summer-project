@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Aug 2 21:32:36 2011
+** Created: Wed Aug 3 00:11:01 2011
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -42,6 +42,10 @@ public:
     QLabel *label_2;
     QComboBox *comboBox;
     QPushButton *pushButton_4;
+    QLabel *label_3;
+    QLabel *label_4;
+    QComboBox *comboBox_2;
+    QComboBox *comboBox_3;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -84,6 +88,18 @@ public:
         pushButton_4 = new QPushButton(widget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setGeometry(QRect(700, 50, 75, 23));
+        label_3 = new QLabel(widget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setGeometry(QRect(250, 10, 61, 16));
+        label_4 = new QLabel(widget);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setGeometry(QRect(260, 50, 54, 12));
+        comboBox_2 = new QComboBox(widget);
+        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
+        comboBox_2->setGeometry(QRect(320, 10, 131, 22));
+        comboBox_3 = new QComboBox(widget);
+        comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
+        comboBox_3->setGeometry(QRect(320, 50, 131, 22));
 
         verticalLayout->addWidget(widget);
 
@@ -123,6 +139,35 @@ public:
          << QApplication::translate("MainWindow", "Neptune", 0, QApplication::UnicodeUTF8)
         );
         pushButton_4->setText(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("MainWindow", "Look From:", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("MainWindow", "Look To :", 0, QApplication::UnicodeUTF8));
+        comboBox_2->clear();
+        comboBox_2->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Default", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Sun", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Moon", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Mercury", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Venus", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Earth", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Mars", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Jupiter", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Saturn", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Uranus", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Neptune", 0, QApplication::UnicodeUTF8)
+        );
+        comboBox_3->clear();
+        comboBox_3->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Default( the Sun)", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Moon", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Mercury", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Venus", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Earth", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Mars", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Jupiter", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Saturn", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Uranus", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Neptune", 0, QApplication::UnicodeUTF8)
+        );
     } // retranslateUi
 
 };

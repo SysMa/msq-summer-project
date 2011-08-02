@@ -62,6 +62,36 @@ public :
     // jduge if the message has shown or not
     bool flag;
 
+    // draw the sun
+    bool sun;
+
+    // determine watch potion and goal
+    bool camera_from_default;
+    bool camera_from_sun;
+    bool camera_from_moon;
+    bool camera_from_mercury;
+    bool camera_from_venus;
+    bool camera_from_mars;
+    bool camera_from_earth;
+    bool camera_from_jupiter;
+    bool camera_from_saturn;
+    bool camera_from_uranus;
+    bool camera_from_neptune;
+
+    bool view_to_default;
+    bool view_to_moon;
+    bool view_to_mercury;
+    bool view_to_venus;
+    bool view_to_earth;
+    bool view_to_mars;
+    bool view_to_jupiter;
+    bool view_to_saturn;
+    bool view_to_uranus;
+    bool view_to_neptune;
+
+    bool camera_changed;        // namely not default
+    bool view_changed;          // namely not default
+
 /*********************************************************
  *
  * Here are my code.

@@ -40,6 +40,11 @@ public slots:
       * deal with the center position
       */
     void viewPositon(int);
+
+    /**
+      * about
+      */
+
 };
 
 #endif // MAINWINDOW_H

@@ -24,7 +24,8 @@ Palnet::Palnet()
     pie = 3.14159265357;
 
     // stars in line jduge angle
-    required_angle = pie / 2;
+    // 0.4 ~ 0.5 has only once.
+    required_angle = 1.0;
 
     // first eslipse
     first_eclipse = true;
@@ -1228,11 +1229,31 @@ bool Palnet::isInline()
     ranges[6] = atan(uranus_data_y[data_num]    / uranus_data_x[data_num]);
     ranges[7] = atan(neptune_data_y[data_num]   / neptune_data_x[data_num]);
 
+    /*
+    for(int i = 0; i < 8; i++)
+    {
+        int count;
+        for(int j = 0; j < 8; j++)
+        {
+           if(ranges[j] - ranges[i] <= some_angle)
+           {
+               count++;
+           }
+        }
+        if(count > = 5)
+        {
+            return count;
+        }
+    }
+    */
+
     if(findRange(ranges,8) <= required_angle && first_line)
     {
+        qDebug()<<findRange(ranges,8);
         first_line = !first_line;
         return true;
     }
+
     else
     {
         first_line = true;

@@ -13,11 +13,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(showPlanet(int)));
-    connect(ui->widget_2,SIGNAL(date_updated(int)),this,SLOT(refreshTime(int)));
-    connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
     connect(ui->comboBox_2,SIGNAL(currentIndexChanged(int)),this,SLOT(cameraPosition(int)));
     connect(ui->comboBox_3,SIGNAL(currentIndexChanged(int)),this,SLOT(viewPositon(int)));
+
+    connect(ui->widget_2,SIGNAL(date_updated(int)),this,SLOT(refreshTime(int)));
+
     connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(showAbout()));
+    connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(showAdvice()));
+    connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
     connect(ui->pushButton_4,SIGNAL(clicked()),this,SLOT(showHotkey()));
 }
 
@@ -838,4 +841,14 @@ void MainWindow::showHotkey()
 {
     hotkeyform = new Hotkey();
     hotkeyform->show();
+}
+
+
+/**
+  * show advice
+  */
+void MainWindow::showAdvice()
+{
+    adviceform = new Advice();
+    adviceform->show();
 }

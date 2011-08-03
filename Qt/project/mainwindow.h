@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QDate>
+#include "about.h"
+#include "hotkey.h"
 
 namespace Ui {
     class MainWindow;
@@ -18,6 +20,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    About* aboutform;
+    Hotkey* hotkeyform;
 
 public slots:
     /**
@@ -42,8 +46,14 @@ public slots:
     void viewPositon(int);
 
     /**
-      * about
+      * show about form
       */
+    void showAbout();
+
+    /**
+      * show the hot keys
+      */
+    void showHotkey();
 
 };
 

@@ -1117,6 +1117,10 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             close();
             this->parentWidget()->close();
             break;
+        case Qt::Key_Space:
+            eclipse_model->speed = 0;
+            updateGL();
+            break;
         case Qt::Key_F4:
             //qDebug()<<" you pressed the button f4...";
             changeModel = !changeModel;

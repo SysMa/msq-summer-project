@@ -1036,7 +1036,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 }
                 else
                 {
-                    showMessage->setText("We will not stop when eclipse happen.");
+                    showMessage->setText("Reset.");
                     showMessage->show();
                 }
                 updateGL();
@@ -1051,7 +1051,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 }
                 else
                 {
-                    showMessage->setText("We will not stop when stars happen to appear in a line.");
+                    showMessage->setText("Reset.");
                     showMessage->show();
                 }
                 updateGL();
@@ -1067,7 +1067,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             // be careful about the eclipse restore.
             case Qt::Key_F9:
                 flag = false;
-                solar->setSpeed(1);
+                //solar->setSpeed(1);
                 updateGL();
                 break;
             default:

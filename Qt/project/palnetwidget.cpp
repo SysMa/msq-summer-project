@@ -1070,6 +1070,40 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 //solar->setSpeed(1);
                 updateGL();
                 break;
+            case Qt::Key_F10:
+                solar->setSpeed(1);
+                if( solar->data_num + solar->speed >= 109574 && solar->speed > 0)
+                {
+                    solar->data_num = solar->data_num + solar->speed - 109574;
+                }
+                else if( solar->data_num + solar->speed <= 0 && solar->speed < 0)
+                {
+                    solar->data_num = solar->data_num + solar->speed + 109574;
+                }
+                else
+                {
+                    solar->data_num += solar->speed;
+                }
+                solar->setSpeed(0);
+                updateGL();
+                break;
+            case Qt::Key_F11:
+                solar->setSpeed(-1);
+                if( solar->data_num + solar->speed >= 109574 && solar->speed > 0)
+                {
+                    solar->data_num = solar->data_num + solar->speed - 109574;
+                }
+                else if( solar->data_num + solar->speed <= 0 && solar->speed < 0)
+                {
+                    solar->data_num = solar->data_num + solar->speed + 109574;
+                }
+                else
+                {
+                    solar->data_num += solar->speed;
+                }
+                solar->setSpeed(0);
+                updateGL();
+                break;
             default:
                 break;
             }

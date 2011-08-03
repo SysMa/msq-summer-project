@@ -18,6 +18,7 @@ Eclipse::Eclipse()
     moon_r  = 0.5;
     speed   = 0.01f;
     angle   = 0;
+    pause   = false;
 }
 
 void Eclipse::drawSun()
@@ -92,7 +93,13 @@ void Eclipse::drawMoon()
     glEnable(GL_LIGHTING);
 }
 
+/**
+  * step up
+  */
 void Eclipse::step()
 {
-    angle += speed;
+    if(!pause)
+    {
+        angle += speed;
+    }
 }

@@ -5,6 +5,7 @@
 #include <QDate>
 #include "about.h"
 #include "hotkey.h"
+#include "advice.h"
 
 namespace Ui {
     class MainWindow;
@@ -22,6 +23,7 @@ private:
     Ui::MainWindow *ui;
     About* aboutform;
     Hotkey* hotkeyform;
+    Advice* adviceform;
 
 public slots:
     /**
@@ -54,6 +56,11 @@ public slots:
       * show the hot keys
       */
     void showHotkey();
+
+    /**
+      * show suggestions
+      */
+    void showAdvice();
 
 };
 

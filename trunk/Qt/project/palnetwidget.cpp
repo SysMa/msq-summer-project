@@ -1117,10 +1117,6 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             close();
             this->parentWidget()->close();
             break;
-        case Qt::Key_Space:
-            eclipse_model->speed = 0;
-            updateGL();
-            break;
         case Qt::Key_F4:
             //qDebug()<<" you pressed the button f4...";
             changeModel = !changeModel;
@@ -1209,6 +1205,20 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             {
                 eclipse_model->moon_r -= 0.5;
             }
+            updateGL();
+            break;
+        case Qt::Key_Left:
+            eclipse_model->pause = true;
+            eclipse_model->angle -= eclipse_model->speed;
+            updateGL();
+            break;
+        case Qt::Key_Right:
+            eclipse_model->pause = true;
+            eclipse_model->angle += eclipse_model->speed;
+            updateGL();
+            break;
+        case Qt::Key_Space:
+            eclipse_model->pause = !eclipse_model->pause;
             updateGL();
             break;
         default:

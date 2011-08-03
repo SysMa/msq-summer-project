@@ -39,6 +39,8 @@ public:
     double angle;
     double speed;
 
+    // pause or not
+    bool pause;
 
 public:
     // here are some functions

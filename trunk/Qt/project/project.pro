@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     arcball.cpp \
     eclipse.cpp \
     about.cpp \
-    hotkey.cpp
+    hotkey.cpp \
+    advice.cpp
 
 HEADERS  += mainwindow.h \
     call.h \
@@ -29,11 +30,13 @@ HEADERS  += mainwindow.h \
     arcball.h \
     eclipse.h \
     about.h \
-    hotkey.h
+    hotkey.h \
+    advice.h
 
 FORMS    += mainwindow.ui \
     about.ui \
-    hotkey.ui
+    hotkey.ui \
+    advice.ui
 
 #-------------------------------------------------
 #

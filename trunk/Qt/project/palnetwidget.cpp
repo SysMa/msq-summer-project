@@ -73,14 +73,14 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     // view port
     from_x  = 0;
-    from_y  = 15;
-    from_z  = solar->neptune_data_z[0];
+    from_y  = solar->neptune_data_y[0];
+    from_z  = 5;
     to_x    = solar->center_x;
     to_y    = solar->center_y;
     to_z    = solar->center_z;
     up_x    = 0;
-    up_y    = 1;
-    up_z    = 0;
+    up_y    = 0;
+    up_z    = 1;
 
     // focus
     // setFocusPolicy(Qt::StrongFocus);
@@ -370,18 +370,66 @@ void palnetWidget::timerEvent(QTimerEvent *e)
 {
     if(changeModel)
     {
+        //qDebug()<<solar->data_num;
+
+        // normal update
+        if(!watchEclipse && !watchStars)
+        {
+            solar->setNew();
+            if(solar->speed != 0)
+            {
+                emit date_updated(solar->data_num);
+            }
+        }
+        if( watchEclipse)
+        {
+            solar->setNew();
+            //qDebug()<<" still here...";
+            if(solar->speed != 0)
+            {
+                emit date_updated(solar->data_num);
+            }
+            if(solar->isEclipse() && !flag)
+            {
+                //qDebug()<<"god, eclipse happen...";
+                showMessage->setText("Watch Eclipse: slow down and be careful.");
+                showMessage->show();
+                solar->setSpeed(0);
+                flag = !flag;
+            }
+        }
+        if( watchStars)
+        {
+            solar->setNew();
+            if(solar->speed != 0)
+            {
+                emit date_updated(solar->data_num);
+            }
+
+            if(solar->isInline() && !flag)
+            {
+                showMessage->setText("Watch the Stars: slow down and be careful.");
+                showMessage->show();
+                solar->setSpeed(0);
+                flag = !flag;
+            }
+        }
+
+        //qDebug()<<solar->earth_data_x[solar->data_num]<<" "<<solar->earth_data_y[solar->data_num]<<" "<<solar->earth_data_z[solar->data_num];
+        this->sun = !this->camera_from_sun;
+
         // change the view port
         if(camera_changed)
         {
             if(camera_from_sun)
             {
-                this->sun = false;
                 from_x  = 0;
                 from_y  = 0;
                 from_z  = 0;
             }
             else if(camera_from_moon)
             {
+                //qDebug()<<" view from moon...";
                 solar->moon = false;
                 from_x = solar->earth_data_x[solar->data_num] + solar->distance * cos(solar->moon_solar_angle * solar->pie / 180);
                 from_y = solar->earth_data_y[solar->data_num] + solar->distance * sin(solar->moon_solar_angle * solar->pie / 180);
@@ -403,10 +451,10 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             }
             else if(camera_from_earth)
             {
-                solar->venus = false;
-                from_x = solar->venus_data_x[solar->data_num];
-                from_y = solar->venus_data_y[solar->data_num];
-                from_z = solar->venus_data_z[solar->data_num];
+                solar->earth = false;
+                from_x = solar->earth_data_x[solar->data_num];
+                from_y = solar->earth_data_y[solar->data_num];
+                from_z = solar->earth_data_z[solar->data_num];
             }
             else if(camera_from_mars)
             {
@@ -470,10 +518,11 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             }
             else if(view_to_earth)
             {
-                solar->venus = true;
-                to_x = solar->venus_data_x[solar->data_num];
-                to_y = solar->venus_data_y[solar->data_num];
-                to_z = solar->venus_data_z[solar->data_num];
+                //qDebug()<<"view to earth.";
+                solar->earth = true;
+                to_x = solar->earth_data_x[solar->data_num];
+                to_y = solar->earth_data_y[solar->data_num];
+                to_z = solar->earth_data_z[solar->data_num];
             }
             else if(view_to_mars)
             {
@@ -509,49 +558,6 @@ void palnetWidget::timerEvent(QTimerEvent *e)
                 to_x = solar->neptune_data_x[solar->data_num];
                 to_y = solar->neptune_data_y[solar->data_num];
                 to_z = solar->neptune_data_z[solar->data_num];
-            }
-        }
-
-        // normal update
-        if(!watchEclipse && !watchStars)
-        {
-            solar->setNew();
-            if(solar->speed != 0)
-            {
-                emit date_updated(solar->data_num);
-            }
-        }
-        if( watchEclipse)
-        {
-            solar->setNew();
-            //qDebug()<<" still here...";
-            if(solar->speed != 0)
-            {
-                emit date_updated(solar->data_num);
-            }
-            if(solar->isEclipse() && !flag)
-            {
-                //qDebug()<<"god, eclipse happen...";
-                showMessage->setText("Watch Eclipse: slow down and be careful.");
-                showMessage->show();
-                solar->setSpeed(0);
-                flag = !flag;
-            }
-        }
-        if( watchStars)
-        {
-            solar->setNew();
-            if(solar->speed != 0)
-            {
-                emit date_updated(solar->data_num);
-            }
-
-            if(solar->isInline() && !flag)
-            {
-                showMessage->setText("Watch the Stars: slow down and be careful.");
-                showMessage->show();
-                solar->setSpeed(0);
-                flag = !flag;
             }
         }
     }
@@ -1009,14 +1015,14 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 solar->center_y = 0;
                 solar->center_z = 0;
                 from_x  = 0;
-                from_y  = 15;
-                from_z  = solar->neptune_data_z[0];
+                from_y  = solar->neptune_data_y[0];
+                from_z  = 0;
                 to_x    = solar->center_x;
                 to_y    = solar->center_y;
                 to_z    = solar->center_z;
                 up_x    = 0;
-                up_y    = 1;
-                up_z    = 0;
+                up_y    = 0;
+                up_z    = 1;
                 updateGL();
                 break;
             case Qt::Key_F6:

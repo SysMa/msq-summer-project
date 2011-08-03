@@ -672,7 +672,7 @@ bool Palnet::drawPalnet(double point_x, double point_y,
             glRotatef(axis_angle, 0, 0, 1);
 
             // to deal with the texture
-            glRotatef(180.0, 1.0, 0.0, 0.0);
+            //glRotatef(180.0, 1.0, 0.0, 0.0);
 
             /*
             // bind to the texture
@@ -848,13 +848,13 @@ void Palnet::setNew()
         data_num = 0;
         return ;
     }*/
-    if( data_num + speed >= 10957 && speed > 0)
+    if( data_num + speed >= 109574 && speed > 0)
     {
-        data_num = 0;
+        data_num = data_num + speed - 109574;
     }
     else if( data_num + speed <= 0 && speed < 0)
     {
-        data_num = 10957;
+        data_num = data_num + speed + 109574;
     }
     else
     {

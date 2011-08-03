@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QUrl>
+#include <QDesktopServices>
 
 /*
   for dubug
@@ -22,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(showAdvice()));
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
     connect(ui->pushButton_4,SIGNAL(clicked()),this,SLOT(showHotkey()));
+    connect(ui->pushButton_5,SIGNAL(clicked()),this,SLOT(showHelp()));
 }
 
 MainWindow::~MainWindow()
@@ -851,4 +854,14 @@ void MainWindow::showAdvice()
 {
     adviceform = new Advice();
     adviceform->show();
+}
+
+/**
+  * shwo help
+  */
+void MainWindow::showHelp()
+{
+    QUrl url("help.chm");
+    QDesktopServices::openUrl(url);
+
 }

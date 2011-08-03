@@ -62,6 +62,11 @@ public slots:
       */
     void showAdvice();
 
+    /**
+      * SHOW HELP
+      */
+    void showHelp();
+
 };
 
 #endif // MAINWINDOW_H

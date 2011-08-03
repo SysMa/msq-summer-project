@@ -1183,7 +1183,7 @@ bool Palnet::isEclipse()
     double earth_k = atan(earth_data_y[data_num]/earth_data_x[data_num]);
     double moon_k  = atan((earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180))/(earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180)));
     double e_m_angle   = earth_k >= moon_k ? (earth_k - moon_k):(moon_k - earth_k);
-    qDebug()<<earth_k<<" "<<moon_k<<" "<<e_m_angle;
+    //qDebug()<<earth_k<<" "<<moon_k<<" "<<e_m_angle;
     if(e_m_angle < 0.01 && first_eclipse)
     {
         first_eclipse = false;
@@ -1252,7 +1252,7 @@ bool Palnet::isInline()
     {
         //qDebug()<<findRange(ranges,8);
         QDate showdate(2000,1,1);
-        qDebug()<<showdate.addDays(data_num).toString();
+        //qDebug()<<showdate.addDays(data_num).toString();
         first_line = !first_line;
         return true;
     }

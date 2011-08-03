@@ -3,6 +3,7 @@
 #include <fstream>
 #include <math.h>
 #include <QImage>
+#include <QDate>
 #include <QGLWidget>
 
 /*
@@ -1249,7 +1250,9 @@ bool Palnet::isInline()
 
     if(findRange(ranges,8) <= required_angle && first_line)
     {
-        qDebug()<<findRange(ranges,8);
+        //qDebug()<<findRange(ranges,8);
+        QDate showdate(2000,1,1);
+        qDebug()<<showdate.addDays(data_num).toString();
         first_line = !first_line;
         return true;
     }

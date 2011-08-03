@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
     connect(ui->comboBox_2,SIGNAL(currentIndexChanged(int)),this,SLOT(cameraPosition(int)));
     connect(ui->comboBox_3,SIGNAL(currentIndexChanged(int)),this,SLOT(viewPositon(int)));
+    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(showAbout()));
+    connect(ui->pushButton_4,SIGNAL(clicked()),this,SLOT(showHotkey()));
 }
 
 MainWindow::~MainWindow()
@@ -820,4 +822,20 @@ void MainWindow::viewPositon(int index)
         ui->widget_2->updateGL();
         break;
     }
+}
+
+
+/**
+  * show about
+  */
+void MainWindow::showAbout()
+{
+    aboutform = new About();
+    aboutform->show();
+}
+
+void MainWindow::showHotkey()
+{
+    hotkeyform = new Hotkey();
+    hotkeyform->show();
 }

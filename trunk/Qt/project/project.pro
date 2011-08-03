@@ -16,7 +16,9 @@ SOURCES += main.cpp\
     palnet.cpp \
     palnetwidget.cpp \
     arcball.cpp \
-    eclipse.cpp
+    eclipse.cpp \
+    about.cpp \
+    hotkey.cpp
 
 HEADERS  += mainwindow.h \
     call.h \
@@ -25,9 +27,13 @@ HEADERS  += mainwindow.h \
     palnet.h \
     palnetwidget.h \
     arcball.h \
-    eclipse.h
+    eclipse.h \
+    about.h \
+    hotkey.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    about.ui \
+    hotkey.ui
 
 #-------------------------------------------------
 #

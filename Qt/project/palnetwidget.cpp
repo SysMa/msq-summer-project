@@ -364,7 +364,7 @@ void palnetWidget::resizeGL(int width, int height)
 }
 
 /**
- * the timer event to chang animation
+ * the timer event to change animation
  */
 void palnetWidget::timerEvent(QTimerEvent *e)
 {

@@ -15,6 +15,7 @@
  * the ones next are added by MSq
  *
  *************************************************************/
+/*
 #define QT3_SUPPORT
 #include <qapplication.h>
 #include <qmessagebox.h>
@@ -40,3 +41,4 @@ int main(int argc, char *argv[])
     aa.show();
     return a.exec();
 }
+*/

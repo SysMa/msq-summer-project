@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     eclipse.cpp \
     about.cpp \
     hotkey.cpp \
-    advice.cpp
+    advice.cpp \
+    test.cpp
 
 HEADERS  += mainwindow.h \
     call.h \
@@ -31,7 +32,8 @@ HEADERS  += mainwindow.h \
     eclipse.h \
     about.h \
     hotkey.h \
-    advice.h
+    advice.h \
+    test.h
 
 FORMS    += mainwindow.ui \
     about.ui \
@@ -45,5 +47,7 @@ FORMS    += mainwindow.ui \
 #-------------------------------------------------
 
 QT += opengl
+
+QT += testlib
 
 LIBS +=  -lglut32 -lglaux -lopengl32 -lglu32

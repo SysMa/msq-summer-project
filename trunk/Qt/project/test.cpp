@@ -224,4 +224,4 @@ void test::palnetPause()
   ********************************************/
 
 // self create a main funciton and take over
-QTEST_MAIN(test)
+//QTEST_MAIN(test)

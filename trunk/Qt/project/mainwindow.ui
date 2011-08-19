@@ -192,52 +192,52 @@
        </item>
        <item>
         <property name="text">
-         <string>Sun</string>
+         <string>Center</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Moon</string>
+         <string>Distance 1</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Mercury</string>
+         <string>Distance 2</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Venus</string>
+         <string>Distance 3</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Earth</string>
+         <string>Distance 4</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Mars</string>
+         <string>Distance 5</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Jupiter</string>
+         <string>Distance 6</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Saturn</string>
+         <string>Distance 7</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Uranus</string>
+         <string>Distance 8</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Neptune</string>
+         <string>Distance 9</string>
         </property>
        </item>
       </widget>

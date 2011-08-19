@@ -74,7 +74,7 @@ void MainWindow::showPlanet(int index)
         ui->widget_2->solar->uranus_line_color[2] = 0;
 
         ui->widget_2->solar->neptune_line_color[0] = 0;
-        ui->widget_2->solar->neptune_line_color[1] = 0;
+        ui->widget_2->solar->neptune_line_color[1] = 1;
         ui->widget_2->solar->neptune_line_color[2] = 0;
 
         ui->widget_2->updateGL();
@@ -456,8 +456,8 @@ void MainWindow::cameraPosition(int index)
 
         // reset
         ui->widget_2->from_x  = 0;
-        ui->widget_2->from_y  = 15;
-        ui->widget_2->from_z  = ui->widget_2->solar->neptune_data_z[0];
+        ui->widget_2->from_y  = ui->widget_2->solar->neptune_data_y[0];
+        ui->widget_2->from_z  = 15;
 
         ui->widget_2->updateGL();
         break;
@@ -637,8 +637,8 @@ void MainWindow::cameraPosition(int index)
 
         // reset
         ui->widget_2->from_x  = 0;
-        ui->widget_2->from_y  = 15;
-        ui->widget_2->from_z  = ui->widget_2->solar->neptune_data_z[0];
+        ui->widget_2->from_y  = ui->widget_2->solar->neptune_data_y[0];
+        ui->widget_2->from_z  = 15;
 
         ui->widget_2->updateGL();
         break;

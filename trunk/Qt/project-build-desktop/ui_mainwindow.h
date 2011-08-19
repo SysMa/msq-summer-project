@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Aug 3 21:56:47 2011
+** Created: Thu Aug 4 23:15:45 2011
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -156,16 +156,16 @@ public:
         comboBox_2->clear();
         comboBox_2->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Default", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Sun", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Moon", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Mercury", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Venus", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Earth", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Mars", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Jupiter", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Saturn", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Uranus", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Neptune", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Center", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 1", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 2", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 3", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 4", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 5", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 6", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 7", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 8", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Distance 9", 0, QApplication::UnicodeUTF8)
         );
         comboBox_3->clear();
         comboBox_3->insertItems(0, QStringList()

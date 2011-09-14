@@ -397,7 +397,16 @@
     <addaction name="actionSolar"/>
     <addaction name="actionSun_Earth_Moon"/>
    </widget>
+   <widget class="QMenu" name="menuNotice">
+    <property name="title">
+     <string>Notice</string>
+    </property>
+    <addaction name="actionEclipse"/>
+    <addaction name="actionPlanetary_Alignments"/>
+    <addaction name="actionNext_Notice"/>
+   </widget>
    <addaction name="menuChange_Mode"/>
+   <addaction name="menuNotice"/>
    <addaction name="menuPalnet"/>
    <addaction name="menuCircles"/>
    <addaction name="menuHelp"/>
@@ -578,6 +587,21 @@
   <action name="actionSun_Earth_Moon">
    <property name="text">
     <string>Sun-Earth-Moon</string>
+   </property>
+  </action>
+  <action name="actionEclipse">
+   <property name="text">
+    <string>Eclipse</string>
+   </property>
+  </action>
+  <action name="actionPlanetary_Alignments">
+   <property name="text">
+    <string>Planetary Alignments</string>
+   </property>
+  </action>
+  <action name="actionNext_Notice">
+   <property name="text">
+    <string>Next Notice</string>
    </property>
   </action>
  </widget>

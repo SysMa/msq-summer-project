@@ -150,7 +150,7 @@ Palnet::Palnet()
 
 
     // distance form earth to moon
-    distance = earth_size * 1.25;
+    distance = earth_size * 1.5;
 
     // init light
     LightAmbient[0] = LightAmbient[1] = LightAmbient[2] = 0.5f;
@@ -1180,11 +1180,18 @@ bool Palnet::pause()
 
 /**
  * judge the eclipset
+ * 0 = no eclipse
+ * 1 = solar eclipse
+ * 2 = lunar eclipse
  */
-bool Palnet::isEclipse()
+int Palnet::isEclipse()
 {
     double earth_k = atan(earth_data_y[data_num]/earth_data_x[data_num]);
-    double moon_k  = atan((earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180))/(earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180)));
+    double earth_r = earth_data_x[data_num] * earth_data_x[data_num] + earth_data_y[data_num] * earth_data_y[data_num];
+    double moon_y  = earth_data_y[data_num] + distance * sin(moon_solar_angle * pie / 180);
+    double moon_x  = earth_data_x[data_num] + distance * cos(moon_solar_angle * pie / 180);
+    double moon_k  = atan(moon_y/moon_x);
+    double moon_r  = moon_y * moon_y + moon_x * moon_x;
     double e_m_angle   = earth_k >= moon_k ? (earth_k - moon_k):(moon_k - earth_k);
     //qDebug()<<earth_k<<" "<<moon_k<<" "<<e_m_angle;
     if(e_m_angle < 0.01 && first_eclipse)
@@ -1192,12 +1199,21 @@ bool Palnet::isEclipse()
         first_eclipse = false;
         //qDebug()<<"moon :"<<moon_data_x<<" "<<moon_data_y;
         //qDebug()<<"earth:"<<earth_data_x[data_num]<<" "<<earth_data_y[data_num];
-        return true;
+        //qDebug()<<earth_r<<"   "<<moon_r;
+        if(earth_r > moon_r)
+        {
+            return 1;
+        }
+        else
+        {
+            //qDebug()<<"return 2";
+            return 2;
+        }
     }
     else
     {
         first_eclipse = true;
-        return false;
+        return 0;
     }
 }
 

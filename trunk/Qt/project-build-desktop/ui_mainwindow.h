@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Sep 14 15:29:45 2011
+** Created: Wed Sep 14 23:26:49 2011
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -56,6 +56,9 @@ public:
     QAction *actionHot_Key_List;
     QAction *actionSolar;
     QAction *actionSun_Earth_Moon;
+    QAction *actionEclipse;
+    QAction *actionPlanetary_Alignments;
+    QAction *actionNext_Notice;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     palnetWidget *widget_2;
@@ -78,6 +81,7 @@ public:
     QMenu *menuCircles;
     QMenu *menuHelp;
     QMenu *menuChange_Mode;
+    QMenu *menuNotice;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -150,6 +154,12 @@ public:
         actionSolar->setObjectName(QString::fromUtf8("actionSolar"));
         actionSun_Earth_Moon = new QAction(MainWindow);
         actionSun_Earth_Moon->setObjectName(QString::fromUtf8("actionSun_Earth_Moon"));
+        actionEclipse = new QAction(MainWindow);
+        actionEclipse->setObjectName(QString::fromUtf8("actionEclipse"));
+        actionPlanetary_Alignments = new QAction(MainWindow);
+        actionPlanetary_Alignments->setObjectName(QString::fromUtf8("actionPlanetary_Alignments"));
+        actionNext_Notice = new QAction(MainWindow);
+        actionNext_Notice->setObjectName(QString::fromUtf8("actionNext_Notice"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -219,6 +229,8 @@ public:
         menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         menuChange_Mode = new QMenu(menuBar);
         menuChange_Mode->setObjectName(QString::fromUtf8("menuChange_Mode"));
+        menuNotice = new QMenu(menuBar);
+        menuNotice->setObjectName(QString::fromUtf8("menuNotice"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -228,6 +240,7 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuChange_Mode->menuAction());
+        menuBar->addAction(menuNotice->menuAction());
         menuBar->addAction(menuPalnet->menuAction());
         menuBar->addAction(menuCircles->menuAction());
         menuBar->addAction(menuHelp->menuAction());
@@ -255,6 +268,9 @@ public:
         menuHelp->addAction(actionHot_Key_List);
         menuChange_Mode->addAction(actionSolar);
         menuChange_Mode->addAction(actionSun_Earth_Moon);
+        menuNotice->addAction(actionEclipse);
+        menuNotice->addAction(actionPlanetary_Alignments);
+        menuNotice->addAction(actionNext_Notice);
 
         retranslateUi(MainWindow);
 
@@ -287,6 +303,9 @@ public:
         actionHot_Key_List->setText(QApplication::translate("MainWindow", "Hot Key List", 0, QApplication::UnicodeUTF8));
         actionSolar->setText(QApplication::translate("MainWindow", "Solar", 0, QApplication::UnicodeUTF8));
         actionSun_Earth_Moon->setText(QApplication::translate("MainWindow", "Sun-Earth-Moon", 0, QApplication::UnicodeUTF8));
+        actionEclipse->setText(QApplication::translate("MainWindow", "Eclipse", 0, QApplication::UnicodeUTF8));
+        actionPlanetary_Alignments->setText(QApplication::translate("MainWindow", "Planetary Alignments", 0, QApplication::UnicodeUTF8));
+        actionNext_Notice->setText(QApplication::translate("MainWindow", "Next Notice", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "\346\227\245\346\234\237\357\274\232", 0, QApplication::UnicodeUTF8));
         pushButton_3->setText(QApplication::translate("MainWindow", "Set", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "\351\200\211\346\213\251\350\246\201\350\247\202\345\257\237\347\232\204\350\241\214\346\230\237\357\274\232", 0, QApplication::UnicodeUTF8));
@@ -339,6 +358,7 @@ public:
         menuCircles->setTitle(QApplication::translate("MainWindow", "Hide Circles", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
         menuChange_Mode->setTitle(QApplication::translate("MainWindow", "Change Mode", 0, QApplication::UnicodeUTF8));
+        menuNotice->setTitle(QApplication::translate("MainWindow", "Notice", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDate>
+#include <QMessageBox>
 #include "about.h"
 #include "hotkey.h"
 #include "advice.h"
@@ -24,6 +25,7 @@ private:
     About* aboutform;
     Hotkey* hotkeyform;
     Advice* adviceform;
+    QMessageBox* showMessage;
 
 public slots:
     /**
@@ -91,6 +93,9 @@ private slots:
     void on_actionHot_Key_List_triggered();
     void on_actionSolar_triggered();
     void on_actionSun_Earth_Moon_triggered();
+    void on_actionEclipse_triggered();
+    void on_actionPlanetary_Alignments_triggered();
+    void on_actionNext_Notice_triggered();
 };
 
 #endif // MAINWINDOW_H

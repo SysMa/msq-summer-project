@@ -135,7 +135,7 @@ public:
     /**
      * eclipse
      */
-    bool isEclipse();
+    int isEclipse();
 
     /**
      * planets in line

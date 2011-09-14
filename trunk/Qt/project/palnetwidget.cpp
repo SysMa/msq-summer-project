@@ -389,13 +389,47 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             {
                 emit date_updated(solar->data_num);
             }
-            if(solar->isEclipse() && !flag)
+            //qDebug()<<solar->isEclipse();
+            int num = solar->isEclipse();
+            /*
+            if(num == 1 && !(flag))
             {
-                //qDebug()<<"god, eclipse happen...";
-                showMessage->setText("Watch Eclipse: slow down and be careful.");
+                //qDebug()<<"god, soalr eclipse happen...";
+                showMessage->setText("Watch Solar Eclipse: slow down and be careful.");
                 showMessage->show();
                 solar->setSpeed(0);
                 flag = !flag;
+            }
+            if(num == 2 && !(flag))
+            {
+                qDebug()<<"god, lunar eclipse happen...";
+                showMessage->setText("Watch Lunar Eclipse: slow down and be careful.");
+                showMessage->show();
+                solar->setSpeed(0);
+                flag = !flag;
+            }
+            */
+            if(!flag)
+            {
+                //qDebug()<<num;
+                if(num == 1)
+                {
+                    showMessage->setText("Watch Solar Eclipse: slow down and be careful.");
+                    showMessage->show();
+                    solar->setSpeed(0);
+                    flag = !flag;
+                }
+                else if(num == 2)
+                {
+                    showMessage->setText("Watch Lunar Eclipse: slow down and be careful.");
+                    showMessage->show();
+                    solar->setSpeed(0);
+                    flag = !flag;
+                }
+                else
+                {
+                    // do nothing and exit
+                }
             }
         }
         if( watchStars)

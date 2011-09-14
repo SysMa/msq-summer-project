@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
     connect(ui->pushButton_4,SIGNAL(clicked()),this,SLOT(showHotkey()));
     connect(ui->pushButton_5,SIGNAL(clicked()),this,SLOT(showHelp()));
+
+    showMessage = new QMessageBox();
 }
 
 MainWindow::~MainWindow()
@@ -1051,4 +1053,48 @@ void MainWindow::on_actionSolar_triggered()
 void MainWindow::on_actionSun_Earth_Moon_triggered()
 {
     ui->widget_2->changeModel = false;
+}
+
+/**
+  * determine if eclipse notice will be raised.
+  */
+void MainWindow::on_actionEclipse_triggered()
+{
+    ui->widget_2->watchEclipse = !ui->widget_2->watchEclipse;
+    if(ui->widget_2->watchEclipse)
+    {
+        showMessage->setText("We will stop when eclipse happen.");
+        showMessage->show();
+    }
+    else
+    {
+        showMessage->setText("Eclipse notice has been concelled.");
+        showMessage->show();
+    }
+}
+
+/**
+  * determine if planetary aligments notice will be raised.
+  */
+void MainWindow::on_actionPlanetary_Alignments_triggered()
+{
+    ui->widget_2->watchStars = !ui->widget_2->watchStars;
+    if(ui->widget_2->watchStars)
+    {
+        showMessage->setText("We will stop when planetary alignments happen.");
+        showMessage->show();
+    }
+    else
+    {
+        showMessage->setText("Planetary alignment notice has been concelled.");
+        showMessage->show();
+    }
+}
+
+/**
+  * determine if notice the next message.
+  */
+void MainWindow::on_actionNext_Notice_triggered()
+{
+    ui->widget_2->flag = false;
 }

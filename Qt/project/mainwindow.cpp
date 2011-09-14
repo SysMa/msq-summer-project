@@ -865,3 +865,190 @@ void MainWindow::showHelp()
     QDesktopServices::openUrl(url);
 
 }
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionToogle_Mercury_triggered()
+{
+    ui->widget_2->solar->mercury = !ui->widget_2->solar->mercury;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionVenus_triggered()
+{
+    ui->widget_2->solar->venus = !ui->widget_2->solar->venus;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionEarth_triggered()
+{
+    ui->widget_2->solar->earth = !ui->widget_2->solar->earth;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionMoon_triggered()
+{
+    ui->widget_2->solar->moon = !ui->widget_2->solar->moon;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionMars_triggered()
+{
+    ui->widget_2->solar->mars = !ui->widget_2->solar->mars;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionJupiter_triggered()
+{
+    ui->widget_2->solar->jupiter = !ui->widget_2->solar->jupiter;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionNeptune_triggered()
+{
+    ui->widget_2->solar->neptune = !ui->widget_2->solar->neptune;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionSaturn_triggered()
+{
+    ui->widget_2->solar->saturn = !ui->widget_2->solar->saturn;
+}
+
+/**
+  * show the palnet or not
+  */
+void MainWindow::on_actionUranus_triggered()
+{
+    ui->widget_2->solar->uranus = !ui->widget_2->solar->uranus;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionMercury_triggered()
+{
+    ui->widget_2->solar->mercury_line = !ui->widget_2->solar->mercury_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionVenus_2_triggered()
+{
+    ui->widget_2->solar->venus_line = !ui->widget_2->solar->venus_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionEarth_2_triggered()
+{
+    ui->widget_2->solar->earth_line = !ui->widget_2->solar->earth_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionMoon_2_triggered()
+{
+    ui->widget_2->solar->moon_line = !ui->widget_2->solar->moon_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionMars_2_triggered()
+{
+    ui->widget_2->solar->mars_line = !ui->widget_2->solar->mars_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionJupiter_2_triggered()
+{
+    ui->widget_2->solar->jupiter_line = !ui->widget_2->solar->jupiter_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionSaturn_2_triggered()
+{
+    ui->widget_2->solar->saturn_line = !ui->widget_2->solar->saturn_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionNeptune_2_triggered()
+{
+    ui->widget_2->solar->neptune_line = !ui->widget_2->solar->neptune_line;
+}
+
+/**
+  * show the palnet cirle or not
+  */
+void MainWindow::on_actionUranus_2_triggered()
+{
+    ui->widget_2->solar->uranus_line = !ui->widget_2->solar->uranus_line;
+}
+
+/**
+  * show the about form to introduce
+  */
+void MainWindow::on_actionAbout_triggered()
+{
+    aboutform = new About();
+    aboutform->show();
+}
+
+/**
+  * show the acvice form to provide some infomation
+  */
+void MainWindow::on_actionHelp_triggered()
+{
+    adviceform = new Advice();
+    adviceform->show();
+}
+
+/**
+  * show the hot key list to help the users
+  */
+void MainWindow::on_actionHot_Key_List_triggered()
+{
+    hotkeyform = new Hotkey();
+    hotkeyform->show();
+}
+
+/**
+  * determine which system to show
+  */
+void MainWindow::on_actionSolar_triggered()
+{
+    ui->widget_2->changeModel = true;
+}
+
+/**
+  * determine which system to show
+  */
+void MainWindow::on_actionSun_Earth_Moon_triggered()
+{
+    ui->widget_2->changeModel = false;
+}

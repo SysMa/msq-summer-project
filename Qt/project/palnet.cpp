@@ -46,6 +46,7 @@ Palnet::Palnet()
     saturn_line  = true;
     uranus_line  = true;
     neptune_line = true;
+    moon_line    = true;
 
     // default: draw all the palnets
     mercury = true;
@@ -56,6 +57,7 @@ Palnet::Palnet()
     saturn  = true;
     uranus  = true;
     neptune = true;
+    moon    = true;
     stars   = true;
 
     // default: copy
@@ -73,9 +75,9 @@ Palnet::Palnet()
     // used to draw
     sun_size     = 0.20f;
     mercury_size = 0.08f;
-    venus_size   = 0.18f;
-    earth_size   = 0.18f;
-    mars_size    = 0.14f;
+    venus_size   = 0.09f;
+    earth_size   = 0.09f;
+    mars_size    = 0.07f;
     jupiter_size = 0.52f;
     saturn_size  = 0.44f;
     uranus_size  = 0.36f;
@@ -1094,6 +1096,7 @@ bool Palnet::drawStars()
 {
     if(stars)
     {
+        qsrand(0);
         glDisable(GL_LIGHTING);
         glColor3f(0,1.0,0);
         glBegin(GL_POINTS);
@@ -1265,7 +1268,7 @@ bool Palnet::isInline()
 }
 
 /**
- *
+ * chose one texture to be the background
  */
 bool Palnet::drawBackground()
 {

@@ -67,6 +67,30 @@ public slots:
       */
     void showHelp();
 
+private slots:
+    void on_actionToogle_Mercury_triggered();
+    void on_actionVenus_triggered();
+    void on_actionEarth_triggered();
+    void on_actionMoon_triggered();
+    void on_actionMars_triggered();
+    void on_actionJupiter_triggered();
+    void on_actionNeptune_triggered();
+    void on_actionSaturn_triggered();
+    void on_actionUranus_triggered();
+    void on_actionMercury_triggered();
+    void on_actionVenus_2_triggered();
+    void on_actionEarth_2_triggered();
+    void on_actionMoon_2_triggered();
+    void on_actionMars_2_triggered();
+    void on_actionJupiter_2_triggered();
+    void on_actionSaturn_2_triggered();
+    void on_actionNeptune_2_triggered();
+    void on_actionUranus_2_triggered();
+    void on_actionAbout_triggered();
+    void on_actionHelp_triggered();
+    void on_actionHot_Key_List_triggered();
+    void on_actionSolar_triggered();
+    void on_actionSun_Earth_Moon_triggered();
 };
 
 #endif // MAINWINDOW_H

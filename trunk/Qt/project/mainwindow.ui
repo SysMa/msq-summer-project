@@ -353,6 +353,54 @@
      <height>19</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuPalnet">
+    <property name="title">
+     <string>Hide Palnet</string>
+    </property>
+    <addaction name="actionToogle_Mercury"/>
+    <addaction name="actionVenus"/>
+    <addaction name="actionEarth"/>
+    <addaction name="actionMoon"/>
+    <addaction name="actionMars"/>
+    <addaction name="actionJupiter"/>
+    <addaction name="actionNeptune"/>
+    <addaction name="actionSaturn"/>
+    <addaction name="actionUranus"/>
+   </widget>
+   <widget class="QMenu" name="menuCircles">
+    <property name="title">
+     <string>Hide Circles</string>
+    </property>
+    <addaction name="actionMercury"/>
+    <addaction name="actionVenus_2"/>
+    <addaction name="actionEarth_2"/>
+    <addaction name="actionMoon_2"/>
+    <addaction name="actionMars_2"/>
+    <addaction name="actionJupiter_2"/>
+    <addaction name="actionSaturn_2"/>
+    <addaction name="actionNeptune_2"/>
+    <addaction name="actionUranus_2"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
+    <addaction name="actionHelp"/>
+    <addaction name="actionHot_Key_List"/>
+   </widget>
+   <widget class="QMenu" name="menuChange_Mode">
+    <property name="title">
+     <string>Change Mode</string>
+    </property>
+    <addaction name="actionSolar"/>
+    <addaction name="actionSun_Earth_Moon"/>
+   </widget>
+   <addaction name="menuChange_Mode"/>
+   <addaction name="menuPalnet"/>
+   <addaction name="menuCircles"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -363,6 +411,175 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionToogle_Mercury">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Mercury</string>
+   </property>
+  </action>
+  <action name="actionVenus">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Venus</string>
+   </property>
+  </action>
+  <action name="actionEarth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Earth</string>
+   </property>
+  </action>
+  <action name="actionMoon">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Moon</string>
+   </property>
+  </action>
+  <action name="actionMars">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Mars</string>
+   </property>
+  </action>
+  <action name="actionJupiter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Jupiter</string>
+   </property>
+  </action>
+  <action name="actionNeptune">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Neptune</string>
+   </property>
+  </action>
+  <action name="actionSaturn">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Saturn</string>
+   </property>
+  </action>
+  <action name="actionUranus">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Uranus</string>
+   </property>
+  </action>
+  <action name="actionMercury">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Mercury Line</string>
+   </property>
+  </action>
+  <action name="actionVenus_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Venus Line</string>
+   </property>
+  </action>
+  <action name="actionEarth_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Earth Line</string>
+   </property>
+  </action>
+  <action name="actionMoon_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Moon Line</string>
+   </property>
+  </action>
+  <action name="actionMars_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Mars Line</string>
+   </property>
+  </action>
+  <action name="actionJupiter_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Jupiter Line</string>
+   </property>
+  </action>
+  <action name="actionSaturn_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Saturn Line</string>
+   </property>
+  </action>
+  <action name="actionNeptune_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Neptune Line</string>
+   </property>
+  </action>
+  <action name="actionUranus_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide Uranus Line</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Advice</string>
+   </property>
+  </action>
+  <action name="actionHot_Key_List">
+   <property name="text">
+    <string>Hot Key List</string>
+   </property>
+  </action>
+  <action name="actionSolar">
+   <property name="text">
+    <string>Solar</string>
+   </property>
+  </action>
+  <action name="actionSun_Earth_Moon">
+   <property name="text">
+    <string>Sun-Earth-Moon</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

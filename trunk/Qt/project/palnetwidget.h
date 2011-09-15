@@ -92,6 +92,11 @@ public :
     bool camera_changed;        // namely not default
     bool view_changed;          // namely not default
 
+    bool light0;
+    bool light1;
+    bool light2;
+    bool light_default;
+
 /*********************************************************
  *
  * Here are my code.

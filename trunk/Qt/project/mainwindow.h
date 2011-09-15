@@ -69,6 +69,21 @@ public slots:
       */
     void showHelp();
 
+    /**
+      * angle plus
+      */
+    void anglePlus();
+
+    /**
+      * angle minus
+      */
+    void angleMinus();
+
+    /**
+      * show angle
+      */
+    void showAngle();
+
 private slots:
     void on_actionToogle_Mercury_triggered();
     void on_actionVenus_triggered();
@@ -96,6 +111,13 @@ private slots:
     void on_actionEclipse_triggered();
     void on_actionPlanetary_Alignments_triggered();
     void on_actionNext_Notice_triggered();
+    void on_actionAngle_triggered();
+    void on_actionAngle_2_triggered();
+    void on_actionShow_Angle_triggered();
+    void on_actionLight0_triggered();
+    void on_actionLight2_triggered();
+    void on_actionLight2_2_triggered();
+    void on_actionDeafult_triggered();
 };
 
 #endif // MAINWINDOW_H

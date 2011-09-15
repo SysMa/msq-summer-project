@@ -132,6 +132,11 @@ palnetWidget::palnetWidget(QWidget *parent, const char *name, bool fs) :
 
     camera_changed      = false;
     view_changed        = false;
+
+    light0 = false;
+    light1 = false;
+    light2 = false;
+    light_default = true;
 }
 
 /**
@@ -155,10 +160,9 @@ palnetWidget::~palnetWidget()
  */
 void palnetWidget::initializeGL()
 {
-        /********************************************************
-          * old light
-          */
-        /*
+    if(light0)
+    {
+        qDebug()<<"Light 0 in init";
         GLfloat light_ambient[] = {0.3,0.5,0.3};
         GLfloat light_diffuse[] = {1.0,1.0,1.0};
         GLfloat light_specular[]= {0.8,0.8,0.0};
@@ -169,17 +173,31 @@ void palnetWidget::initializeGL()
         glLightfv(GL_LIGHT0,GL_POSITION,light_position);
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
-        */
+    }
 
-        // new light
-
-
+    if(light1)
+    {
+        qDebug()<<"Light 1 in init";
         glEnable(GL_LIGHTING);
 
         glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);
         glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);
         glLightfv(GL_LIGHT1, GL_POSITION,solar->LightPosition);
         glEnable(GL_LIGHT1);
+     }
+
+    if(light2)
+    {
+        qDebug()<<"Light 2 in init";
+        GLfloat  LightAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };				// 环境光参数
+        GLfloat  LightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };				// 漫射光参数
+        GLfloat  LightPosition[]= { 0.0f, 0.0f, 0.0f, 1.0f };
+        glEnable(GL_LIGHTING);
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT,LightAmbient);
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, LightDiffuse);				// 设置漫射光
+        glLightfv(GL_LIGHT2, GL_POSITION,LightPosition);			// 设置光源位置
+        glEnable(GL_LIGHT2);
+    }
 
         /*
         glLightfv(GL_LIGHT2, GL_AMBIENT, solar->LightAmbient2);
@@ -200,7 +218,7 @@ void palnetWidget::initializeGL()
         glEnable(GL_NORMALIZE);
         // texture
 
-        for( int i = 0; i < 11 ; i++)
+        for( int i = 0; i < 12 ; i++)
         {
             solar->loadTexture(solar->texture_id, solar->image[i], i);
         }
@@ -210,17 +228,35 @@ void palnetWidget::initializeGL()
         //solar->loadTextures(solar->texture_id);
 
 
-        glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);						// 设置环境光
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);						// 设置漫反射光
-        glEnable(GL_LIGHTING);												// 打开光照
-        glEnable(GL_LIGHT1);
+        if(light_default)
+        {
+            qDebug()<<"Light d in init";
+            GLfloat LightAmbient[] = { 0.2f, 0.2f, 0.2f, 1.0f };				// 环境光参数
+            GLfloat  LightDiffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };				// 漫射光参数
+            GLfloat  LightPosition[] = { 0.0f, 0.0f, 0.0f, 1.0f };			// 光源位置
+
+            glEnable(GL_LIGHTING);
+            glLightModelfv(GL_LIGHT_MODEL_AMBIENT,LightAmbient);
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);				// 设置漫射光
+            glLightfv(GL_LIGHT0, GL_POSITION,LightPosition);			// 设置光源位置
+            glEnable(GL_LIGHT0);
+        }
 
 
-        /***************************************************************
-          *
-          * here are some eclipse model init
-          *
-         ****************************************************************/
+        // 例子系统的初始化
+        for (int loop=0;loop<1000;loop++)                                       //初始化所有的粒子
+        {
+            solar->particle[loop].active=true;					// 使所有的粒子为激活状态
+            solar->particle[loop].life=1.0f;					// 所有的粒子生命值为最大
+            solar->particle[loop].fade=float(rand()%100)/1000.0f+0.005f;	// 随机生成衰减速率
+            solar->particle[loop].r=0.85;                                       // 粒子的红色颜色
+            solar->particle[loop].g=0.30;                                       // 粒子的绿色颜色
+            solar->particle[loop].b=0.30;                                       // 粒子的蓝色颜色
+
+            solar->particle[loop].xi=float((rand()%60)-32.0f)/100.0f;		// 随机生成X轴方向速度
+            solar->particle[loop].yi=float((rand()%60)-30.0f)/100.0f;           // 随机生成Y轴方向速度
+            solar->particle[loop].zi=0.0f;                                      // 随机生成Z轴方向速度
+        }
 }
 
 /**
@@ -252,12 +288,19 @@ void palnetWidget::paintGL()
 
         */
 
-        glEnable(GL_LIGHTING);
+        if(light_default)
+        {
+            qDebug()<<"Light d in init";
+            GLfloat LightAmbient[] = { 0.2f, 0.2f, 0.2f, 1.0f };				// 环境光参数
+            GLfloat LightDiffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };				// 漫射光参数
+            GLfloat LightPosition[] = { 0.0f, 0.0f, 0.0f, 1.0f };			// 光源位置
 
-        glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);
-        glLightfv(GL_LIGHT1, GL_POSITION,solar->LightPosition);
-        glEnable(GL_LIGHT1);
+            glEnable(GL_LIGHTING);
+            glLightModelfv(GL_LIGHT_MODEL_AMBIENT,LightAmbient);
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);				// 设置漫射光
+            glLightfv(GL_LIGHT0, GL_POSITION,LightPosition);			// 设置光源位置
+            glEnable(GL_LIGHT0);
+        }
 
         /*
         glLightfv(GL_LIGHT2, GL_AMBIENT, solar->LightAmbient2);
@@ -265,6 +308,45 @@ void palnetWidget::paintGL()
         glLightfv(GL_LIGHT2, GL_POSITION,solar->LightPosition2);
         glEnable(GL_LIGHT2);
         */
+
+        if(light0)
+        {
+            qDebug()<<"Light 0 in init";
+            GLfloat light_ambient[] = {0.1,0.1,0.1};
+            GLfloat light_diffuse[] = {1.0,1.0,1.0};
+            GLfloat light_specular[]= {0.8,0.8,0.0};
+            GLfloat light_position[]= {0.0,0.0,0.0};
+            glLightfv(GL_LIGHT0,GL_AMBIENT,light_ambient);
+            glLightfv(GL_LIGHT0,GL_DIFFUSE,light_diffuse);
+            glLightfv(GL_LIGHT0,GL_SPECULAR,light_specular);
+            glLightfv(GL_LIGHT0,GL_POSITION,light_position);
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT0);
+        }
+
+        if(light1)
+        {
+            ////qDebug()<<"Light 1 in init";
+            glEnable(GL_LIGHTING);
+
+            glLightfv(GL_LIGHT1, GL_AMBIENT, solar->LightAmbient);
+            glLightfv(GL_LIGHT1, GL_DIFFUSE, solar->LightDiffuse);
+            glLightfv(GL_LIGHT1, GL_POSITION,solar->LightPosition);
+            glEnable(GL_LIGHT1);
+         }
+
+        if(light2)
+        {
+            ////qDebug()<<"Light 2 in init";
+            GLfloat  LightAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };				// 环境光参数
+            GLfloat  LightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };				// 漫射光参数
+            GLfloat  LightPosition[]= { 0.0f, 0.0f, 0.0f, 1.0f };
+            glEnable(GL_LIGHTING);
+            glLightModelfv(GL_LIGHT_MODEL_AMBIENT,LightAmbient);
+            glLightfv(GL_LIGHT2, GL_DIFFUSE, LightDiffuse);				// 设置漫射光
+            glLightfv(GL_LIGHT2, GL_POSITION,LightPosition);			// 设置光源位置
+            glEnable(GL_LIGHT2);
+        }
 
         /*
         QDate begin(2000,1,1);
@@ -278,7 +360,7 @@ void palnetWidget::paintGL()
 
             //lines
             glEnable(GL_LIGHTING);
-            //qDebug()<<"begin to draw lines...";
+            ////qDebug()<<"begin to draw lines...";
             solar->drawLines();
             solar->drawMoonLine();
 
@@ -295,12 +377,13 @@ void palnetWidget::paintGL()
             if(sun)
             {
                 solar->drawSun();
+                //solar->drawFire();
             }
 
             //glLightfv(GL_LIGHT1, GL_POSITION, solar->LightPosition);
 
             //draw eight planets
-            //qDebug()<<"... begin to draw planets! ...";
+            ////qDebug()<<"... begin to draw planets! ...";
             solar->drawPalnets();
 
             solar->drawMoon(solar->earth_data_x[solar->data_num],solar->earth_data_y[solar->data_num],
@@ -370,7 +453,7 @@ void palnetWidget::timerEvent(QTimerEvent *e)
 {
     if(changeModel)
     {
-        //qDebug()<<solar->data_num;
+        ////qDebug()<<solar->data_num;
 
         // normal update
         if(!watchEclipse && !watchStars)
@@ -384,17 +467,17 @@ void palnetWidget::timerEvent(QTimerEvent *e)
         if( watchEclipse)
         {
             solar->setNew();
-            //qDebug()<<" still here...";
+            ////qDebug()<<" still here...";
             if(solar->speed != 0)
             {
                 emit date_updated(solar->data_num);
             }
-            //qDebug()<<solar->isEclipse();
+            ////qDebug()<<solar->isEclipse();
             int num = solar->isEclipse();
             /*
             if(num == 1 && !(flag))
             {
-                //qDebug()<<"god, soalr eclipse happen...";
+                ////qDebug()<<"god, soalr eclipse happen...";
                 showMessage->setText("Watch Solar Eclipse: slow down and be careful.");
                 showMessage->show();
                 solar->setSpeed(0);
@@ -402,7 +485,7 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             }
             if(num == 2 && !(flag))
             {
-                qDebug()<<"god, lunar eclipse happen...";
+                //qDebug()<<"god, lunar eclipse happen...";
                 showMessage->setText("Watch Lunar Eclipse: slow down and be careful.");
                 showMessage->show();
                 solar->setSpeed(0);
@@ -411,7 +494,7 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             */
             if(!flag)
             {
-                //qDebug()<<num;
+                ////qDebug()<<num;
                 if(num == 1)
                 {
                     showMessage->setText("Watch Solar Eclipse: slow down and be careful.");
@@ -449,7 +532,7 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             }
         }
 
-        //qDebug()<<solar->earth_data_x[solar->data_num]<<" "<<solar->earth_data_y[solar->data_num]<<" "<<solar->earth_data_z[solar->data_num];
+        ////qDebug()<<solar->earth_data_x[solar->data_num]<<" "<<solar->earth_data_y[solar->data_num]<<" "<<solar->earth_data_z[solar->data_num];
         this->sun = !this->camera_from_sun;
 
         // change the view port
@@ -463,7 +546,7 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             }
             else if(camera_from_moon)
             {
-                //qDebug()<<" view from moon...";
+                ////qDebug()<<" view from moon...";
                 solar->moon = false;
                 from_x = solar->earth_data_x[solar->data_num] + solar->distance * cos(solar->moon_solar_angle * solar->pie / 180);
                 from_y = solar->earth_data_y[solar->data_num] + solar->distance * sin(solar->moon_solar_angle * solar->pie / 180);
@@ -552,7 +635,7 @@ void palnetWidget::timerEvent(QTimerEvent *e)
             }
             else if(view_to_earth)
             {
-                //qDebug()<<"view to earth.";
+                ////qDebug()<<"view to earth.";
                 solar->earth = true;
                 to_x = solar->earth_data_x[solar->data_num];
                 to_y = solar->earth_data_y[solar->data_num];
@@ -820,7 +903,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
         }
         else if(e->modifiers() == Qt::AltModifier && e->key() == Qt::Key_1)
         {
-            //qDebug()<<" shift and 1 entered.";
+            ////qDebug()<<" shift and 1 entered.";
                     solar->mercury = !(solar->mercury);
                     updateGL();
         }
@@ -887,7 +970,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
                 fullscreen = !fullscreen;
                 if( fullscreen)
                 {
-                    //qDebug()<<" debug model...";
+                    ////qDebug()<<" debug model...";
                     QWidget* temp = (QWidget*)this->parent();
                     temp->hide();
                     this->setParent(0,Qt::Window);
@@ -1062,7 +1145,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             case Qt::Key_F6:
                 watchEclipse = !watchEclipse;
                 solar->setSpeed(0);
-                //qDebug()<<" watch Eclipse "<< watchEclipse;
+                ////qDebug()<<" watch Eclipse "<< watchEclipse;
                 if(watchEclipse)
                 {
                     showMessage->setText("We will stop when eclipse happen.");
@@ -1152,7 +1235,7 @@ void palnetWidget::keyPressEvent(QKeyEvent *e)
             this->parentWidget()->close();
             break;
         case Qt::Key_F4:
-            //qDebug()<<" you pressed the button f4...";
+            ////qDebug()<<" you pressed the button f4...";
             changeModel = !changeModel;
             updateGL();
             break;

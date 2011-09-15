@@ -152,6 +152,10 @@ public:
      */
     bool pause();
 
+    /**
+      * fire
+      */
+    void drawFire();
 
 public:
     // PI
@@ -279,12 +283,12 @@ public:
     // texture id
     // used to texture
     //
-    GLuint texture_id[10];
+    GLuint texture_id[12];
 
     // texture image
     // used to texutre
     //
-    char* image[11];
+    char* image[12];
 
     // the distance from moon to earth
     //
@@ -377,6 +381,33 @@ public:
     double uranus_line_color[4];
     double neptune_line_color[4];
     double moon_line_color[4];
+
+    // 粒子系统
+    typedef struct					// 创建粒子数据结构
+    {
+        bool	active;					// 是否激活
+        float	life;					// 粒子生命
+        float	fade;					// 衰减速度
+        float	r;					// 红色值
+        float	g;					// 绿色值
+        float	b;					// 蓝色值
+        float	x;					// X 位置
+        float	y;					// Y 位置
+        float	z;					// Z 位置
+        float	xi;					// X 方向
+        float	yi;					// Y 方向
+        float	zi;					// Z 方向
+        float	xg;					// X 方向重力加速度
+        float	yg;					// Y 方向重力加速度
+        float	zg;					// Z 方向重力加速度
+    } particles;					// 粒子数据结构
+    particles particle[1000];                           // 保存1000个粒子的数组
+
+    float zoom;                                         // 沿Z轴缩放
+    float slowdown;                                     // 减速粒子
+    float PIAsp;
+    float xspeed;                                       // X方向的速度
+    float yspeed;                                       // Y方向的速度
 };
 
 #endif // PALNET_H

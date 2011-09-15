@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(keepTime()));
     connect(ui->pushButton_4,SIGNAL(clicked()),this,SLOT(showHotkey()));
     connect(ui->pushButton_5,SIGNAL(clicked()),this,SLOT(showHelp()));
+    connect(ui->pushButton_6,SIGNAL(clicked()),this,SLOT(anglePlus()));
+    connect(ui->pushButton_7,SIGNAL(clicked()),this,SLOT(angleMinus()));
+    connect(ui->pushButton_8,SIGNAL(clicked()),this,SLOT(showAngle()));
 
     showMessage = new QMessageBox();
 }
@@ -842,6 +845,9 @@ void MainWindow::showAbout()
     aboutform->show();
 }
 
+/**
+  * show hot key list
+  */
 void MainWindow::showHotkey()
 {
     hotkeyform = new Hotkey();
@@ -1097,4 +1103,110 @@ void MainWindow::on_actionPlanetary_Alignments_triggered()
 void MainWindow::on_actionNext_Notice_triggered()
 {
     ui->widget_2->flag = false;
+}
+
+/**
+  * angle plus
+  */
+void MainWindow::anglePlus()
+{
+    //qDebug()<<ui->widget_2->solar->required_angle;
+    //qDebug()<<"add "<<ui->widget_2->solar->required_angle;
+    ui->widget_2->solar->required_angle = ui->widget_2->solar->required_angle + 0.01;
+    //qDebug()<<ui->widget_2->solar->required_angle<<"\n";
+    //qDebug()<<"After add "<<ui->widget_2->solar->required_angle;
+}
+
+/**
+  * angle minus
+  */
+void MainWindow::angleMinus()
+{
+    //ui->widget_2->solar->setSpeed(0);
+    //qDebug()<<ui->widget_2->solar->required_angle;
+    ui->widget_2->solar->required_angle = ui->widget_2->solar->required_angle - 0.01;
+    //qDebug()<<ui->widget_2->solar->required_angle<<"\n";
+}
+
+/**
+  * show angle
+  */
+void MainWindow::showAngle()
+{
+    //ui->widget_2->solar->setSpeed(0);
+    double angle = ui->widget_2->solar->required_angle;
+    //qDebug()<<angle<<endl;
+    showMessage->setText("The angle now is :" + QString::number(angle,'g',3));
+    showMessage->show();
+}
+
+/**
+  * angle plus
+  */
+void MainWindow::on_actionAngle_triggered()
+{
+    ui->widget_2->solar->required_angle = ui->widget_2->solar->required_angle + 0.01;
+}
+
+/**
+  * angle minus
+  */
+void MainWindow::on_actionAngle_2_triggered()
+{
+    ui->widget_2->solar->required_angle = ui->widget_2->solar->required_angle + 0.01;
+}
+
+/**
+  * show angle
+  */
+void MainWindow::on_actionShow_Angle_triggered()
+{
+    double angle = ui->widget_2->solar->required_angle;
+    //qDebug()<<angle<<endl;
+    showMessage->setText("The angle now is :" + QString::number(angle,'g',3));
+    showMessage->show();
+}
+
+/**
+  * chose light mode
+  */
+void MainWindow::on_actionLight0_triggered()
+{
+    ui->widget_2->light0 = true;
+    ui->widget_2->light1 = false;
+    ui->widget_2->light2 = false;
+    ui->widget_2->light_default = false;
+}
+
+/**
+  * chose light mode
+  */
+void MainWindow::on_actionLight2_triggered()
+{
+    ui->widget_2->light0 = false;
+    ui->widget_2->light1 = true;
+    ui->widget_2->light2 = false;
+    ui->widget_2->light_default = false;
+}
+
+/**
+  * chose light mode
+  */
+void MainWindow::on_actionLight2_2_triggered()
+{
+    ui->widget_2->light0 = false;
+    ui->widget_2->light1 = false;
+    ui->widget_2->light2 = true;
+    ui->widget_2->light_default = false;
+}
+
+/**
+  * chose light mode
+  */
+void MainWindow::on_actionDeafult_triggered()
+{
+    ui->widget_2->light0 = false;
+    ui->widget_2->light1 = false;
+    ui->widget_2->light2 = false;
+    ui->widget_2->light_default = true;
 }

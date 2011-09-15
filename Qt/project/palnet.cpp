@@ -26,7 +26,7 @@ Palnet::Palnet()
 
     // stars in line jduge angle
     // 0.4 ~ 0.5 has only once.
-    required_angle = 1.0;
+    required_angle = 1.01;
 
     // first eslipse
     first_eclipse = true;
@@ -111,7 +111,8 @@ Palnet::Palnet()
     image[7] = "neptune.bmp";
     image[8] = "moon.bmp";
     image[9] = "sun.bmp";
-    image[10]= "back.bmp";
+    image[10]= "sky.bmp";
+    image[11]= "fire.bmp";
 
     // line width
     // default: 1
@@ -227,6 +228,12 @@ Palnet::Palnet()
         //qDebug()<<"Load data failed!";
     }
     //qDebug()<<"Init successful!";
+
+    zoom=0.0f;                             // 沿Z轴缩放
+    slowdown=1.0f;                          // 减速粒子
+    PIAsp = 3.1415926/180.0f;
+    xspeed = 0;                                 // X方向的速度
+    yspeed = 0;                                 // Y方向的速度
 }
 
 
@@ -1270,7 +1277,7 @@ bool Palnet::isInline()
     if(findRange(ranges,8) <= required_angle && first_line)
     {
         //qDebug()<<findRange(ranges,8);
-        QDate showdate(2000,1,1);
+        //QDate showdate(2000,1,1);
         //qDebug()<<showdate.addDays(data_num).toString();
         first_line = !first_line;
         return true;
@@ -1307,4 +1314,57 @@ bool Palnet::drawBackground()
     glEnable(GL_LIGHTING);
 
     return true;
+}
+
+/**
+  * draw fire
+  */
+void Palnet::drawFire()
+{
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+
+    glDisable(GL_DEPTH_TEST);
+    glBindTexture(GL_TEXTURE_2D, texture_id[11]);
+    for (int loop=0;loop<1000;loop++)                                           // 循环所有的粒子
+    {
+        if (particle[loop].active)                                              // 如果粒子为激活的
+        {
+            float x=particle[loop].x;                                           // 返回X轴的位置
+            float y=particle[loop].y;                                           // 返回Y轴的位置
+            float z=particle[loop].z+zoom;                                      // 返回Z轴的位置
+
+            // 设置粒子颜色
+            glColor4f(particle[loop].r,particle[loop].g,particle[loop].b,particle[loop].life+0.6f);
+            glBegin(GL_TRIANGLE_STRIP);                                         // 绘制三角形带
+            glTexCoord2d(1,1); glVertex3f(x+0.2f,y,z+0.2f);
+            glTexCoord2d(0,1); glVertex3f(x-0.2f,y,z+0.2f);
+            glTexCoord2d(1,0); glVertex3f(x+0.2f,y,z-0.2f);
+            glTexCoord2d(0,0); glVertex3f(x-0.2f,y,z-0.2f);
+            glEnd();
+
+            particle[loop].x+=particle[loop].xi/(slowdown*400);                 // 更新X坐标的位置
+            particle[loop].y+=0.0f;                                             // 更新Y坐标的位置
+            particle[loop].z+=particle[loop].yi/(slowdown*400);                 // 更新Z坐标的位置
+            particle[loop].life-=particle[loop].fade;                           // 减少粒子的生命值
+
+            if (particle[loop].life<0.0f)                                       // 如果粒子生命值小于0
+            {
+                float angle=float(rand()%360)*PIAsp;
+                particle[loop].life=1.0f;                                       // 产生一个新的粒子
+                particle[loop].fade=float(rand()%100)/500.0f+0.003f;            // 随机生成衰减速率
+
+                particle[loop].x=cos(angle)/3.5f+0.01f;                         // 新粒子出现在屏幕的中央
+                particle[loop].z=sin(angle)/3.5f+0.01f;
+                particle[loop].y=0.0f;
+
+                particle[loop].xi=xspeed+float((rand()%60)-32.0f)/100.0f;	// 随机生成粒子速度
+                particle[loop].zi=yspeed+float((rand()%60)-30.0f)/100.0f;
+                particle[loop].yi=0.0f;
+            }
+        }
+    }
+    glColor4f(1.0,1.0,1.0,1.0);
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
 }

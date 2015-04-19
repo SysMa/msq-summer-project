@@ -1,0 +1,1 @@
+I am going to do a university model using c and Open Graphics Library, aka openGL with visual studio 2011 on windows 7 paltform.
